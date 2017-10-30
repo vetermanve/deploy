@@ -3,3 +3,5 @@
 !/logs/readme.txt
 /builds
 /sandbox
+data/
+locks/
