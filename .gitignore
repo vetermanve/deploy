@@ -1,0 +1,5 @@
+.idea/
+/logs/*
+!/logs/readme.txt
+/builds
+/sandbox

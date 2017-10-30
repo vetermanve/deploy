@@ -1,0 +1,33 @@
+{
+    "name": "tuupola/slim-basic-auth",
+    "type": "library",
+    "description": "HTTP Basic Authentication Middleware for Slim Framework",
+    "keywords": ["slim", "middleware", "auth"],
+    "homepage": "http://www.appelsiini.net/projects/slim-basic-auth",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mika Tuupola",
+            "email": "tuupola@appelsiini.net",
+            "homepage": "http://www.appelsiini.net/"
+        }
+    ],
+    "require": {
+        "slim/slim": "~2.3",
+        "ircmaxell/password-compat": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slim\\Middleware\\": "src"
+        }
+    },
+    "autoload-dev": {
+            "psr-4": {
+                "Test\\": "test/lib"
+            }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.3",
+        "squizlabs/php_codesniffer": "^2.3"
+    }
+}
