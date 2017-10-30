@@ -22,6 +22,12 @@ you can place projects even in subdirectories
 /var/www/builder/some_group/your_project2
 ```
 
+### Security
+
+Deploy has authorisation, but it mainly "identification".    
+Registration are completely open, user password hashes are available through, inner database management tool.
+Please secure access to deploy by your way or send me pull request to improve situation. 
+
 ### PS
 I'll be pleased to help you, send me pull requests and money ;)
 
