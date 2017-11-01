@@ -93,7 +93,7 @@ class User extends AuthControllerProto
     {
         $this->setTitle('Задать ssh ключ');
         
-        $text = 'Сгенерируй ключик, зарегай его в git.iconto.local и приватную часть вставь сюда';
+        $text = 'Сгенерируй ключик, добавь его публичную часть в главное git хранилище (github, gitlab, etc..), приватную часть вставь сюда';
         
         if ($this->app->request->isPost()) {
             $key = $this->p('key');
