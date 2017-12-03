@@ -17,7 +17,7 @@ class Directory
     {
         $this->deployUser = 'deploy';
         $this->wwwUser    = 'www-data';
-        $this->sitesDir   = dirname(getcwd());
+        $this->sitesDir   = dirname(getcwd()).'/';
     }
     
     /**
