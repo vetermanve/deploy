@@ -33,7 +33,7 @@ class TelegramBot extends EventProto
         }
         
         $ch  = curl_init();
-        $url = 'https://api.telegram.org/'.$token.'/sendMessage';
+        $url = 'https://api.telegram.org/bot'.$token.'/sendMessage';
         
         $data = [
             'chat_id'                  => $chat,
