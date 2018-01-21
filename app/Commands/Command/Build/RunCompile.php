@@ -26,6 +26,7 @@ class RunCompile extends CommandProto
             'id'      => date('md.Hi.s'),
             'date'    => date('Y-m-d H:i:s'),
             'release' => $this->context->getCheckpoint()->getName(),
+            'slot'    => $this->getSlot()->getName(),
         ];
         
         $releaseFileBody = json_encode($releaseInfo, JSON_PRETTY_PRINT);
