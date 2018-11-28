@@ -1,0 +1,12 @@
+version: '2'
+
+services:    
+    app:
+        build:
+            context: .docker/deploy
+        ports:
+            - 9088:80
+        env_file:
+            - .env
+        volumes:
+            - ./:/var/www

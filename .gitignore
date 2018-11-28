@@ -3,5 +3,10 @@
 !/logs/readme.txt
 /builds
 /sandbox
+/ssh_keys
 data/
 locks/
+/docker-compose.override.yml
+.bash_history
+/.ssh/*
+/.ssh/readme.md

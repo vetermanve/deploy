@@ -32,6 +32,8 @@ class GitRepository
     private $fs;
     
     private $sshKeyPath = '';
+
+    private $ignoreKnownHosts = true;
     
     /**
      * @param $repository
@@ -487,7 +489,7 @@ class GitRepository
     
     public function fetch()
     {
-        return $this->begin()->run("git fetch -p")->end();
+        return $this->begin()->run('git fetch -p')->end();
     }
     
     
@@ -583,7 +585,6 @@ class GitRepository
      */
     protected function run($cmd/*, $options = NULL*/)
     {
-        $start = microtime(1);
         $args = func_get_args();
         $cmd  = $this->processCommand($args);
         $this->fs->exec($cmd, $output, $ret, __METHOD__);
@@ -600,32 +601,40 @@ class GitRepository
     protected function processCommand(array $args)
     {
         $cmd = array();
-        
+
         $programName = array_shift($args);
-        
+
         foreach ($args as $arg) {
             if (is_array($arg)) {
                 foreach ($arg as $key => $value) {
                     $_c = '';
-                    
+
                     if (is_string($key)) {
                         $_c = "$key ";
                     }
-                    
+
                     $cmd[] = $_c . escapeshellarg($value);
                 }
             } elseif (is_scalar($arg) && !is_bool($arg)) {
                 $cmd[] = escapeshellarg($arg);
             }
         }
-        
-        $prefix = '';
-        
+
+        $sshParams = '';
+
         if ($this->sshKeyPath) {
-            $prefix = 'GIT_SSH_COMMAND="ssh -i '.$this->sshKeyPath.'"';
+            $sshParams .= ' -i '.$this->sshKeyPath.' ';
         }
-        
-        return trim($prefix.' '.$programName.' ' . implode(' ', $cmd));
+
+        if ($this->ignoreKnownHosts) {
+            $sshParams .= ' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ';
+        }
+
+        if ($sshParams) {
+            $sshParams = ' GIT_SSH_COMMAND="ssh '.$sshParams.'" ';
+        }
+
+        return trim($sshParams.' '.$programName.' ' . implode(' ', $cmd));
     }
     
     

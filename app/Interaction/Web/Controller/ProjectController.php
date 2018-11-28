@@ -103,7 +103,6 @@ class ProjectController extends AuthControllerProto
         $dirs         = $projectsDirs[$id];
         
         $node = new Node();
-        $node->setRoot(dirname(getcwd()));
         $node->setDirs($dirs);
         $node->subLoad();
         $node->loadRepos();

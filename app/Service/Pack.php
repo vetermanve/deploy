@@ -56,7 +56,7 @@ class Pack
     
     protected $error = '';
     
-    protected $allowPush = false;
+    protected $allowPush = true;
     
     /**
      * @var Project
@@ -66,18 +66,14 @@ class Pack
     /**
      * Sandbox constructor.
      *
-     * @param $cwd
+     * @param $workingDirectory
      */
-    public function __construct($cwd = null)
+    public function __construct($workingDirectory = null)
     {
-        $this->cwd = $cwd ?: dirname(getcwd());
-        
-        if (isset($_SERVER) ) {
-            $hostData = explode(':', $_SERVER['HTTP_HOST']);
-            $host = $hostData[0];
-            if ($host == 'localhost' || $host == 'deploy.local' || $host == 'config.alol.local') {
-                $this->allowPush = true;
-            }
+        if ($workingDirectory) {
+            $this->cwd = $workingDirectory;
+        } else {
+            $this->cwd = (new Data('navigator'))->readCachedIdAndWriteDefault('sandbox', dirname(getcwd()));
         }
     }
     
