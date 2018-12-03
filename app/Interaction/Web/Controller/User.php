@@ -97,12 +97,14 @@ class User extends AuthControllerProto
         
         if ($this->app->request->isPost()) {
             $key = $this->p('key');
-            $text = 'Ключик не записан';
-            if ($key) {
-                $filename = 'ssh_keys/'. $this->app->auth->getUserLogin();
-                file_put_contents($filename, $key);
+            $key = str_replace("\r\n", "\n", trim($key))."\n";
+            $filename = 'ssh_keys/'. $this->app->auth->getUserLogin();
+
+            if ($key && file_put_contents($filename, $key) !== false) {
                 chmod($filename, 0600);
                 $text = 'Ключик успешно записан';
+            } else {
+                $text = 'Ключик не записан';
             }
         }
         
