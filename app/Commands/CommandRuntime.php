@@ -66,7 +66,31 @@ class CommandRuntime implements \ArrayAccess
             $this->logs[$this->currentSection][] = $data;
         } else {
             if (isset($this->logs[$this->currentSection][$key])) {
-                $this->logs[$this->currentSection][$key] = array_merge((array)$this->logs[$this->currentSection][$key], (array)$data);
+
+                // check if current key is array, if not convert to array
+                if(!is_array($this->logs[$this->currentSection][$key])) {
+                    $this->logs[$this->currentSection][$key] = [
+                        $this->logs[$this->currentSection][$key]
+                    ];
+                }
+
+                // check incoming data type
+                if (!is_array($data)) // not an array
+                {
+                    $this->logs[$this->currentSection][$key][] = $data;
+                }
+                else if (array_keys($data) !== range(0, count($data) - 1)) // associative array
+                {
+                    foreach ($data as $dataKey => $dataItem) {
+                        $this->logs[$this->currentSection][$key][$dataKey] = $dataItem;
+                    }
+                }
+                else // not associative array
+                {
+                    foreach ($data as $dataItem) {
+                        $this->logs[$this->currentSection][$key][] = $dataItem;
+                    }
+                }
             } else {
                 $this->logs[$this->currentSection][$key] = $data;    
             }
