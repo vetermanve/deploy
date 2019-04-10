@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/pure-min.css">
     <link rel="stylesheet" href="/css/side-menu.css">
     <link rel="stylesheet" href="/css/girds-min.css">
+    <link rel="stylesheet" href="/css/custom-buttons.css">
     <script src="/js/jquery-2.1.1.min.js"></script>
     <style type="text/css">
         .blink_me {

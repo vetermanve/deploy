@@ -48,4 +48,14 @@ class RemovePackWithData extends CommandProto
     {
         return 'Удалить пак';
     }
+
+    public function isConfirmRequired()
+    {
+        return true;
+    }
+
+    public function isDanger()
+    {
+        return true;
+    }
 }

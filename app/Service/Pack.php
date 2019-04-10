@@ -157,7 +157,6 @@ class Pack
         /* @var $commands CommandProto[] */
         $commands = [
             new CheckpointCreateCommand(),
-            new RemovePackWithData(),
             new FetchSandbox(),
         ];
         
@@ -165,6 +164,8 @@ class Pack
             $commands[] = new GitPushCheckpoint();
             $commands[] = new GitMergeToMaster();
         }
+
+        $commands[] = new RemovePackWithData();
         
         return $this->prepareCommands($commands);
     }
