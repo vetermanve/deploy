@@ -38,7 +38,9 @@
                     <div class="pure-u-1 ">
                         <div class="dset">
                             <div><a href="/web/pack/<?=$pack->getId() ?>"><?=$pack->getName(); ?></a>
-                                <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>" style="float: right">удалить</a></div>
+                                <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>"
+                                   style="float: right"
+                                   onclick="return confirm('Точно хочешь удалить пак?')">удалить</a></div>
                             <ul class="bset">
                                 <li><?= @implode('</li><li>', $pack->getBranches()) ?></li>
                             </ul>

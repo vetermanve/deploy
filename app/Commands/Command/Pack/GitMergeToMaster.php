@@ -67,4 +67,9 @@ class GitMergeToMaster extends CommandProto
     {
         return true;
     }
+
+    public function isDanger()
+    {
+        return true;
+    }
 }

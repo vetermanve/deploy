@@ -113,8 +113,17 @@ abstract class CommandProto
     {
         return '/web/command/?command='.$this->getId().'&context='.$this->getContext()->serialize();
     }
-    
+
     public function isConfirmRequired() 
+    {
+        return false;
+    }
+
+    /**
+     * For indicate danger actions in interface
+     * @return bool
+     */
+    public function isDanger()
     {
         return false;
     }

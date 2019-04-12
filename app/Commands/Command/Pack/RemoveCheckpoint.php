@@ -41,5 +41,13 @@ class RemoveCheckpoint extends CommandProto
         return 'Удалить сборку';
     }
     
-    
+    public function isConfirmRequired()
+    {
+        return true;
+    }
+
+    public function isDanger()
+    {
+        return true;
+    }
 }
