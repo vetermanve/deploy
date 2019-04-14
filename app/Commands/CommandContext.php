@@ -17,7 +17,8 @@ class CommandContext
     const DATA_SLOT = 'slot';
     const DATA_PACK = 'pack';
     const DATA_PROJECT = 'project';
-    
+    const USER_CONTEXT = '_userContext';
+
     /**
      * @var Checkpoint
      */

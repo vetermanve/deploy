@@ -47,7 +47,11 @@ abstract class CommandProto
         $this->allRoot .= '/builds';
     }
     
-    abstract public function prepare();
+    public function prepare()
+    {
+        // do nothing by default
+    }
+
     abstract public function run();
     abstract public function getId();
     abstract public function getHumanName();
@@ -117,6 +121,16 @@ abstract class CommandProto
     public function isConfirmRequired() 
     {
         return false;
+    }
+
+    /**
+     * Ask user questions and got answer in `userData` context field
+     * @see CommandContext::USER_CONTEXT
+     * @return array
+     */
+    public function isQuestion() : array
+    {
+        return [];
     }
 
     /**

@@ -4,6 +4,9 @@ services:
     app:
         build:
             context: .docker/deploy
+            args:
+                # override your user identity for assignment of access rights
+                PUID: "1000"
         ports:
             - 9088:80
         env_file:

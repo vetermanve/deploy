@@ -312,6 +312,23 @@ class GitRepository
     {
         return $this->begin()->run('git checkout -b ', $name)->end();
     }
+
+    /**
+     * @param string $prefix
+     * @return string|null
+     */
+    public function getLastTag(string $prefix = '') : ?string
+    {
+        foreach (array_reverse((array) $this->getTags()) as $tag) {
+            if ($prefix && false === strpos($tag, $prefix)) {
+                continue;
+            }
+
+            return (string) $tag;
+        }
+
+        return null;
+    }
     
     /**
      * Checkout branch.

@@ -33,6 +33,7 @@ class CommandConfig
     const CHECKPOINT_MERGE_BRANCHES      = 'Pack\\CheckpointMergeBranches';
     const CHECKPOINT_MERGE_TO_MASTER     = 'Pack\\GitMergeToMaster';
     const CHECKPOINT_PUSH_TO_ORIGIN      = 'Pack\\GitPushCheckpoint';
+    const CHECKPOINT_CREATE_TAG          = 'Pack\\GitCreateTag';
     const CHECKPOINT_DELETE              = 'Pack\\RemoveCheckpoint';
     const SOURCES_BUILD_ARCHIVE_CREATE   = 'Deploy\\SourcesBuildArchiveCreate';
     const SOURCES_BUILD_ARCHIVE_DELIVERY = 'Deploy\\SourceBuildArchiveDelivery';
