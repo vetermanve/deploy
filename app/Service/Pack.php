@@ -5,6 +5,7 @@ namespace Service;
 
 
 use Admin\App;
+use Commands\Command\Pack\GitCreateTag;
 use Commands\Command\SlotDeploy;
 use Commands\CommandContext;
 use Git\GitRepository;
@@ -158,6 +159,7 @@ class Pack
         $commands = [
             new CheckpointCreateCommand(),
             new FetchSandbox(),
+            new GitCreateTag(),
         ];
         
         if ($this->getLastCheckPoint() && $this->allowPush) {

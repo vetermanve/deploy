@@ -10,11 +10,11 @@
 ?>
 
 <style type="text/css">
-    a.pure-button {
+    .pure-button {
         margin-top: 0.3em;
     }
 
-    a.button-danger {
+    .button-danger {
         margin-top: 0.8em;
     }
     
@@ -90,10 +90,22 @@
         <h3>Управление паком</h3>
         <? foreach ($pack->getPackCommands() as $command): ?>
             <div>
-                <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>" <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.$command->getHumanName().'?\')"' : '' ?>
-                   class="pure-button <?= $command->isDanger() ? 'button-danger' : '' ?>">
-                    <?= $command->getHumanName() ?>
-                </a>
+                <form action="/web/command/" method="get">
+                    <input type="hidden" name="command" value="<?=$command->getId() ?>">
+                    <input type="hidden" name="context" value="<?=$command->getContext()->serialize() ?>">
+                    <?php $question = $command->isQuestion(); ?>
+                    <?php if(!empty($question['field'])): ?>
+                        <input type="hidden" class="js-question-<?=$question['field']?>" name="userData[<?=$question['field']?>]" value="<?=($question['placeholder'] ?? '')?>">
+                    <?php endif; ?>
+                    <button <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.strtolower($command->getHumanName()).'?\')"' : '' ?>
+                       class="pure-button <?= $command->isDanger() ? 'button-danger' : '' ?>"
+                        <?php if(!empty($question['field']) && !empty($question['question'])): ?>
+                            onclick="answer=prompt('<?= ($question['question'] ?? '')?>', '<?=($question['placeholder'] ?? '')?>');if(!answer)return false;document.getElementsByClassName('js-question-<?=$question['field']?>')[0].value=answer"
+                        <?php endif; ?>
+                    >
+                        <?= $command->getHumanName() ?>
+                    </button>
+                </form>
             </div>
         <? endforeach; ?>
     </div>

@@ -22,9 +22,11 @@ class CommandController extends AuthControllerProto
     {
         $command       = $this->p('command');
         $contextString = $this->p('context');
-        
+        $userData      = $this->app->request->get('userData');
+
         $this->context = new CommandContext();
         $this->context->deserialize($contextString);
+        $this->context->set(CommandContext::USER_CONTEXT, $userData);
         
 //        if (!$this->context->getSlot() && $this->context->getPack()) {
 //            $slots = $this->context->getPack()->getProject()->getSlotsPool()->loadProjectSlots()->getSlots();

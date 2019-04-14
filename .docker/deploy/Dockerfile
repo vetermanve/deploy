@@ -97,6 +97,15 @@ RUN composer.phar global require "hirak/prestissimo" && \
 
 ENV PATH /var/www:$PATH
 
+# ubuntu >= 16.10
+ARG PUID=1000
+ENV PUID ${PUID}
+RUN if [ -n "${PUID}" ] && [ "${PUID%:*}" != 0 ]; then \
+  usermod -u ${PUID} www-data >/dev/null 2>&1 \
+;fi
+
+RUN mkdir -p /var/sandbox && chown www-data:www-data /var/sandbox
+
 WORKDIR /var/www
 
 ARG PORT=80
