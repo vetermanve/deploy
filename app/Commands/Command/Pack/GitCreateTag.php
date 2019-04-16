@@ -66,7 +66,7 @@ class GitCreateTag extends CommandProto
         return $this->createQuestion(
             self::QUESTION_TAG,
             'Введи желаемый тег (текущий: ' . trim($lastTag) . ')',
-            $this->getNextVersion($lastTag)
+            !empty($lastTag) ? $this->getNextVersion($lastTag) : '1.0.0'
         );
     }
 
@@ -86,7 +86,7 @@ class GitCreateTag extends CommandProto
         ];
     }
 
-    private function getNextVersion(string $lastVersion)
+    private function getNextVersion(?string $lastVersion)
     {
         $dotParts = explode('.', $lastVersion);
         $lastItem = array_pop($dotParts);
