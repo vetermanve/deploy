@@ -32,7 +32,7 @@ class SlotDeploy extends DeployCommandProto
         $this->runtime->getEventProcessor()->add('🚀 Начата разливка: '.$eventTxt, EventConfig::EVENT_TYPE_DEPLOY_STATUS);
         $time = microtime(1);
         
-        $deployFlow = (new CommandFlow())->getDeployFlow();
+        $deployFlow = $this->context->getSlot()->getDeployCommandFlow()->getDeployFlow();
         
         foreach ($deployFlow as $command) {
             $this->runtime->startSection($command->getId(), $command->getHumanName());;

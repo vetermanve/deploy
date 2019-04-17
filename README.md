@@ -22,6 +22,21 @@ you can place projects even in subdirectories
 /var/www/builder/some_group/your_project2
 ```
 
+### Configuration via builder.yml
+
+Put builder.yml to your project for enable minor-versioning via git tag:
+```
+production:
+  name: 'deploy.ka'
+  tag: /^prod\_release.*$/
+  type: tag
+int:
+  name: 'int.deploy.ka'
+  tag: /^int\_release.*$/
+  type: tag
+
+```
+
 ### Security
 
 Deploy has authorisation, but it mainly "identification".    

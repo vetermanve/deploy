@@ -73,14 +73,21 @@ class GitRepository
      * Creates a tag.
      * `git tag <name>`
      *
-     * @param  string
+     * @param string $message
+     * @param string $name
      *
      * @throws GitException
      * @return self
      */
-    public function createTag($name)
+    public function createTag($name, string $message = null)
     {
-        return $this->begin()->run('git tag', $name)->end();
+        $options = ['git tag', $name];
+        if (null !== $message) {
+            $options[] = '-m';
+            $options[] = str_replace('"', '\\"', $message);
+        }
+
+        return $this->begin()->run(...$options)->end();
     }
     
     
@@ -314,14 +321,20 @@ class GitRepository
     }
 
     /**
-     * @param string $prefix
+     * @param string $prefixOrRegex
      * @return string|null
      */
-    public function getLastTag(string $prefix = '') : ?string
+    public function getLastTag(?string $prefixOrRegex = '') : ?string
     {
+        $isRegexExpression = !empty($prefixOrRegex) && false !== preg_match($prefixOrRegex, null);
         foreach (array_reverse((array) $this->getTags()) as $tag) {
-            if ($prefix && false === strpos($tag, $prefix)) {
-                continue;
+            if (!empty($prefixOrRegex)) {
+                if ($isRegexExpression && !preg_match($prefixOrRegex, $tag)) {
+                    continue;
+                }
+                if (!$isRegexExpression && false === strpos($tag, $prefixOrRegex)) {
+                    continue;
+                }
             }
 
             return (string) $tag;
@@ -506,7 +519,16 @@ class GitRepository
     
     public function fetch()
     {
-        return $this->begin()->run('git fetch -p')->end();
+        return $this->begin()->run('git fetch -p -t')->end();
+    }
+
+    /**
+     * @return \Git\GitRepository
+     * @throws \Git\GitException
+     */
+    public function removeLocalTags()
+    {
+        return $this->begin()->run('git tag -l | xargs git tag -d')->end();
     }
     
     

@@ -19,6 +19,7 @@ RUN apt-get -qy update && DEBIAN_FRONTEND=noninteractive apt-get -qy install --n
         wget curl \
         libpq-dev \
 		libicu-dev \
+		libyaml-dev \
 		nginx runit \
 		librabbitmq-dev \
 		libssl-dev tcl-dev gettext git ssh \
@@ -44,6 +45,7 @@ RUN echo "docker-php-ext-install"     && \
 	docker-php-ext-install zip        && \
     pecl install -o -f amqp      && docker-php-ext-enable amqp && \
     pecl install -o -f redis     && docker-php-ext-enable redis     && \
+    pecl install -o -f yaml-2.0.2     && docker-php-ext-enable yaml     && \
     pecl install -o -f xdebug    && \
     docker-php-ext-configure intl            \
         && docker-php-ext-install intl          \

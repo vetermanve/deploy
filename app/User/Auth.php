@@ -16,8 +16,11 @@ class Auth
     const USER_ANONIM_TOKEN = 'cfcd208495d565ef66e7dff9f98764da';
 
     private $token = '';
-    
-    private $user = [];
+
+    /**
+     * @var \User\User
+     */
+    private $user;
     
     /**
      * @param string $token
@@ -31,14 +34,17 @@ class Auth
     {
         $sessionsData = (new Data('sessions'));
         $auth = $sessionsData->readCached();
+        $user = new User();
         if (isset($auth[$this->token])) {
             $users = (new Data('user'))->readCached();
-            $this->user = $users[$auth[$this->token]];
+            $user->load($users[$auth[$this->token]]);
         }
 
         if($this->token === self::USER_ANONIM_TOKEN){
-            $this->user = $this->getAnonim();
+            $user->load($this->getAnonim());
         }
+
+        $this->user = $user;
     }
 
     /**
@@ -57,7 +63,7 @@ class Auth
 
 
     /**
-     * @return array
+     * @return \User\User
      */
     public function getUser()
     {
@@ -67,17 +73,18 @@ class Auth
     /**
      * @param array $user
      */
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }
 
     /**
+     * @deprecated use App::i()->auth->getUser()->getId();
      * @return int|mixed
      */
     public function getUserId()
     {
-        return isset($this->user[self::USER_ID]) ? $this->user[self::USER_ID] : 0;
+        return $this->user->getId();
     }
 
     /**

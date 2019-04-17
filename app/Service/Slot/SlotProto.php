@@ -1,11 +1,18 @@
 <?php
 
-
 namespace Service\Slot;
 
+use Commands\Command\DeployFlow\DeployFlowInterface;
+use Commands\CommandFlow;
 
+/**
+ * This slots saved to master.json
+ * @package Service\Slot
+ */
 abstract class SlotProto
 {
+    protected const SLOT_TYPE = 'jsonSlot';
+
     protected $id;
     protected $name;
     protected $type;
@@ -17,6 +24,14 @@ abstract class SlotProto
     protected $state;
     
     private $isValid;
+
+    /**
+     * @return string
+     */
+    public static function getSlotType() : string
+    {
+        return static::SLOT_TYPE;
+    }
     
     public function init () 
     {
@@ -123,10 +138,9 @@ abstract class SlotProto
     /**
      * @param mixed $data
      */
-    public function setData(array $data)
+    public function setData($data)
     {
-        
-        $this->data = $data;
+        $this->data = (array) $data;
     }
     
     /**
@@ -229,6 +243,12 @@ abstract class SlotProto
     {
         return $this->data;
     }
-    
-    
+
+    /**
+     * @return DeployFlowInterface
+     */
+    public function getDeployCommandFlow() : DeployFlowInterface
+    {
+        return new CommandFlow;
+    }
 }

@@ -8,6 +8,7 @@ use Admin\App;
 use Commands\Command\Pack\GitCreateTag;
 use Commands\Command\SlotDeploy;
 use Commands\CommandContext;
+use Exception\BuilderException;
 use Git\GitRepository;
 use Commands\Command\LocalDeploy;
 use Commands\Command\CommandProto;
@@ -176,10 +177,23 @@ class Pack
     {
         /* @var $commands CommandProto[] */
         $commands = [];
+
+        $slotPool = $this->getProject()->getSlotsPool();
+        $slotPool->loadProjectSlots();
+
+        // merge slots from yaml config
+        try {
+            foreach ($this->getRepos() as $repository) {
+                if (empty($repository->getPath())) {
+                    continue;
+                }
+                $slotPool->loadYmlSlots($repository->getPath());
+            }
+        } catch (BuilderException $e) {
+            App::i()->log('Exception on parse yaml config: ' . $e->getMessage(), __METHOD__);
+        }
         
-        $slots = $this->getProject()->getSlotsPool()->loadProjectSlots()->getSlots();
-        
-        foreach ($slots as $slot) {
+        foreach ($slotPool->getSlots() as $slot) {
             $command = new SlotDeploy();
             $command->getContext()->setSlot($slot);
             $commands[] = $command;

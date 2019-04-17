@@ -10,3 +10,4 @@ locks/
 .bash_history
 /.ssh/*
 /.ssh/readme.md
+/vendor
