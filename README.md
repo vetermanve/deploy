@@ -48,13 +48,13 @@ int:
 
 ```
 
-type | string - Deploy type ("tag")
-confirm | boolean - Ask before start?
-name | string - Visible name on button
-tag | string - Regex for tag search
-release | string - "major" (*1.0.0->2.0.0), "minor" (*1.0.0->1.1.0) or "patch" (*1.0.0->1.0.1) version increment-style
-slack | string - Url for send messages to slack
-callback | string - Url for callback, message placed to %text% param, example "http://deploy.ka/release?text=%text%"
+- type | string - Deploy type ("tag")
+- confirm | boolean - Ask before start?
+- name | string - Visible name on button
+- tag | string - Regex for tag search
+- release | string - "major" (*1.0.0->2.0.0), "minor" (*1.0.0->1.1.0) or "patch" (*1.0.0->1.0.1) version increment-style
+- slack | string - Url for send messages to slack
+- callback | string - Url for callback, message placed to %text% param, example "http://deploy.ka/release?text=%text%"
 
 ### Security
 
