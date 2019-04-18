@@ -3,6 +3,7 @@
         "slim/slim": "2.*",
         "knplabs/gaufrette": "0.2.*@dev",
         "tuupola/slim-basic-auth": "~0.7",
-        "phpseclib/phpseclib": "*"
+        "phpseclib/phpseclib": "*",
+        "PHLAK/SemVer": "^1.0.0"
     }
 }

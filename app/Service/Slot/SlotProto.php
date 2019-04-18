@@ -11,7 +11,7 @@ use Commands\CommandFlow;
  */
 abstract class SlotProto
 {
-    protected const SLOT_TYPE = 'jsonSlot';
+    protected const SLOT_TYPE         = 'jsonSlot';
 
     protected $id;
     protected $name;
@@ -22,7 +22,10 @@ abstract class SlotProto
     
     protected $data = [];
     protected $state;
-    
+    protected $confirm = false;
+    protected $callback;
+    protected $slack;
+
     private $isValid;
 
     /**
@@ -242,6 +245,30 @@ abstract class SlotProto
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getConfirm()
+    {
+        return $this->confirm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlack()
+    {
+        return $this->slack;
     }
 
     /**

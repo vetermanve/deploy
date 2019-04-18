@@ -6,6 +6,11 @@ use Admin\App;
 use Commands\Command\CommandProto;
 use Commands\CommandConfig;
 use Commands\CommandContext;
+use Composer\Semver\Semver;
+use Exception\BuilderException;
+use PHLAK\SemVer\Exceptions\InvalidVersionException;
+use PHLAK\SemVer\Version;
+use Service\Event\EventConfig;
 use Service\Slot\TagYmlSlot;
 
 class GitCreateTag extends CommandProto
@@ -40,8 +45,10 @@ class GitCreateTag extends CommandProto
         $checkpoint = $this->getContext()->getCheckpoint()->getName();
         $tag = $this->getNewTag();
         if (!$tag) {
-            $this->runtime->log('Create new tag failed: this repository does not have tags for increment minor version or tag is incorrect');
-            return;
+            throw new BuilderException(
+                'Create new tag failed: this repository does not have tags for increment minor version or tag is incorrect. ' .
+                'Create a first tag for your project like a `release-1.0.0` (and set `/release-.*/` pattern to builder.yml at your repo)'
+            );
         }
 
         $releaseNote = sprintf(
@@ -64,6 +71,7 @@ class GitCreateTag extends CommandProto
                 $repo->checkout($checkpoint);
                 $repo->createTag($tag, $releaseNote);
                 $repo->push('--tags');
+                $this->notifyVersionChange($tag);
             } finally {
                 $repo->setSshKeyPath(null);
                 $this->runtime[$repo->getPath()] = $repo->getLastOutput();
@@ -86,6 +94,15 @@ class GitCreateTag extends CommandProto
     }
 
     /**
+     * @return bool
+     */
+    public function isConfirmRequired()
+    {
+        $slot = $this->getContext()->getSlot();
+        return $slot instanceof TagYmlSlot ? (bool) $slot->getConfirm() : false;
+    }
+
+    /**
      * @return string|null
      */
     protected function getNewTag() : ?string
@@ -99,17 +116,34 @@ class GitCreateTag extends CommandProto
      */
     protected function getNextVersion(string $lastVersion)
     {
-        $dotParts = explode('.', $lastVersion);
-        $lastItem = array_pop($dotParts);
-        if (is_numeric($lastItem)) {
-            $lastItem++;
-            $dotParts[] = $lastItem;
-        } else {
-            // if receive a "release_tag" without version, insert it: "release_tag-1.0.0"
-            $dotParts[] = '_' . self::FIRST_VERSION;
+        $nextVersion = $lastVersion;
+        // improve this regular expression
+        $pattern = preg_replace('/(\d+\.)(\d+\.)(\d+)/', '', $lastVersion);
+        try {
+            $version = new Version(str_replace($pattern, '', $lastVersion));
+        } catch (\Throwable $e) {
+            $this->runtime->log('Can not parse version in `' . $lastVersion . '`');
+            return $nextVersion;
         }
 
-        return implode('.', $dotParts);
+        $slot = $this->getContext()->getSlot();
+        $releaseType = null;
+        if ($slot instanceof TagYmlSlot) {
+            $releaseType = $slot->release;
+        }
+        switch ($releaseType) {
+            case TagYmlSlot::RELEASE_MAJOR:
+                $nextVersion = $version->incrementMajor();
+                break;
+            case TagYmlSlot::RELEASE_MINOR:
+                $nextVersion = $version->incrementMinor();
+                break;
+            default:
+                $nextVersion = $version->incrementPatch();
+                break;
+        }
+
+        return $pattern . $nextVersion;
     }
 
     /**
@@ -124,9 +158,9 @@ class GitCreateTag extends CommandProto
                 $repo->setSshKeyPath($sshPrivateKey);
                 $repo->removeLocalTags();
                 $repo->fetch();
-                // path in slot = regex for tag or empty
+                // tag in TagYmlSlot = regex for tag or empty
                 $slot = $this->getContext()->getSlot();
-                return $repo->getLastTag($slot instanceof TagYmlSlot ? $slot->getTag() : null);
+                return $repo->getLastTag($slot instanceof TagYmlSlot ? $slot->tag : null);
             } finally {
                 $repo->setSshKeyPath(null);
             }
@@ -149,5 +183,18 @@ class GitCreateTag extends CommandProto
             'question'    => $question,
             'placeholder' => $placeholder,
         ];
+    }
+
+    /**
+     * @param string $version
+     */
+    private function notifyVersionChange(string $version = '') : void
+    {
+        $this->runtime->getEventProcessor()->add(
+            'Текущая версия окружения: ' . $version,
+            EventConfig::EVENT_TYPE_VERSION_CHANGE, [
+            EventConfig::DATA_CALLBACK => $this->context->getSlot()->getCallback(),
+            EventConfig::DATA_SLACK    => $this->context->getSlot()->getSlack(),
+        ]);
     }
 }
