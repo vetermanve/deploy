@@ -13,14 +13,6 @@ class LocalSlot extends SlotProto
      */
     private $adapter;
 
-    /**
-     * @return mixed|string
-     */
-    public function getId()
-    {
-        return 'tag_slot_id';
-    }
-
     public function validate()
     {
         $this->adapter = new Fs($this->path);
