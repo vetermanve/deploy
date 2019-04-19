@@ -116,10 +116,7 @@ class Auth
      */
     public function isAuth()
     {
-        if($this->getUserId() !== 0 && $this->getUserId() !== self::USER_ANONIM_TOKEN){
-            return true;
-        }
-        return false;
+        return null !== $this->user && $this->user->getId() !== 0 && $this->user->getId() !== self::USER_ANONIM_TOKEN;
     }
 
     /**
@@ -127,10 +124,7 @@ class Auth
      */
     public function isAnonim()
     {
-        if($this->getUserId() == self::USER_ANONIM_TOKEN){
-            return true;
-        }
-        return false;
+        return null === $this->user || $this->user->getId() === self::USER_ANONIM_TOKEN;
     }
     
 }
