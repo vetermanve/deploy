@@ -161,6 +161,8 @@ class GitCreateTag extends CommandProto
                 // tag in TagYmlSlot = regex for tag or empty
                 $slot = $this->getContext()->getSlot();
                 return $repo->getLastTag($slot instanceof TagYmlSlot ? $slot->tag : null);
+            } catch (\Throwable $e) {
+                $this->runtime[$repo->getPath()] = $repo->getLastOutput();
             } finally {
                 $repo->setSshKeyPath(null);
             }
