@@ -4,6 +4,8 @@
 namespace Commands;
 
 
+use Service\Event\CallbackReleaseNotes;
+use Service\Event\SlackReleaseNotes;
 use Service\Event\TelegramBot;
 use Service\Event\TestingJenkinsCallback;
 use Service\Events;
@@ -34,6 +36,8 @@ class CommandRuntime implements \ArrayAccess
         $this->eventProcessor = new Events();
         $this->eventProcessor->addProvider(new TelegramBot());
         $this->eventProcessor->addProvider(new TestingJenkinsCallback());
+        $this->eventProcessor->addProvider(new CallbackReleaseNotes());
+        $this->eventProcessor->addProvider(new SlackReleaseNotes());
     }
     
     

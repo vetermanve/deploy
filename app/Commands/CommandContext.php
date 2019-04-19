@@ -15,6 +15,7 @@ class CommandContext
 {
     const DATA_CHECKPOINT = 'checkpoint';
     const DATA_SLOT = 'slot';
+    const DATA_SLOT_TYPE = 'slotType';
     const DATA_PACK = 'pack';
     const DATA_PROJECT = 'project';
     const USER_CONTEXT = '_userContext';
@@ -71,6 +72,7 @@ class CommandContext
         
         if ($this->slot) {
             $data[self::DATA_SLOT] = $this->slot->getId();
+            $data[self::DATA_SLOT_TYPE] = $this->slot::getSlotType();
         }
         
         if ($this->project) {
@@ -100,9 +102,13 @@ class CommandContext
             $this->checkpoint = new Checkpoint($this->pack, $data[self::DATA_CHECKPOINT]);
             $this->checkpoint->setCommands($this->pack->getCheckpointCommands()); // todo remove
         }
-        
+
         if (isset($data[self::DATA_SLOT])) {
-            $this->slot = SlotFactory::getSlot($data[self::DATA_SLOT]);
+            $this->slot = SlotFactory::getSlot(
+                $data[self::DATA_SLOT],
+                $data[self::DATA_SLOT_TYPE] ?? null,
+                $this->pack
+            );
         }
         
         if (isset($data[self::DATA_PROJECT])) {

@@ -12,7 +12,7 @@ class LocalSlot extends SlotProto
      * @var Fs
      */
     private $adapter;
-    
+
     public function validate()
     {
         $this->adapter = new Fs($this->path);

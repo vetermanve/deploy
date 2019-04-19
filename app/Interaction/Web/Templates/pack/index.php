@@ -57,6 +57,7 @@
                 <div>
                     <a href='/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>'
                        class="pure-button <?= $command->isPrimary() ? 'pure-button-primary' : '' ?>"
+                        <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.strtolower($command->getHumanName()).'?\')"' : '' ?>
                     ><?= $command->getHumanName() ?></a>
                 </div>
             <? endforeach; ?>

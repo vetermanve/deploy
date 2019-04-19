@@ -11,16 +11,17 @@ use Commands\Command\Delivery\LinkSources;
 use Commands\Command\Delivery\SourceBuildArchiveDelivery;
 use Commands\Command\Delivery\SourcesBuildArchiveCreate;
 use Commands\Command\Delivery\SourceTargetUnarchive;
+use Commands\Command\DeployFlow\DeployFlowInterface;
 use Commands\Command\Install\RunSetupScripts;
 use Commands\Command\Install\RunStartScripts;
 use Commands\Command\Install\SupervisorRestart;
 
-class CommandFlow
+class CommandFlow implements DeployFlowInterface
 {
     /**
      * @return CommandProto[]
      */
-    public function getDeployFlow () 
+    public function getDeployFlow () :array
     {
         return [
             new BuildReleaseByDirectories(),
