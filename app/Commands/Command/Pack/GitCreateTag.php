@@ -58,7 +58,7 @@ class GitCreateTag extends CommandProto
         );
         $sshPrivateKey = App::i()->auth->getUser()->getSSH();
         if (null === $sshPrivateKey) {
-            $this->runtime->log('specific ssh private key "' . $sshPrivateKey . '" not found. Used default.', 'git config');
+            $this->runtime[] = 'specific ssh private key "' . $sshPrivateKey . '" not found. Used default.';
             $sshPrivateKey = null;
         }
 
@@ -122,7 +122,7 @@ class GitCreateTag extends CommandProto
         try {
             $version = new Version(str_replace($pattern, '', $lastVersion));
         } catch (\Throwable $e) {
-            $this->runtime->log('Can not parse version in `' . $lastVersion . '`');
+            $this->runtime[] = 'Can not parse version in `' . $lastVersion . '`';
             return $nextVersion;
         }
 
