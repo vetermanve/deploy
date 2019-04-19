@@ -19,7 +19,7 @@ class User implements \ArrayAccess
      * User login
      * @return string
      */
-    public function getLogin() : string
+    public function getLogin()
     {
         return $this->attributes[Auth::USER_LOGIN] ?? Auth::USER_ANONIM;
     }
@@ -27,7 +27,7 @@ class User implements \ArrayAccess
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId()
     {
         return $this->attributes[Auth::USER_ID] ?? 0;
     }
