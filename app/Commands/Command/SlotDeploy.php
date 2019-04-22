@@ -33,7 +33,7 @@ class SlotDeploy extends DeployCommandProto
             EventConfig::DATA_SLACK    => $this->context->getSlot()->getSlack(),
         ];
 
-        $this->runtime->getEventProcessor()->add('🚀 Начата разливка: '.$eventTxt, EventConfig::EVENT_TYPE_DEPLOY_STATUS, $defaultEventConfig);
+        $this->runtime->getEventProcessor()->add('🚀 Инициализирована разливка: '.$eventTxt, EventConfig::EVENT_TYPE_DEPLOY_STATUS, $defaultEventConfig);
         $time = microtime(1);
         
         $deployFlow = $this->context->getSlot()->getDeployCommandFlow()->getDeployFlow();
@@ -48,12 +48,12 @@ class SlotDeploy extends DeployCommandProto
         }
     
         $this->runtime->getEventProcessor()->add(
-            '🍻 Разлито: '.$eventTxt.' ('.(round(microtime(1) - $time, 1)).' ceк)',
+            '🍻 Завершено: '.$eventTxt.' ('.(round(microtime(1) - $time, 1)).' ceк)',
             EventConfig::EVENT_TYPE_DEPLOY_STATUS,
             $defaultEventConfig
         );
         $this->runtime->getEventProcessor()->add(
-            'Разливка релиза завершена. Вошли следующие задачи: ' . implode(', ', (array) $this->getContext()->getPack()->getBranches()),
+            '📓 В релиз вошли следующие задачи: ' . implode(', ', (array) $this->getContext()->getPack()->getBranches()),
             EventConfig::EVENT_TYPE_DEPLOY_END, $defaultEventConfig + [
             EventConfig::DATA_SLOT_NAME  => $this->context->getSlot()->getName(),
             EventConfig::DATA_BUILD_NAME => $this->context->getCheckpoint()->getName(),
@@ -85,5 +85,10 @@ class SlotDeploy extends DeployCommandProto
     public function isPrimary()
     {
         return true;
+    }
+
+    public function isDanger()
+    {
+        return null !== $this->getSlot() ? $this->getSlot()->isDanger() : parent::isDanger();
     }
 }

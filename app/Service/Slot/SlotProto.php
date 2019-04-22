@@ -256,6 +256,14 @@ abstract class SlotProto
     }
 
     /**
+     * @return bool
+     */
+    public function isDanger()
+    {
+        return false;
+    }
+
+    /**
      * @return mixed
      */
     public function getCallback()

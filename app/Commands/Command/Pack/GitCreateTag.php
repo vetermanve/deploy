@@ -122,7 +122,7 @@ class GitCreateTag extends CommandProto
         try {
             $version = new Version(str_replace($pattern, '', $lastVersion));
         } catch (\Throwable $e) {
-            $this->runtime[] = 'Can not parse version in `' . $lastVersion . '`';
+            $this->runtime[] = 'Can not parse version in `' . $lastVersion . '`, make $ sudo composer install';
             return $nextVersion;
         }
 
@@ -192,11 +192,15 @@ class GitCreateTag extends CommandProto
      */
     private function notifyVersionChange(string $version = '') : void
     {
+        if (!$this->getContext()->getSlot()) {
+            return;
+        }
+
         $this->runtime->getEventProcessor()->add(
             'Текущая версия окружения: ' . $version,
             EventConfig::EVENT_TYPE_VERSION_CHANGE, [
-            EventConfig::DATA_CALLBACK => $this->context->getSlot()->getCallback(),
-            EventConfig::DATA_SLACK    => $this->context->getSlot()->getSlack(),
+            EventConfig::DATA_CALLBACK => $this->getContext()->getSlot()->getCallback(),
+            EventConfig::DATA_SLACK    => $this->getContext()->getSlot()->getSlack(),
         ]);
     }
 }

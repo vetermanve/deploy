@@ -9,6 +9,7 @@ namespace Service\Slot;
 abstract class YmlSlotProto extends SlotProto
 {
     protected const SLOT_TYPE = 'ymlSlot';
+    protected $danger;
 
     /**
      * @param $cmd
@@ -81,6 +82,14 @@ abstract class YmlSlotProto extends SlotProto
     public function ensureDir($dirName)
     {
         $this->badMethodCall(__METHOD__);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDanger()
+    {
+        return !empty($this->danger);
     }
 
     protected function badMethodCall(string $method) : void

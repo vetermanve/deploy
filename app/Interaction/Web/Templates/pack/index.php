@@ -14,7 +14,7 @@
         margin-top: 0.3em;
     }
 
-    .button-danger {
+    .button-danger-padding {
         margin-top: 0.8em;
     }
     
@@ -38,7 +38,7 @@
                         <div><?= $cpId ?></div>
                         <? foreach ($checkPoint->getCommands() as $command): ?>
                             <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
-                               class="pure-button <?= $command->isPrimary() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
+                               class="pure-button <?= $command->isPrimary() && !$command->isDanger() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger button-danger-padding': '' ?> "
                                <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.$command->getHumanName().'?\')"' : '' ?>>
                                 <?= $command->getHumanName() ?>
                             </a><br>
@@ -56,7 +56,7 @@
             <? foreach ($pack->getDeployCommands() as $command): ?>
                 <div>
                     <a href='/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>'
-                       class="pure-button <?= $command->isPrimary() ? 'pure-button-primary' : '' ?>"
+                       class="pure-button <?= $command->isPrimary() && !$command->isDanger() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
                         <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.strtolower($command->getHumanName()).'?\')"' : '' ?>
                     ><?= $command->getHumanName() ?></a>
                 </div>
@@ -99,7 +99,7 @@
                         <input type="hidden" class="js-question-<?=$question['field']?>" name="userData[<?=$question['field']?>]" value="<?=($question['placeholder'] ?? '')?>">
                     <?php endif; ?>
                     <button <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.strtolower($command->getHumanName()).'?\')"' : '' ?>
-                       class="pure-button <?= $command->isDanger() ? 'button-danger' : '' ?>"
+                       class="pure-button <?= $command->isDanger() ? 'button-danger button-danger-padding' : '' ?>"
                         <?php if(!empty($question['field']) && !empty($question['question'])): ?>
                             onclick="answer=prompt('<?= ($question['question'] ?? '')?>', '<?=($question['placeholder'] ?? '')?>');if(!answer)return false;document.getElementsByClassName('js-question-<?=$question['field']?>')[0].value=answer"
                         <?php endif; ?>

@@ -18,6 +18,8 @@ class SlackReleaseNotes extends EventProto
             return;
         }
 
+        $user = $data[EventConfig::DATA_USER];
+        $text = $text ."\n*".$user.'@'.$data[EventConfig::DATA_LOCATION].'*';
         $result = null;
         try {
             $message = [
