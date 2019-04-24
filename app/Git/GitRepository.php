@@ -135,7 +135,7 @@ class GitRepository
      */
     public function getTags()
     {
-        return $this->extractFromCommand('git tag', 'trim');
+        return $this->extractFromCommand('git tag --sort=-creatordate', 'trim');
     }
     
     
@@ -327,7 +327,7 @@ class GitRepository
     public function getLastTag(?string $prefixOrRegex = '') : ?string
     {
         $isRegexExpression = !empty($prefixOrRegex) && false !== preg_match($prefixOrRegex, null);
-        foreach (array_reverse((array) $this->getTags()) as $tag) {
+        foreach ($this->getTags() as $tag) {
             if (!empty($prefixOrRegex)) {
                 if ($isRegexExpression && !preg_match($prefixOrRegex, $tag)) {
                     continue;
