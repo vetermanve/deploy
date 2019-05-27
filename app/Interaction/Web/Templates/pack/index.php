@@ -92,6 +92,10 @@
         <? foreach ($pack->getPackCommands() as $command): ?>
             <div>
                 <<?=$command->forkPage() ? 'a' : 'form'?> <?=$command->forkPage() ? 'href' : 'action'?>="<?=$command->getLink()?>" method="get" <?=$command->forkPage() ? 'target="_blank"' : '' ?>>
+                <? if (!$command->forkPage()) :?>
+                    <input type="hidden" name="command" value="<?=$command->getId()?>">
+                    <input type="hidden" name="context" value="<?=$command->getContext()->serialize()?>">
+                <? endif; ?>
                     <?php $question = $command->isQuestion(); ?>
                     <?php if(!empty($question['field'])): ?>
                         <input type="hidden" class="js-question-<?=$question['field']?>" name="userData[<?=$question['field']?>]" value="<?=($question['placeholder'] ?? '')?>">
