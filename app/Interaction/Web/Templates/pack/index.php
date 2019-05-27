@@ -91,7 +91,7 @@
         <h3>Управление паком</h3>
         <? foreach ($pack->getPackCommands() as $command): ?>
             <div>
-                <form action="<?=$command->getLink()?>" method="get" <?=$command->forkPage() ? 'target="_blank"' : '' ?>>
+                <<?=$command->forkPage() ? 'a' : 'form'?> <?=$command->forkPage() ? 'href' : 'action'?>="<?=$command->getLink()?>" method="get" <?=$command->forkPage() ? 'target="_blank"' : '' ?>>
                     <?php $question = $command->isQuestion(); ?>
                     <?php if(!empty($question['field'])): ?>
                         <input type="hidden" class="js-question-<?=$question['field']?>" name="userData[<?=$question['field']?>]" value="<?=($question['placeholder'] ?? '')?>">
@@ -104,7 +104,7 @@
                     >
                         <?= $command->getHumanName() ?>
                     </button>
-                </form>
+                </<?=$command->forkPage() ? 'a' : 'form'?>>
             </div>
         <? endforeach; ?>
     </div>
