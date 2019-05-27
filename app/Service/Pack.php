@@ -5,12 +5,11 @@ namespace Service;
 
 
 use Admin\App;
+use Commands\Command\Pack\CustomButton;
 use Commands\Command\Pack\GitCreateTag;
 use Commands\Command\SlotDeploy;
-use Commands\CommandContext;
 use Exception\BuilderException;
 use Git\GitRepository;
-use Commands\Command\LocalDeploy;
 use Commands\Command\CommandProto;
 use Commands\Command\Pack\CheckpointCreateCommand;
 use Commands\Command\Pack\ConflictAnalyzeCommand;
@@ -168,35 +167,32 @@ class Pack
             $commands[] = new GitMergeToMaster();
         }
 
+        foreach ($this->getProject()->getSlotsPool()->getSlots() as $slot) {
+            $command = $slot->createCommand();
+            if (null !== $command && CommandProto::TYPE_PACK === $command->getType()) {
+                $command->getContext()->setSlot($slot);
+                $commands[] = $command;
+            }
+        }
+
         $commands[] = new RemovePackWithData();
-        
+
         return $this->prepareCommands($commands);
     }
-    
-    public function getDeployCommands ()
+
+    /**
+     * @return SlotDeploy[]
+     */
+    public function getDeployCommands () : array
     {
-        /* @var $commands CommandProto[] */
         $commands = [];
-
         $slotPool = $this->getProject()->getSlotsPool();
-        $slotPool->loadProjectSlots();
-
-        // merge slots from yaml config
-        try {
-            foreach ($this->getRepos() as $repository) {
-                if (empty($repository->getPath())) {
-                    continue;
-                }
-                $slotPool->loadYmlSlots($repository->getPath());
-            }
-        } catch (BuilderException $e) {
-            App::i()->log('Exception on parse yaml config: ' . $e->getMessage(), __METHOD__);
-        }
-        
         foreach ($slotPool->getSlots() as $slot) {
-            $command = new SlotDeploy();
-            $command->getContext()->setSlot($slot);
-            $commands[] = $command;
+            $command = $slot->createCommand();
+            if (null !== $command && CommandProto::TYPE_DEPLOY === $command->getType()) {
+                $command->getContext()->setSlot($slot);
+                $commands[] = $command;
+            }
         }
         
         return $this->prepareCommands($commands);
@@ -227,6 +223,7 @@ class Pack
         $this->node = $node;
         
         $this->initRepos();
+        $this->initProjectSlots();
     }
     
     public function initRepos()
@@ -244,6 +241,27 @@ class Pack
         }
         
         $this->loadSandboxRepos();
+    }
+
+    /**
+     * Read slot pool from config
+     */
+    public function initProjectSlots() : void
+    {
+        $slotPool = $this->getProject()->getSlotsPool();
+        $slotPool->loadProjectSlots();
+
+        // merge slots from yaml config
+        try {
+            foreach ($this->getRepos() as $repository) {
+                if (empty($repository->getPath())) {
+                    continue;
+                }
+                $slotPool->loadYmlSlots($repository->getPath());
+            }
+        } catch (BuilderException $e) {
+            App::i()->log('Exception on parse yaml config: ' . $e->getMessage(), __METHOD__);
+        }
     }
     
     public function loadSandboxRepos()

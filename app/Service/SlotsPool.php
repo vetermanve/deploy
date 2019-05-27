@@ -7,9 +7,10 @@ use Service\Slot\SlotProto;
 
 class SlotsPool
 {
-    const SLOT_TYPE_LOCAL  = 'local';
-    const SLOT_TYPE_REMOTE = 'remote';
-    const SLOT_TYPE_TAG = 'tag';
+    const SLOT_TYPE_LOCAL         = 'local';
+    const SLOT_TYPE_REMOTE        = 'remote';
+    const SLOT_TYPE_TAG           = 'tag';
+    const SLOT_TYPE_CUSTON_BUTTON = 'custom_button';
 
     /**
      * @var SlotProto[]

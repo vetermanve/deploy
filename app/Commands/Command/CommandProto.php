@@ -13,6 +13,11 @@ use Service\Slot\SlotProto;
 
 abstract class CommandProto
 {
+    // влияет на отображение (отображает в "Управление паком")
+    public const TYPE_PACK   = 'packManagement';
+    // отображает в "Разливка"
+    public const TYPE_DEPLOY = 'deploy';
+
     /**
      * @var CommandContext
      */
@@ -138,6 +143,31 @@ abstract class CommandProto
      * @return bool
      */
     public function isDanger()
+    {
+        return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() : string
+    {
+        return self::TYPE_DEPLOY;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHtmlClass() : string
+    {
+        return '';
+    }
+
+    /**
+     * Run command on new page
+     * @return bool
+     */
+    public function forkPage() : bool
     {
         return false;
     }

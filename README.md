@@ -45,6 +45,11 @@ int:
 	name: 'int.deploy.ka'
 	tag: /^int\_release.*$/
 	type: tag
+	
+button_add_master:
+	text: 'Create MR'
+	type: custom_button
+	href: https://github.com/merge_requests/new?merge_request[source_branch]=develop&merge_request[title]=Release
 
 ```
 

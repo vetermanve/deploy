@@ -27,7 +27,8 @@ class CommandConfig
     const PACK_CONFLICT_ANALYZE      = 'Pack\\ConflictAnalyzeCommand';
     const PACK_FETCH_PROJECT         = 'Pack\\FetchSandbox';
     const PACK_CLEAR_DATA            = 'Pack\\RemovePackWithData';
-    
+    const PACK_CUSTOM_BUTTON         = 'Pack\\CustomButton';
+
     /* checkpoint commands */
     const CHECKPOINT_CREATE              = 'Pack\\CheckpointCreateCommand';
     const CHECKPOINT_MERGE_BRANCHES      = 'Pack\\CheckpointMergeBranches';

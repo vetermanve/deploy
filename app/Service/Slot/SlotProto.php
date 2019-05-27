@@ -2,6 +2,7 @@
 
 namespace Service\Slot;
 
+use Commands\Command\CommandProto;
 use Commands\Command\DeployFlow\DeployFlowInterface;
 use Commands\CommandFlow;
 
@@ -11,7 +12,7 @@ use Commands\CommandFlow;
  */
 abstract class SlotProto
 {
-    protected const SLOT_TYPE         = 'jsonSlot';
+    protected const SLOT_TYPE  = 'jsonSlot';
 
     protected $id;
     protected $name;
@@ -31,7 +32,7 @@ abstract class SlotProto
     /**
      * @return string
      */
-    public static function getSlotType() : string
+    final public static function getSlotType() : string
     {
         return static::SLOT_TYPE;
     }
@@ -285,5 +286,13 @@ abstract class SlotProto
     public function getDeployCommandFlow() : DeployFlowInterface
     {
         return new CommandFlow;
+    }
+
+    /**
+     * @return \Commands\Command\CommandProto|null
+     */
+    public function createCommand() : ?CommandProto
+    {
+        return null;
     }
 }

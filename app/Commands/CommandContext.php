@@ -151,7 +151,7 @@ class CommandContext
     }
     
     /**
-     * @return SlotProto
+     * @return SlotProto|null
      */
     public function getSlot()
     {

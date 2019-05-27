@@ -2,8 +2,10 @@
 
 namespace Service\Slot;
 
+use Commands\Command\CommandProto;
 use Commands\Command\DeployFlow\DeployFlowInterface;
 use Commands\Command\DeployFlow\TagDeployFlow;
+use Commands\Command\SlotDeploy;
 
 /**
  * Deploy via increment a minor version for tag which trigger a external CI/CD (ex. gitlab ci)
@@ -22,7 +24,6 @@ class TagYmlSlot extends YmlSlotProto
         self::RELEASE_PATCH => true,
     ];
 
-    public const STATE_INIT           = 'init';
     public const STATE_NONAME         = 'slot name cannot be empty';
     public const STATE_NOTAG          = 'slot tag cannot be empty, fill regex pattern for release tag on your CI/CD (ex. "/^release.*$/")';
     public const STATE_NORELEASE      = 'slot release is invalid';
@@ -81,5 +82,13 @@ class TagYmlSlot extends YmlSlotProto
     public function getDeployCommandFlow() : DeployFlowInterface
     {
         return new TagDeployFlow();
+    }
+
+    /**
+     * @return \Commands\Command\CommandProto|null
+     */
+    public function createCommand() : ?CommandProto
+    {
+        return new SlotDeploy();
     }
 }

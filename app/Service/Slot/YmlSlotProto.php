@@ -8,8 +8,28 @@ namespace Service\Slot;
  */
 abstract class YmlSlotProto extends SlotProto
 {
+    public const F_TEXT     = 'text';
+    public const STATE_INIT = 'init';
+
     protected const SLOT_TYPE = 'ymlSlot';
     protected $danger;
+
+    /**
+     * @var string
+     */
+    public $text = 'Ненастроенная YML-кнопка';
+
+    /**
+     * Open as new page
+     * @var bool
+     */
+    public $newPage = false;
+
+    /**
+     * Button class
+     * @var string
+     */
+    public $class;
 
     /**
      * @param $cmd

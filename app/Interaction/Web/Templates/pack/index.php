@@ -37,7 +37,7 @@
                     <div>
                         <div><?= $cpId ?></div>
                         <? foreach ($checkPoint->getCommands() as $command): ?>
-                            <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
+                            <a href="<?=$command->getLink() ?>?>"
                                class="pure-button <?= $command->isPrimary() && !$command->isDanger() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger button-danger-padding': '' ?> "
                                <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.$command->getHumanName().'?\')"' : '' ?>>
                                 <?= $command->getHumanName() ?>
@@ -55,7 +55,7 @@
             <div><?= $lastCheckpoint->getName() ?></div>
             <? foreach ($pack->getDeployCommands() as $command): ?>
                 <div>
-                    <a href='/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>'
+                    <a href='<?=$command->getLink() ?>'
                        class="pure-button <?= $command->isPrimary() && !$command->isDanger() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
                         <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.strtolower($command->getHumanName()).'?\')"' : '' ?>
                     ><?= $command->getHumanName() ?></a>
@@ -91,15 +91,13 @@
         <h3>Управление паком</h3>
         <? foreach ($pack->getPackCommands() as $command): ?>
             <div>
-                <form action="/web/command/" method="get">
-                    <input type="hidden" name="command" value="<?=$command->getId() ?>">
-                    <input type="hidden" name="context" value="<?=$command->getContext()->serialize() ?>">
+                <form action="<?=$command->getLink()?>" method="get" <?=$command->forkPage() ? 'target="_blank"' : '' ?>>
                     <?php $question = $command->isQuestion(); ?>
                     <?php if(!empty($question['field'])): ?>
                         <input type="hidden" class="js-question-<?=$question['field']?>" name="userData[<?=$question['field']?>]" value="<?=($question['placeholder'] ?? '')?>">
                     <?php endif; ?>
                     <button <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.strtolower($command->getHumanName()).'?\')"' : '' ?>
-                       class="pure-button <?= $command->isDanger() ? 'button-danger button-danger-padding' : '' ?>"
+                       class="pure-button <?= $command->isDanger() ? 'button-danger button-danger-padding' : '' ?> <?=htmlspecialchars($command->getHtmlClass())?>"
                         <?php if(!empty($question['field']) && !empty($question['question'])): ?>
                             onclick="answer=prompt('<?= ($question['question'] ?? '')?>', '<?=($question['placeholder'] ?? '')?>');if(!answer)return false;document.getElementsByClassName('js-question-<?=$question['field']?>')[0].value=answer"
                         <?php endif; ?>
