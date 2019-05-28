@@ -295,7 +295,7 @@ class Pack
             }
 
             $this->isDeployEngineerEnabled = (bool) $slot->deployEngineerEnabled;
-            if ($slot->deployEngineerEnabled) {
+            if ($slot->deployEngineerEnabled && !$this->createdBy->isAnonim()) {
                 $this->grantedDeployEngineer = [$this->createdBy->getId() ?: $userId,];
             }
         }

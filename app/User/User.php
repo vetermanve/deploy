@@ -9,6 +9,15 @@ class User implements \ArrayAccess
     protected $attributes;
 
     /**
+     * User constructor.
+     * @param $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
      * @param string|null $token
      * @return \User\User
      */
@@ -35,8 +44,8 @@ class User implements \ArrayAccess
     {
         $user = $this->anonimUser();
         $users = (new Data('user'))->readCached();
-        foreach($users as $userData) {
-            if(!isset($userData['id']) || $userData['id'] !== $id) {
+        foreach ($users as $userData) {
+            if (!isset($userData['id']) || $userData['id'] !== $id) {
                 continue;
             }
 
@@ -50,21 +59,20 @@ class User implements \ArrayAccess
     }
 
     /**
-     * User constructor.
-     * @param $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
      * User login
      * @return string
      */
     public function getLogin()
     {
         return $this->attributes[Auth::USER_LOGIN] ?? Auth::USER_ANONIM;
+    }
+
+    /**
+     * @return string
+     */
+    public function isAnonim()
+    {
+        return $this->getId() === Auth::USER_ANONIM_TOKEN;
     }
 
     /**
