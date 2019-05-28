@@ -27,7 +27,12 @@ use Interaction\Web\Controller\Branches;
         white-space: nowrap;
     }
 </style>
-
+<?php
+if(!empty($cannotAddBranch)): ?>
+<script>
+    alert('Вам запрещён этот инструмент деплоя, так как вы не являетесь релиз-инженером. Используйте инструмент "Форкнуть пак", если хотите добавить новую ветку');
+</script>
+<?php endif; ?>
 
 <div class="pure-g">
     <div class="pure-u-1">

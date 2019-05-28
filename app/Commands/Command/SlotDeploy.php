@@ -7,6 +7,7 @@ namespace Commands\Command;
 use Commands\CommandConfig;
 use Commands\CommandFlow;
 use Service\Event\EventConfig;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class SlotDeploy extends DeployCommandProto
 {
@@ -24,6 +25,11 @@ class SlotDeploy extends DeployCommandProto
     {
         if (!$this->context->getSlot()) {
             $this->runtime->log('Слот не назначен');
+            return;
+        }
+
+        if (!$this->context->getPack()->canUserDeploy()) {
+            $this->runtime->log('Вам запрещён этот инструмент деплоя, так как вы не являетесь релиз-инженером. Используйте инструмент "Форкнуть пак", если хотите осуществить деплой');
             return;
         }
         

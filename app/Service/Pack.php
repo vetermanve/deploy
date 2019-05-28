@@ -1,11 +1,8 @@
 <?php
 
-
 namespace Service;
 
-
 use Admin\App;
-use Commands\Command\Pack\CustomButton;
 use Commands\Command\Pack\GitCreateTag;
 use Commands\Command\SlotDeploy;
 use Exception\BuilderException;
@@ -19,6 +16,9 @@ use Commands\Command\Pack\GitMergeToMaster;
 use Commands\Command\Pack\GitPushCheckpoint;
 use Commands\Command\Pack\RemoveCheckpoint;
 use Commands\Command\Pack\RemovePackWithData;
+use Service\Slot\MasterYmlSlot;
+use Service\Slot\YmlSlotProto;
+use User\User;
 
 class Pack
 {
@@ -47,7 +47,13 @@ class Pack
     private $branches = [];
     
     private $name;
-    
+
+    /**
+     * User who created the pack
+     * @var User
+     */
+    private $createdBy;
+
     private $data;
     
     /**
@@ -58,6 +64,14 @@ class Pack
     protected $error = '';
     
     protected $allowPush = true;
+
+    protected $grantedDeployEngineer = [];
+
+    /**
+     * Is deploy engineer feature enabled (only pack creator can deploy and add branches)
+     * @var bool
+     */
+    public $isDeployEngineerEnabled = false;
     
     /**
      * @var Project
@@ -212,6 +226,8 @@ class Pack
     
         $this->name = isset($this->data['name']) && $this->data['name'] ? $this->data['name']
             : $this->id;
+
+        $this->createdBy = (new User())->loadById($this->data['created_by'] ?? null);
         
         $this->allowPush = 0 === strpos($this->name, 'release_');
     
@@ -224,6 +240,7 @@ class Pack
         
         $this->initRepos();
         $this->initProjectSlots();
+        $this->readPackConfigFromYml();
     }
     
     public function initRepos()
@@ -261,6 +278,26 @@ class Pack
             }
         } catch (BuilderException $e) {
             App::i()->log('Exception on parse yaml config: ' . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    /**
+     * Apply configuration from master slot
+     */
+    public function readPackConfigFromYml() : void
+    {
+        $userId = App::i()->auth->getUser()->getId();
+        // by default this user can do all
+        $this->grantedDeployEngineer = [$userId,];
+        foreach ($this->getProject()->getSlotsPool()->getSlots() as $slot) {
+            if (!$slot instanceof MasterYmlSlot) {
+                continue;
+            }
+
+            $this->isDeployEngineerEnabled = (bool) $slot->deployEngineerEnabled;
+            if ($slot->deployEngineerEnabled) {
+                $this->grantedDeployEngineer = [$this->createdBy->getId() ?: $userId,];
+            }
         }
     }
     
@@ -466,5 +503,37 @@ class Pack
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUserDeploy() : bool
+    {
+        return in_array(
+            App::i()->auth->getUser()->getId(),
+            $this->grantedDeployEngineer,
+            true
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUserAddBranches() : bool
+    {
+        return in_array(
+            App::i()->auth->getUser()->getId(),
+            $this->grantedDeployEngineer,
+            true
+        );
+    }
+
+    /**
+     * @return \User\User
+     */
+    public function getEngineer() : User
+    {
+        return $this->createdBy;
     }
 }

@@ -11,6 +11,7 @@ class SlotsPool
     const SLOT_TYPE_REMOTE        = 'remote';
     const SLOT_TYPE_TAG           = 'tag';
     const SLOT_TYPE_CUSTON_BUTTON = 'custom_button';
+    const SLOT_TYPE_CONFIG        = 'config';
 
     /**
      * @var SlotProto[]

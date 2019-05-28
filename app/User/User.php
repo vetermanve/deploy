@@ -2,9 +2,52 @@
 
 namespace User;
 
+use Service\Data;
+
 class User implements \ArrayAccess
 {
     protected $attributes;
+
+    /**
+     * @param string|null $token
+     * @return \User\User
+     */
+    public function loadBySessionToken(?string $token) : User
+    {
+        $sessionsData = new Data('sessions');
+        $auth = $sessionsData->readCached();
+        $user = $this->anonimUser();
+        if (isset($auth[$token])) {
+            $users = (new Data('user'))->readCached();
+            $user = $users[$auth[$token]];
+        }
+
+        $this->load($user);
+
+        return $this;
+    }
+
+    /**
+     * @param $id
+     * @return \User\User
+     */
+    public function loadById($id) : User
+    {
+        $user = $this->anonimUser();
+        $users = (new Data('user'))->readCached();
+        foreach($users as $userData) {
+            if(!isset($userData['id']) || $userData['id'] !== $id) {
+                continue;
+            }
+
+            $user = $userData;
+            break;
+        }
+
+        $this->load($user);
+
+        return $this;
+    }
 
     /**
      * User constructor.
@@ -87,5 +130,17 @@ class User implements \ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->attributes[$offset]);
+    }
+
+    /**
+     * @return array
+     */
+    private function anonimUser() : array
+    {
+        return [
+            Auth::USER_ID => Auth::USER_ANONIM_TOKEN,
+            Auth::USER_PASS => Auth::USER_ANONIM_TOKEN,
+            Auth::USER_LOGIN => Auth::USER_ANONIM
+        ];
     }
 }

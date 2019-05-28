@@ -1,10 +1,6 @@
 <?php
 
-
 namespace User;
-
-
-use Service\Data;
 
 class Auth
 {
@@ -30,37 +26,11 @@ class Auth
         $this->token = $token;
     }
     
-    public function loadUser () 
+    public function loadUser ()
     {
-        $sessionsData = (new Data('sessions'));
-        $auth = $sessionsData->readCached();
-        $user = new User();
-        if (isset($auth[$this->token])) {
-            $users = (new Data('user'))->readCached();
-            $user->load($users[$auth[$this->token]]);
-        }
-
-        if($this->token === self::USER_ANONIM_TOKEN){
-            $user->load($this->getAnonim());
-        }
-
-        $this->user = $user;
+        $this->user = new User();
+        $this->user->loadBySessionToken($this->token);
     }
-
-    /**
-     * @return array
-     */
-    private function getAnonim(){
-
-        $user = [
-            self::USER_ID => self::USER_ANONIM_TOKEN,
-            self::USER_PASS => self::USER_ANONIM_TOKEN,
-            self::USER_LOGIN => self::USER_ANONIM
-        ];
-
-        return $user;
-    }
-
 
     /**
      * @return \User\User

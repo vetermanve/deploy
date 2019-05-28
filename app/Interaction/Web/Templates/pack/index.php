@@ -5,6 +5,7 @@
  * @var $branches
  * @var $pId
  * @var $pack \Service\Pack
+ * @var $engineer
  *
  */
 ?>
@@ -112,4 +113,14 @@
             </div>
         <? endforeach; ?>
     </div>
+    <div class="pure-u-1 pure-u-md-2-3 bset">
+
+    </div>
+    <div class="pure-u-1 pure-u-md-1-3 bset">
+        <?php if ($pack->isDeployEngineerEnabled) : ?>
+            <h3>Релиз-инженер</h3>
+            <div><?= $pack->getEngineer()->getLogin() ?></div>
+        <?php endif; ?>
+    </div>
+
 </div>

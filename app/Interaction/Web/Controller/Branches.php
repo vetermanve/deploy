@@ -7,7 +7,9 @@ namespace Interaction\Web\Controller;
 use Admin\App;
 use Service\Data;
 use Service\Node;
+use Service\Pack;
 use Service\Project;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class Branches extends AuthControllerProto
 {
@@ -42,9 +44,16 @@ class Branches extends AuthControllerProto
     
     private $packBranches = [];
     private $packData     = [];
+
+    /**
+     * @var Pack|null
+     */
+    private $pack;
     
     public function before()
     {
+        parent::before();
+
         $this->projectId = $this->app->itemId;
         $this->packId    = $this->p('packId');
         $this->branches  = $this->p('branches', []);
@@ -65,7 +74,10 @@ class Branches extends AuthControllerProto
         if ($this->packId) {
             $currentPacks = (new Data(App::DATA_PACKS))->setReadFrom(__METHOD__)->read();
             $this->packData     = $currentPacks[$this->packId];
-            $this->packBranches = $this->packData['branches'] ?: [];
+            $this->pack = new Pack;
+            $this->pack->setId($this->packId);
+            $this->pack->init();
+            $this->packBranches = $this->pack->getBranches();
             natsort($this->packBranches);
         }
         
@@ -114,7 +126,6 @@ class Branches extends AuthControllerProto
         $this->setSubTitle('Проект ' . $this->project->getName() . ' #' . $this->projectId);
     
         $branches = $this->project->getNode()->getRepoDirsByBranches();
-
         $packReposByBranches = $this->node->getToMasterStatus($this->packBranches);
         
         $this->template = 'list';
@@ -124,7 +135,8 @@ class Branches extends AuthControllerProto
             'selected' => [],
             'packBranches' => $this->packBranches,
             'branches' => $branches,
-            'branchesData' => $packReposByBranches
+            'branchesData' => $packReposByBranches,
+            'cannotAddBranch' => $this->pack && !$this->pack->canUserAddBranches(),
         ]);
     }
     
@@ -155,11 +167,12 @@ class Branches extends AuthControllerProto
         $name = preg_replace('/\W+/', '_', $name);
         
         natsort($this->branches);
-        
+
         $this->packData = [
-            'name'     => $name,
-            'pack'     => $this->project->getId(),
-            'branches' => $this->branches,
+            'name'       => $name,
+            'pack'       => $this->project->getId(),
+            'branches'   => $this->branches,
+            'created_by' => App::i()->auth->getUser()->getId(),
         ];
         
         $packs = new Data(App::DATA_PACKS);
@@ -177,6 +190,11 @@ class Branches extends AuthControllerProto
      */
     private function _updatePack()
     {
+        if ($this->pack && !$this->pack->canUserAddBranches()) {
+            $this->app->flash('error', 'Вы не являетесь релиз-инженером');
+            return;
+        }
+
         $packs = new Data(App::DATA_PACKS);
         $packs->setReadFrom(__METHOD__);
         

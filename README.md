@@ -24,7 +24,7 @@ you can place projects even in subdirectories
 
 ### Configuration via builder.yml
 
-Put builder.yml to your project for enable minor-versioning via git tag:
+Put builder.yml to your project for enable minor-versioning via git tag, configure a pack-manager:
 ```
 production-major:
 	name: 'deploy.ka (increment major version)'
@@ -50,6 +50,10 @@ button_add_master:
 	text: 'Create MR'
 	type: custom_button
 	href: https://github.com/merge_requests/new?merge_request[source_branch]=develop&merge_request[title]=Release
+	
+master_configuration:
+    deployEngineerEnabled: true // only creator can add new branches and deploy it
+    type: config
 
 ```
 

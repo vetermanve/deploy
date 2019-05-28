@@ -8,6 +8,7 @@ use Git\GitRepository;
 use Service\Slot\CustomButtonYmlSlot;
 use Service\Slot\EmptySlot;
 use Service\Slot\LocalSlot;
+use Service\Slot\MasterYmlSlot;
 use Service\Slot\RemoteSshSlot;
 use Service\Slot\SlotProto;
 use Service\Slot\TagYmlSlot;
@@ -105,6 +106,9 @@ class SlotFactory
                 break;
             case SlotsPool::SLOT_TYPE_CUSTON_BUTTON:
                 $model = new CustomButtonYmlSlot();
+                break;
+            case SlotsPool::SLOT_TYPE_CONFIG:
+                $model = new MasterYmlSlot();
                 break;
             default:
                 $model = new EmptySlot();
