@@ -321,26 +321,17 @@ class GitRepository
     }
 
     /**
-     * @param string $prefixOrRegex
+     * @param string|null $regex
      * @return string|null
+     * @throws \Git\GitException
      */
-    public function getLastTag(?string $prefixOrRegex = '') : ?string
+    public function getLastTag(?string $regex = null) : ?string
     {
-        $isRegexExpression = !empty($prefixOrRegex) && false !== preg_match($prefixOrRegex, null);
-        foreach ($this->getTags() as $tag) {
-            if (!empty($prefixOrRegex)) {
-                if ($isRegexExpression && !preg_match($prefixOrRegex, $tag)) {
-                    continue;
-                }
-                if (!$isRegexExpression && false === strpos($tag, $prefixOrRegex)) {
-                    continue;
-                }
-            }
-
-            return (string) $tag;
+        if (empty($regex)) {
+            $regex = '*';
         }
 
-        return null;
+        return $this->extractFromCommand("git describe --tags $(git rev-list --tags='$regex' --max-count=1)", 'trim');
     }
     
     /**
