@@ -164,7 +164,7 @@ class Pack
         
         if ($this->getLastCheckPoint() && $this->allowPush) {
             $commands[] = new GitPushCheckpoint();
-            $commands[] = new GitMergeToMaster();
+//            $commands[] = new GitMergeToMaster();
         }
 
         $commands[] = new RemovePackWithData();

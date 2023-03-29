@@ -48,7 +48,7 @@ class App extends Slim
     
     public function json($dataArray)
     {
-        $response                 = $this->response();
+        $response = $this->response();
         $response->header('Content-Type', 'application/json');
         $response->write(json_encode($dataArray));
     }

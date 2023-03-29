@@ -10,6 +10,7 @@ namespace Git;
 
 use Admin\App;
 use Service\Util\Fs;
+use User\Auth;
 
 class GitRepository
 {
@@ -17,7 +18,7 @@ class GitRepository
     private $repository;
     
     private $path;
-    
+
     /** @var  string|NULL  @internal */
     private $cwd;
     
@@ -56,6 +57,11 @@ class GitRepository
         
         if ($this->repository === false) {
             $this->exception("Repository '$repository' not found.");
+        }
+
+        $userLogin = App::i()->auth->getUserLogin();
+        if ($userLogin !== Auth::USER_ANONIM) {
+            $this->setSshKeyPath(getcwd() . "/ssh_keys/{$userLogin}");
         }
     }
     
