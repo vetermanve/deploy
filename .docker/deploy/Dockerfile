@@ -44,7 +44,7 @@ RUN echo "docker-php-ext-install"     && \
 	docker-php-ext-install zip        && \
     pecl install -o -f amqp      && docker-php-ext-enable amqp && \
     pecl install -o -f redis     && docker-php-ext-enable redis     && \
-    pecl install -o -f xdebug    && \
+#    pecl install -o -f xdebug    && \
     docker-php-ext-configure intl            \
         && docker-php-ext-install intl          \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
@@ -88,8 +88,9 @@ ADD ./composer.sh        /usr/local/sbin/composer
 RUN sed -i 's/\r//'  /usr/local/sbin/composer && \
     chmod +x         /usr/local/sbin/composer
 
-RUN composer.phar global require "hirak/prestissimo" && \
-    rm -rf /root/.composer/cache
+# It not actual for composer2
+#RUN composer.phar global require "hirak/prestissimo" && \
+#    rm -rf /root/.composer/cache
 
 
 #ADD ./services /usr/local/etc/services
