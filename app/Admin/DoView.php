@@ -21,19 +21,23 @@ class DoView extends View
     
     protected function loadMenu()
     {
-        $menu = array(
-            '/web/project'     => 'Проекты',
-            '/web/slot'        => 'Сервера',
-            '/web/deploy'      => 'Git',
-            '/web/scopes'      => 'Конфиги',
-        );
-        
+        $menu = [];
+        $menu['/web/project'] = __('menu.projects');
+
+        if (env('ENABLE_DEPLOY')) {
+            $menu['/web/slot'] = __('menu.servers');
+        }
+        if (env('ENABLE_EDIT_CONFIGURATIONS')) {
+            $menu['/web/scopes'] = __('menu.configurations');
+        }
+
+        $menu['/web/deploy'] = __('menu.git');
         
         if ($this->app->auth->isAuth()) {
-            $menu = ['/web/user' => 'Хомяк &#128057;'] + $menu;
-            $menu['/web/auth/logout'] = 'Выйти';     
+            $menu = ['/web/user' => 'Profile &#128057;'] + $menu;
+            $menu['/web/auth/logout'] = __('logout');
         } else {
-            $menu['/web/auth/login'] = 'Войти';
+            $menu['/web/auth/login'] = __('login');
         }
         
         $this->set('mainMenu', $menu);
@@ -95,7 +99,7 @@ class DoView extends View
             
             $assoc = array_keys($data) !== range(0, count($data) - 1);
             foreach ($data as $k => $item) {
-                $res [] = ($assoc ? '<b>' . $k . '</b>: ' : '') . self::parse($item);
+                $res [] = ($assoc ? "<b>{$k}</b>: " : '') . self::parse($item);
             }
             
             return $res ? implode('<br />', $res) : '';

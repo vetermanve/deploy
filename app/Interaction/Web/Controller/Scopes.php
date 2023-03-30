@@ -10,7 +10,12 @@ use Service\Data;
 
 class Scopes extends AuthControllerProto
 {
-    public function indexAction () 
+    public function isEnabled(): bool
+    {
+        return env('ENABLE_EDIT_CONFIGURATIONS', false);
+    }
+
+    public function indexAction ()
     {
         $data = new Data('', Data::DEFAULT_DATA_DIR, false);
         $scopes = $data->getScopes(Data::DEFAULT_DATA_DIR);

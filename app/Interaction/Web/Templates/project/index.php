@@ -4,7 +4,6 @@
  * @var $branchSets
  *
  */
-
 ?>
 
 <style type="text/css">
@@ -29,34 +28,34 @@
 </style>
 <div class="pure-g">
     <div class="pure-u-1">
-        <a href="/web/navigator/" class="pure-button pure-button-primary">Создать новый проект</a>
+        <a href="/web/navigator/" class="pure-button pure-button-primary"><?= __('create_project') ?></a>
     </div>
-    <? foreach ($dirSets as $id => $dirs): ?>
+    <?php foreach ($dirSets as $id => $dirs): ?>
         <div class="pure-u-1">
-                <?
+                <?php
                 $dirs = $dirs ?: [];
                 array_walk($dirs, function (&$val) {
                     $val = trim($val, '/');
                 });
                 ?>
-                <h1>Проект: <a href="/web/project/show/<?= $id ?>"><?= implode(', ', $dirs); ?></a></h1>
+                <h1><?= __('project') ?>: <a href="/web/project/show/<?= $id ?>"><?= implode(', ', $dirs); ?></a></h1>
                 
                 <div class="pure-g">
-                    <? if (isset($branchSets[$id])): ?>
-                        <? foreach ($branchSets[$id] as $bsId => $branchData): ?>
+                    <?php if (isset($branchSets[$id])): ?>
+                        <?php foreach ($branchSets[$id] as $bsId => $branchData): ?>
                             <div class="pure-u-1 pure-u-md-1-3 bset">
                                 <div class="dset">
                                     <div><a href="/web/pack/<?= $bsId ?>"><?= isset($branchData['name'])
                                             && $branchData['name'] ? $branchData['name'] : $bsId; ?></a></div>
-                                    <div>Ветки (<?=@count($branchData['branches']) ?>):</div>
+                                    <div><?= __('branches') ?> (<?=@count($branchData['branches']) ?>):</div>
                                     <ul class="bset">
                                         <li><?= @implode('</li><li>', @$branchData['branches']) ?></li>
                                     </ul>
                                 </div>
                             </div>
-                        <? endforeach; ?>
-                    <? endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
         </div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </div>

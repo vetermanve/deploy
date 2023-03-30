@@ -28,7 +28,7 @@ class Auth extends ControllerProto
     }
     
     public function loginAction () {
-        $this->setTitle('Представьтесь');
+        $this->setTitle(__('login'));
 
         switch($this->app->request->getMethod()){
             case \Slim\Http\Request::METHOD_POST :
@@ -40,9 +40,9 @@ class Auth extends ControllerProto
 
                 $users = $this->userData->readCached();
 
-                if(isset($users[$key])  && $users[$key][\User\Auth::USER_PASS] == $userPassword){
-                        $status  = true;
-                        $user[$key] = $users[$key];
+                if (isset($users[$key]) && $users[$key][\User\Auth::USER_PASS] == $userPassword) {
+                    $status  = true;
+                    $user[$key] = $users[$key];
                 }
 
                 if ($status == true && !empty($user)) {
@@ -83,7 +83,7 @@ class Auth extends ControllerProto
 
     public function registerAction ()
     {
-        $this->setTitle('Регистрация');
+        $this->setTitle(__('registration'));
 
         switch($this->app->request->getMethod()){
             case \Slim\Http\Request::METHOD_POST :

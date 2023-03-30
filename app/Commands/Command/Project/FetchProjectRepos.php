@@ -36,6 +36,6 @@ class FetchProjectRepos extends CommandProto
     
     public function getHumanName()
     {
-        return 'Обновить репозитории';
+        return __('refetch_repositories');
     }
 }

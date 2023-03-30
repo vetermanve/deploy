@@ -3,13 +3,12 @@
  * @var $runtime \Commands\CommandRuntime
  * @var $packId
  */
-
 ?>
 
 
 <div class="pure-g">
     <div class="pure-u-1">
-        <a href="/web/pack/<?= $packId ?>">К паку</a>
+        <a href="/web/pack/<?= $packId ?>"><?= __('back_to_pack') ?></a>
     </div>
     <? if ($exceptionsBySection = $runtime->getExceptions()): ?>
         <? foreach ($exceptionsBySection as $sectionId => $exceptions): ?>
@@ -54,6 +53,6 @@
         </div>
     <? endforeach; ?>
     <div class="pure-u-1">
-        <a href="/web/pack/<?= $packId ?>">К паку</a>
+        <a href="/web/pack/<?= $packId ?>"><?= __('back_to_pack') ?></a>
     </div>
 </div>

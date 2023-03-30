@@ -25,8 +25,18 @@ class AuthControllerProto extends ControllerProto
         if (!$this->app->auth->getUserId()) {
             $this->app->redirect('/web/auth/login');
         }
-        
+
+        if (!$this->isEnabled()) {
+            $this->app->redirect('/web/errors/403');
+            return;
+        }
+
         parent::before();
+    }
+
+    public function isEnabled(): bool
+    {
+        return true;
     }
 
 }

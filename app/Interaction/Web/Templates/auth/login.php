@@ -19,6 +19,6 @@
         </form>
     </div>
     <div class="pure-u-1">
-        <div>Войдите или <a href="/web/auth/register" >Зарегистрируйтесь</a></div>
+        <div>Log In or <a href="/web/auth/register" >Register</a></div>
     </div>
 </div>

@@ -101,8 +101,6 @@ class Checkpoint
     
         $checkpointName = $this->getName();
         
-        $targetPath = 'builds/'.$projectName . '/' . $checkpointName ;
-        
-        return $targetPath;
+        return "builds/{$projectName}/{$checkpointName}";
     }
 }

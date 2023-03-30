@@ -115,7 +115,8 @@ appears on the left side of the page.
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191818;
+    /*background: #191818;*/
+    background: #ccc;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -157,7 +158,8 @@ appears on the left side of the page.
     */
     #menu .pure-menu-selected,
     #menu .pure-menu-heading {
-        background: #191818;
+        background: #ccc;
+        /*background: #191818;*/
     }
         /*
         This styles a link within a selected menu item `<li>`.

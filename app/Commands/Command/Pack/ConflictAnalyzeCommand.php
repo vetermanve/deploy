@@ -135,7 +135,7 @@ class ConflictAnalyzeCommand extends CommandProto
     
     public function getHumanName()
     {
-        return 'Найти конфликтующие ветки';
+        return __('look_for_conflict_branches');
     }
     
 }

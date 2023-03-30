@@ -24,7 +24,7 @@ class GitCreateTag extends CommandProto
      */
     public function getHumanName()
     {
-        return 'Тегнуть';
+        return __('create_git_tag');
     }
 
     public function run()
