@@ -24,22 +24,39 @@ $app->updateEnvironmentFromDotEnvFile(__DIR__ . '/.env');
 
 $app->view()->setApp($app);
 
-//$app->add(new \Slim\Middleware\HttpBasicAuthentication([
-//    "users" => [
-//        "root" => "root",
-//    ] 
-//]));
+try {
+    // BASIC AUTH
+    if (env('HTTP_BACIS_AUTH')) {
+        $hosts = env('HTTP_BACIS_AUTH_HOSTS', "localhost, 127.0.0.1");
+        $hosts = array_map('trim', explode(',', $hosts));
 
-// Define auth resource
-$app->container->singleton('auth', function () {
-    return new \User\Auth();
-});
+        if (!env('HTTP_BASIC_AUTH_USER') || !env('HTTP_BASIC_AUTH_PASS')) {
+            $app->error('Failed to setup auth credentials for basic auth');
+        }
 
-$app->map('/(:module(/)(:controller(/)(:action(/))(:id)))', [$app, 'doRoute'])
-    ->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+        $app->add(new \Slim\Middleware\HttpBasicAuthentication([
+            "users" => [
+                env('HTTP_BASIC_AUTH_USER') => env('HTTP_BASIC_AUTH_PASS'),
+            ],
+            "relaxed" => $hosts,
+        ]));
+    }
 
-$app->notFound(function () use ($app) {
-    echo $app->request->getResourceUri() . ' not found';
-});
+    // Define auth resource
+    $app->container->singleton('auth', function () {
+        return new \User\Auth();
+    });
 
-$app->run();
+    $app->map('/(:module(/)(:controller(/)(:action(/))(:id)))', [$app, 'doRoute'])
+        ->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+
+    $app->notFound(function () use ($app) {
+        echo $app->request->getResourceUri() . ' not found';
+    });
+
+    $app->run();
+
+} catch (\Exception $e) {
+    echo $app->response()->getBody();
+    exit;
+}
