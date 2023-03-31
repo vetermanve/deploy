@@ -74,7 +74,7 @@ class Branches extends AuthControllerProto
     
     public function createPack()
     {
-        $this->setTitle("Создание пака");
+        $this->setTitle(__('pack_creation'));
     
         $this->renderList([
             'action' => self::ACTION_PACK_CREATE
