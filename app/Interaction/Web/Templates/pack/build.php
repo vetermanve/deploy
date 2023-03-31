@@ -1,17 +1,17 @@
-<?
+<?php
 /**
- * @var $sandbox \Service\Pack;
+ * @var $sandbox \Service\Pack
+ * @var $packId int
  */
-
 ?>
 
 <div class="pure-g">
     <div class="pure-u-1">
-        <a href="/web/pack/<?=$packId ?>">К паку</a>
+        <a href="/web/pack/<?=$packId ?>"><?= __('back_to_pack') ?></a>
     </div>
     <div class="pure-u-1">
-        Песочница: <?= $sandbox->getPath() ?><br>
-        Репозитории:
+        Sandbox: <?= $sandbox->getPath() ?><br>
+        Repositories:
         <ul>
             <? foreach ($sandbox->getRepos() as $repo): ?>
                 <li><?= $repo->getPath() ?></li>
@@ -40,6 +40,6 @@
     <? endforeach; ?>
     
     <div class="pure-u-1">
-        <a href="/web/pack/<?=$packId ?>">К паку</a>
+        <a href="/web/pack/<?=$packId ?>"><?= __('back_to_pack') ?></a>
     </div>
 </div>

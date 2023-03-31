@@ -24,7 +24,12 @@ class Slot extends AuthControllerProto
         $this->projectId = $this->p('pId');
         $this->slots = new Data(App::DATA_SLOTS);
     }
-    
+
+    public function isEnabled(): bool
+    {
+        return env('ENABLE_DEPLOY', false);
+    }
+
     public function index() 
     {
         $this->setTitle('Сервера и слоты');

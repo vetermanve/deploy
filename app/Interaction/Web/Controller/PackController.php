@@ -42,7 +42,8 @@ class PackController extends AuthControllerProto
         }
         
         $this->pack = $pack;
-        $this->setSubTitle('<a href="/web/project/show/' . $this->pack->getProject()->getId() . '">Проект ' . $this->pack->getProject()->getName().'</a>');
+        $projectName = $this->pack->getProject()->getName();
+        $this->setSubTitle(__('project') . ' <a href="/web/project/show/' . $this->pack->getProject()->getId() . '">' . $projectName . '</a>');
     }
     
     public function showAction()
@@ -53,7 +54,7 @@ class PackController extends AuthControllerProto
     
     public function indexAction()
     {
-        $this->setTitle('Пакет ' . $this->pack->getName());
+        $this->setTitle(__('package') . ' ' . $this->pack->getName());
         $node = $this->pack->getNode();
         $packReposByBranches = $node->getToMasterStatus($this->pack->getBranches());
 

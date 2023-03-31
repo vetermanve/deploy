@@ -36,6 +36,6 @@ class CheckpointCreateCommand extends CommandProto
     
     public function getHumanName()
     {
-        return 'Создать новую сборку';
+        return __('create_new_build');
     }
 }

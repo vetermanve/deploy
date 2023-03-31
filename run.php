@@ -7,7 +7,9 @@ if ($_SERVER['REQUEST_URI'] === '/ping') {
 }
 
 define('PRODUCTION', true);
+define('ROOT_DIR', __DIR__);
 
+require_once('app/helpers.php');
 require_once('debug.php');
 ini_set('date.timezone', 'UTC');
 
@@ -17,6 +19,8 @@ $loader->add('', 'app/');
 $app = new \Admin\App(array(
     'view' => (new \Admin\DoView()),
 ));
+
+$app->updateEnvironmentFromDotEnvFile(__DIR__ . '/.env');
 
 $app->view()->setApp($app);
 

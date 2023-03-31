@@ -6,10 +6,10 @@ use Interaction\Base\Controller\ControllerProto;
 
 class Deploy extends AuthControllerProto
 {
-    
+
     public function indexAction()
     {
-        $this->app->view()->setHeader('Deploy');
+        $this->app->view()->setHeader(__('deploy'));
         
         $this->app->render('deploy/index', array(
             'list' => $this->app->directory()->allData(),

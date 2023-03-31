@@ -73,7 +73,7 @@ abstract class ControllerProto
         }
         
         $tpl = $tpl ?: $this->template;
-        
+
         $this->app->render($this->controller . '/' . $tpl, $data);
         return;
     }

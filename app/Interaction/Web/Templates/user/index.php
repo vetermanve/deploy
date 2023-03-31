@@ -1,7 +1,3 @@
-<?
-
-
-?>
 <style type="text/css">
     .menu-elipsis {
         white-space: nowrap; display: block; width: 100%; overflow-x: hidden; text-overflow: ellipsis;
@@ -118,8 +114,8 @@
     <? endforeach; ?>
     <div class="pure-g">
         <div class="pure-u-1-1">
-            <h2>Действия</h2>
-            <a class="pure-button" href="/web/user/addkey">Добавить ssh ключ</a>
+            <h2><?= __('actions') ?></h2>
+            <a class="pure-button" href="/web/user/addkey"><?= __('add_ssh_key') ?></a>
         </div>
     </div>
 </div>

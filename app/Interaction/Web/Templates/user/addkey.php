@@ -6,7 +6,7 @@
                 <textarea class="pure-input-1-2" placeholder="Pivate ssh key content" name="key" style="min-height: 20em; font-size: small;width: 100%"></textarea>
             </fieldset>
 
-            <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Сохранить</button>
+            <button type="submit" class="pure-button pure-input-1-2 pure-button-primary"><?= __('save') ?></button>
         </form>
     </div>
 </div>

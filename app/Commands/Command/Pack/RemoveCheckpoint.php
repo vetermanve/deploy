@@ -38,7 +38,7 @@ class RemoveCheckpoint extends CommandProto
     
     public function getHumanName()
     {
-        return 'Удалить сборку';
+        return __('remove_build');
     }
     
     public function isConfirmRequired()

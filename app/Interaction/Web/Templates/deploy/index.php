@@ -26,9 +26,9 @@
     <?php foreach ($list as $dir => $data): ?>
     <tr>
         <td>
-            <p style="font-weight: bold; white-space: nowrap"><?=ucfirst($dir) ?></p>
+            <p style="font-weight: bold; white-space: nowrap"><?= $dir ?></p>
             <small>
-            Обновлена:<br/>
+            <?= __('last_update_at') ?>:<br/>
             <?=$data['time']['back'] ?><br/>
             <?=$data['time']['date'] ?>
             </small>

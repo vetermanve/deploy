@@ -20,6 +20,9 @@ class App extends Slim
     public $debug = true;
     
     private $identify;
+
+    /** @var array */
+    protected $lang = [];
        
     const DATA_PROJECTS      = 'projects';
     const DATA_PACKS         = 'packs';
@@ -27,7 +30,7 @@ class App extends Slim
     const DATA_PACK_NAMES    = 'pack_names';
     const DATA_PACK_BUILDS   = 'pack_builds';
     const DATA_SLOTS         = 'slots';
-    
+
     /**
      * @return null|App|Slim
      */
@@ -35,7 +38,50 @@ class App extends Slim
     {
         return self::getInstance();
     }
-    
+
+    public function updateEnvironmentFromDotEnvFile(string $dotEnvFilePath)
+    {
+        if (!file_exists($dotEnvFilePath) || !is_readable($dotEnvFilePath)) {
+            throw new \Exception('Unable to read .env file from ' . $dotEnvFilePath);
+        }
+
+        /** @var \Slim\Environment $env */
+        $env = $this->environment;
+
+        $fileLines = file($dotEnvFilePath);
+        foreach ($fileLines as $line) {
+            list($name, $value) = explode('=', $line, 2);
+            $env[ trim($name) ] = $this->parseEnvValue( trim($value) );
+        }
+
+        // Update environment
+        $this->environment = $env;
+    }
+
+    /**
+     * @param string $value
+     * @return bool|string
+     */
+    private function parseEnvValue(string $value)
+    {
+        // check for quotes before parse
+        $first = substr($value, 0, 1);
+        $last = substr($value, -1, 1);
+        if (($first === '"' && $last === '"') || ($first === "'" && $last === "'")) {
+            return substr($value, 1, -1);
+        }
+
+        if ($value === 'true') {
+            return true;
+        } elseif ($value === 'false') {
+            return false;
+        } elseif (is_numeric($value)) {
+            return $value + 0;
+        }
+
+        return $value;
+    }
+
     /**
      * @param null $viewClass
      *
@@ -80,7 +126,8 @@ class App extends Slim
         }
     }
     
-    public function doRoute ($module = 'web', $controller = 'user', $action = 'index', $id = 0)  { //
+    public function doRoute ($module = 'web', $controller = 'user', $action = 'index', $id = 0)
+    {
         $module     = ucfirst($module);
         $controller = ucfirst($controller);
         
@@ -89,8 +136,8 @@ class App extends Slim
             $this->itemId = $action;
             $action = 'index';
         }
-    
-        $class = '\\Interaction\\'.$module.'\\Controller\\'.$controller;
+
+        $class = "\\Interaction\\{$module}\\Controller\\{$controller}";
         if (!class_exists($class)) {
             $class .= 'Controller';
             if (!class_exists($class)) {
@@ -98,7 +145,7 @@ class App extends Slim
             }
         }
         
-        $this->view()->setTemplatesDirectory("app/Interaction/$module/Templates");
+        $this->view()->setTemplatesDirectory("app/Interaction/{$module}/Templates");
         
         /* @var $controllerModel \Interaction\Base\Controller\ControllerProto */
         $controllerModel = new $class;
@@ -127,5 +174,18 @@ class App extends Slim
     {
         return $this->logs;
     }
-    
+
+    public function getLangStringForKey($key, $lang = 'en')
+    {
+        if (!array_key_exists($lang, $this->lang)) {
+            $langFile = ROOT_DIR . "/lang/{$lang}.php";
+            if (!file_exists($langFile) || !is_readable($langFile)) {
+                throw new \Exception("Lang file not exists or not readable for '{$lang}' language");
+            }
+
+            $this->lang[$lang] = require_once $langFile;
+        }
+
+        return $this->lang[$lang][$key] ?? null;
+    }
 }

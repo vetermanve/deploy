@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Commands\Command\Pack;
-
 
 use Commands\Command\CommandProto;
 use Commands\CommandConfig;
@@ -33,6 +31,6 @@ class FetchSandbox extends CommandProto
     
     public function getHumanName()
     {
-        return 'Обновить репозитории';
+        return __('refetch_repositories');
     }
 }

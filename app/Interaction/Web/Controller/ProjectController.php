@@ -45,7 +45,7 @@ class ProjectController extends AuthControllerProto
     
     public function index()
     {
-        $this->setTitle('Проекты');
+        $this->setTitle(__('projects'));
         
         $projects = (new Data(App::DATA_PROJECTS))->setReadFrom(__METHOD__)->readCached();
         $packsData    = (new Data(App::DATA_PACKS))->setReadFrom(__METHOD__)->readCached();
@@ -63,7 +63,7 @@ class ProjectController extends AuthControllerProto
     
     public function slots () 
     {
-        $this->setTitle('Релизные сервера');
+        $this->setTitle(__('release_servers'));
         $this->setSubTitle($this->project->getName());
         
         $slots = $this->project->getSlotsPool()->loadProjectSlots()->validate()->getSlots();

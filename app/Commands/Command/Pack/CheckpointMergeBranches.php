@@ -73,7 +73,7 @@ class CheckpointMergeBranches extends CommandProto
     
     public function getHumanName()
     {
-        return 'Запустить мерж веток';
+        return __('merge_branches');
     }
     
     public function isPrimary()

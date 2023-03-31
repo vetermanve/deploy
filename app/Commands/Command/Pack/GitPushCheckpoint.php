@@ -55,7 +55,7 @@ class GitPushCheckpoint extends CommandProto
     
     public function getHumanName()
     {
-        return 'Запушить';
+        return __('push_to_git');
     }
     
     public function isConfirmRequired()

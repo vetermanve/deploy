@@ -63,7 +63,7 @@
         <span id="loader"></span>
         <div class="pure-menu pure-menu-open">
 <!--            <a class="pure-menu-heading" href="#" id="mainTitle">DeploYo</a>-->
-            <a class="pure-menu-heading" href="<?php echo ($user['url'])?>"><?php echo $user['id'] ?></a>
+            <a class="pure-menu-heading" href="<?= $user['url'] ?>"><?= $user['id'] ?></a>
             <ul>
 <!--                <li class="pure-menu-heading"></li>-->
                 <? foreach ( $data['mainMenu'] as $url => $title): ?>
