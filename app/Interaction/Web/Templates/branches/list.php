@@ -14,7 +14,7 @@ use Interaction\Web\Controller\Branches;
 
 ?>
 
-<style type="text/css">
+<style>
     .h {
         display: none; 
     }
@@ -32,20 +32,20 @@ use Interaction\Web\Controller\Branches;
 <div class="pure-g">
     <div class="pure-u-1">
         <div>
-            <h2 style="display: inline-block">Ветки (<?= count($branches) ?>)</h2>
-            <a href="/web/pack/show/<?= $packId ?>">Вернуться к паку</a>
-            <a href="/web/project/fetch/<?= $project->getId() ?>?return=1">Обновить репозитории</a>
+            <h2 style="display: inline-block"><?= __('branches') ?> (<?= count($branches) ?>)</h2>
+            <a href="/web/pack/show/<?= $packId ?>"><?= __('back_to_pack') ?></a>
+            <a href="/web/project/fetch/<?= $project->getId() ?>?return=1"><?= __('refetch_repositories') ?></a>
         </div>
         <form class="pure-form" action="/web/branches/save/<?= $project->getId() ?>" method="post"
               onsubmit="return aFilter.checkForm(this);" >
             <input type="hidden" name="action" value="<?= $action ?>"/>
             <? if ($action == Branches::ACTION_PACK_CREATE || $action == Branches::ACTION_PACK_FORK): ?>
-                <input type="text" value="" name="name" placeholder="Обязательно задайте имя пакета" id="pack-name"/>
-                <input type="submit" value="Сохранить Пак" class="pure-button pure-button-primary"/>
+                <input type="text" value="" name="name" placeholder="<?= __('set_pack_name') ?>" id="pack-name"/>
+                <input type="submit" value="<?= __('save_pack') ?>" class="pure-button pure-button-primary"/>
             <? elseif ($action == Branches::ACTION_PACK_ADD_BRANCH
                 || $action == Branches::ACTION_PACK_CHANGE_BRANCHES
             ) : ?>
-                <input type="submit" value="Принять ветки в пакет" class="pure-button pure-button-primary"/>
+                <input type="submit" value="<?= __('accept_branches') ?>" class="pure-button pure-button-primary"/>
                 <input type="hidden" name="packId" value="<?= $packId ?>"/>
             <? endif; ?>
             
@@ -53,7 +53,7 @@ use Interaction\Web\Controller\Branches;
                 <input type="hidden" name="oldBranches" value='<?= json_encode($packBranches) ?>'/>
             <? endif; ?>
             
-            <h1><input type="text" placeholder="Фильтр по веткам" onkeydown="aFilter.filter()" class="mainInput"
+            <h1><input type="text" placeholder="<?= __('filter_branches') ?>" onkeydown="aFilter.filter()" class="mainInput"
                        onkeyup="aFilter.filter()" autofocus/></h1>
             <? foreach ($branches as $branch => $repos): ?>
                 <? if (!$selected || ($selected && isset($selected[$branch]))): ?>
@@ -99,9 +99,9 @@ use Interaction\Web\Controller\Branches;
         </form>
     </div>
     <div class="pure-u-1-1">
-        Если ветка не нашлась
+        <?= __('if_no_branches_found') ?>
         <a href="/web/project/fetch/<?= $project->getId() ?>?return=1" class="pure-button">
-            Обновить репозитории и вернуться</a>
+            <?= __('refetch_repositories_and_return') ?></a>
     </div>
 </div>
 
