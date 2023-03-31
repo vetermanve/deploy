@@ -156,7 +156,10 @@ appears on the left side of the page.
     /*
     This styles the selected menu item `<li>`.
     */
-    #menu .pure-menu-selected,
+    #menu .pure-menu-selected {
+        background: #999;
+        /*background: #191818;*/
+    }
     #menu .pure-menu-heading {
         background: #ccc;
         /*background: #191818;*/

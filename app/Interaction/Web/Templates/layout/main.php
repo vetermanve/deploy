@@ -1,5 +1,6 @@
 <?
     $data = $this->data;
+    $currentPath = \Admin\App::getInstance()->request()->getPathInfo();
 /**
  * @var $data \Slim\Helper\Set
  */
@@ -66,9 +67,11 @@
             <a class="pure-menu-heading" href="<?= $user['url'] ?>"><?= $user['id'] ?></a>
             <ul>
 <!--                <li class="pure-menu-heading"></li>-->
-                <? foreach ( $data['mainMenu'] as $url => $title): ?>
-                <li><a href="<?=$url ?>"><?=$title ?></a></li>
-                <? endforeach; ?>
+                <?php foreach ( $data['mainMenu'] as $url => $title): ?>
+                <li <?= $url === $currentPath ? 'class="pure-menu-selected"' : '' ?>>
+                    <a href="<?=$url ?>"><?=$title ?></a>
+                </li>
+                <?php endforeach; ?>
                 <? if(0): ?>
                 <li class="menu-item-divided pure-menu-selected">
                     <a href="#">Services</a>
