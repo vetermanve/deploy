@@ -83,7 +83,7 @@ class Branches extends AuthControllerProto
     
     public function addBranch()
     {
-        $this->setTitle("Добавление веток");
+        $this->setTitle(__('add_branches'));
     
         $this->renderList([
             'action' => self::ACTION_PACK_ADD_BRANCH
@@ -92,7 +92,7 @@ class Branches extends AuthControllerProto
     
     public function forkPack()
     {
-        $this->setTitle("Форк пака");
+        $this->setTitle(__('fork_pack'));
     
         $this->renderList([
             'selected' => array_flip($this->packBranches) ?: [],
@@ -102,7 +102,7 @@ class Branches extends AuthControllerProto
     
     public function removeBranch()
     {
-        $this->setTitle("Удаление веток из пака");
+        $this->setTitle(__('remove_branches_from_pack'));
         
         $this->renderList([
             'selected' => array_flip($this->packBranches) ?: [],
@@ -111,7 +111,7 @@ class Branches extends AuthControllerProto
     }
     
     private function renderList($data) {
-        $this->setSubTitle('Проект ' . $this->project->getName() . ' #' . $this->projectId);
+        $this->setSubTitle(__('project') . " {$this->project->getName()} #{$this->projectId}");
     
         $branches = $this->project->getNode()->getRepoDirsByBranches();
 
