@@ -8,5 +8,6 @@ data/
 locks/
 /docker-compose.override.yml
 .bash_history
+.env
 /.ssh/*
 /.ssh/readme.md
