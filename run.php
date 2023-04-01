@@ -20,8 +20,6 @@ $app = new \Admin\App(array(
     'view' => (new \Admin\DoView()),
 ));
 
-$app->updateEnvironmentFromDotEnvFile(__DIR__ . '/.env');
-
 $app->view()->setApp($app);
 
 try {
