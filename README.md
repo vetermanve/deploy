@@ -52,6 +52,15 @@ It is time to create our first release branch!
 PACK - it is just kind of plan: branches list that you want to merge in release branch.
 BUILD - result of merge PACK branches to one branch. In fact `build` - it is release branch.
 
+.gitconfig file in project root directory contains username and email which will used as owner info for pushed release branches.
+
+Default content of .gitconfig is:
+```shell
+[user]
+name = "Release Builder"
+email = "deploy@local"
+```
+
 1. Ok, click on `Create new pack` button on your Project page
 2. Now you need to set release branch name (`release` prefix is needed to allow push release branches to repository on github)
 3. For example, lets put `release-01` to pack name field
