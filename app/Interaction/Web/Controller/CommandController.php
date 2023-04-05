@@ -45,19 +45,19 @@ class CommandController extends AuthControllerProto
     private function _buildTitle()
     {
         if ($this->context->getPack()) {
-            $this->_addTitle('Пак: ' . $this->context->getPack()->getName());
+            $this->_addTitle(__('pack')  . ": {$this->context->getPack()->getName()}");
         }
         
         if ($this->context->getProject()) {
-            $this->_addTitle('Проект: ' . $this->context->getProject()->getName().'');    
+            $this->_addTitle(__('project') . ": {$this->context->getProject()->getName()}");
         }
         
         if ($this->context->getCheckpoint()) {
-            $this->_addTitle('Сборка: ' . $this->context->getCheckpoint()->getName());
+            $this->_addTitle(__('build') . ": {$this->context->getCheckpoint()->getName()}");
         }
 
         if ($this->context->getSlot()) {
-            $this->_addTitle('Сервер: ' . $this->context->getSlot()->getDescription());
+            $this->_addTitle(__('server') . ": {$this->context->getSlot()->getDescription()}");
         }
     }
     

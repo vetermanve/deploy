@@ -4,17 +4,15 @@
  * @var $context \Commands\CommandContext
  * @var $packId
  */
-
 ?>
-
 
 <div class="pure-g">
     <div class="pure-u-1">
         <? if ($context->getProject()): ?>
-            <a href="/web/project/show/<?= $context->getProject()->getId() ?>">К проекту</a>
+            <a href="/web/project/show/<?= $context->getProject()->getId() ?>"><?= __('back_to_project') ?></a>
         <? endif; ?>
         <? if ($context->getPack()): ?>
-            <a href="/web/pack/<?= $context->getPack()->getId() ?>">К паку</a>
+            <a href="/web/pack/<?= $context->getPack()->getId() ?>"><?= __('back_to_pack') ?></a>
         <? endif; ?>
     </div>
     <? if ($exceptionsBySection = $runtime->getExceptions()): ?>
@@ -60,6 +58,6 @@
         </div>
     <? endforeach; ?>
     <div class="pure-u-1">
-        <a href="/web/pack/<?= $packId ?>">К паку</a>
+        <a href="/web/pack/<?= $packId ?>"><?= __('back_to_pack') ?></a>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div>
-    <a href="/web/project/show/<?= $pId ?>">К проекту</a>
-    <? foreach ($result as $path => $res): ?>
+    <a href="/web/project/show/<?= $pId ?>"><?= __('back_to_project') ?></a>
+    <?php foreach ($result as $path => $res): ?>
         <div><?= $path ?> : <?= $res ?></div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </div>

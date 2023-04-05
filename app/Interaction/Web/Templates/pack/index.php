@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @var $id
  * @var $sandboxReady
@@ -8,7 +8,7 @@
  */
 ?>
 
-<style type="text/css">
+<style>
     .pure-button {
         margin-top: 0.3em;
     }
@@ -35,39 +35,41 @@
 <div class="pure-g">
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
-        <h3>Builds</h3>
+        <h3><?= __('builds') ?></h3>
         <div class="pure-g">
-            <? foreach ($pack->getCheckPoints() as $cpId => $checkPoint): ?>
+            <?php foreach ($pack->getCheckPoints() as $cpId => $checkPoint): ?>
                 <div class="pure-u-1 pure-u-lg-1-2 pure-u-xl-1-3">
                     <div>
                         <div><?= $cpId ?></div>
                         <div class="separator"></div>
-                        <? foreach ($checkPoint->getCommands() as $command): ?>
+                        <?php foreach ($checkPoint->getCommands() as $command): ?>
                             <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
                                class="pure-button <?= $command->isPrimary() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
                                <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.$command->getHumanName().'?\')"' : '' ?>>
                                 <?= $command->getHumanName() ?>
                             </a><br>
-                        <? endforeach; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </div>
     </div>
     
     <div class="pure-u-1 pure-u-md-1-3 bset">
+        <?php if (env('ENABLE_DEPLOY')): ?>
         <h3><?= __('deploy') ?></h3>
-        <? if ($lastCheckpoint = $pack->getLastCheckPoint()): ?>
+        <?php if ($lastCheckpoint = $pack->getLastCheckPoint()): ?>
             <div><?= $lastCheckpoint->getName() ?></div>
             <div class="separator"></div>
-            <? foreach ($pack->getDeployCommands() as $command): ?>
+            <?php foreach ($pack->getDeployCommands() as $command): ?>
                 <div>
                     <a href='/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>'
                        class="pure-button <?= $command->isPrimary() ? 'pure-button-primary' : '' ?>"
                     ><?= $command->getHumanName() ?></a>
                 </div>
-            <? endforeach; ?>
-        <? endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <?php endif; ?>
     </div>
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
@@ -76,25 +78,25 @@
         <a href="/web/branches/removeBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Remove branches</a>
         <a href="/web/branches/forkPack/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Fork pack</a>
         <ul>
-            <? foreach ($branches as $branchName => $repos): ?>
+            <?php foreach ($branches as $branchName => $repos): ?>
                 <li class="<?= !$repos ? 'inactive' : '' ?>"><?= $branchName ?>
                     <a style="cursor: pointer;"
                        onclick="$(this).parent().find('div').toggle()">
                         (<?= count($repos) ?>) <small><?=array_sum(array_column($repos, 0)) ?> < master > <?=array_sum(array_column($repos, 1)) ?></small>
                     </a>
                     <div style="display: none; background: #cccccc; padding: 0.2em"> 
-                        <? foreach ($repos as $repo => $toMasterStatus): ?>
+                        <?php foreach ($repos as $repo => $toMasterStatus): ?>
                             <?=$toMasterStatus[0] ?> < <b><?= $repo?></b> > <?=$toMasterStatus[1] ?> <br>
-                        <? endforeach; ?>
+                        <?php endforeach; ?>
                     </div>
                 </li>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </ul>
     </div>
     
     <div class="pure-u-1 pure-u-md-1-3 bset">
         <h3><?= __('pack_controls') ?></h3>
-        <? foreach ($pack->getPackCommands() as $command): ?>
+        <?php foreach ($pack->getPackCommands() as $command): ?>
             <div>
                 <form action="/web/command/" method="get">
                     <input type="hidden" name="command" value="<?=$command->getId() ?>">
@@ -113,6 +115,6 @@
                     </button>
                 </form>
             </div>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </div>
 </div>

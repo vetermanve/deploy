@@ -39,49 +39,6 @@ class App extends Slim
         return self::getInstance();
     }
 
-    public function updateEnvironmentFromDotEnvFile(string $dotEnvFilePath)
-    {
-        if (!file_exists($dotEnvFilePath) || !is_readable($dotEnvFilePath)) {
-            throw new \Exception('Unable to read .env file from ' . $dotEnvFilePath);
-        }
-
-        /** @var \Slim\Environment $env */
-        $env = $this->environment;
-
-        $fileLines = file($dotEnvFilePath);
-        foreach ($fileLines as $line) {
-            list($name, $value) = explode('=', $line, 2);
-            $env[ trim($name) ] = $this->parseEnvValue( trim($value) );
-        }
-
-        // Update environment
-        $this->environment = $env;
-    }
-
-    /**
-     * @param string $value
-     * @return bool|string
-     */
-    private function parseEnvValue(string $value)
-    {
-        // check for quotes before parse
-        $first = substr($value, 0, 1);
-        $last = substr($value, -1, 1);
-        if (($first === '"' && $last === '"') || ($first === "'" && $last === "'")) {
-            return substr($value, 1, -1);
-        }
-
-        if ($value === 'true') {
-            return true;
-        } elseif ($value === 'false') {
-            return false;
-        } elseif (is_numeric($value)) {
-            return $value + 0;
-        }
-
-        return $value;
-    }
-
     /**
      * @param null $viewClass
      *
