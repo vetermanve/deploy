@@ -6,6 +6,7 @@ help:
 
 up: ## Up docker containers with app
 	docker-compose up -d
+	@echo "\n>>> Open http://localhost:9088 in your browser <<<\n"
 
 down: ## Down containers
 	docker-compose down
