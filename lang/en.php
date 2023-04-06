@@ -44,6 +44,7 @@ return [
     'menu.configurations' => 'Configurations',
     'create_project' => 'Create new project',
     'create_pack' => 'Create new pack',
+    'delete_pack' => 'Delete pack',
     'release_servers' => 'Release servers',
     'add_release_server' => 'Add release server',
     'release_servers_list' => 'Release servers list',

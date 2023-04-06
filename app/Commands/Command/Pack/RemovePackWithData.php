@@ -46,7 +46,7 @@ class RemovePackWithData extends CommandProto
     
     public function getHumanName()
     {
-        return 'Удалить пак';
+        return __('delete_pack');
     }
 
     public function isConfirmRequired()

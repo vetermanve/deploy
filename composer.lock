@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "886f2b00ba4635914884ca3da5d53d27",
     "content-hash": "3cc19152106f4b8808be439649d594ca",
     "packages": [
         {
@@ -47,7 +46,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-11-20 16:49:30"
+            "time": "2014-11-20T16:49:30+00:00"
         },
         {
             "name": "knplabs/gaufrette",
@@ -129,7 +128,7 @@
                 "filesystem",
                 "media"
             ],
-            "time": "2014-08-19 13:42:49"
+            "time": "2014-08-19T13:42:49+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -221,7 +220,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-08-18 18:49:14"
+            "time": "2016-08-18T18:49:14+00:00"
         },
         {
             "name": "slim/slim",
@@ -267,7 +266,7 @@
                 "rest",
                 "router"
             ],
-            "time": "2015-03-08 18:41:17"
+            "time": "2015-03-08T18:41:17+00:00"
         },
         {
             "name": "tuupola/slim-basic-auth",
@@ -315,7 +314,7 @@
                 "middleware",
                 "slim"
             ],
-            "time": "2015-08-10 20:01:55"
+            "time": "2015-08-10T20:01:55+00:00"
         }
     ],
     "packages-dev": [],
@@ -327,5 +326,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }

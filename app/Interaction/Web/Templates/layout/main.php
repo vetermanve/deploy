@@ -1,58 +1,24 @@
-<?
+<?php
     $data = $this->data;
     $currentPath = \Admin\App::getInstance()->request()->getPathInfo();
 /**
  * @var $data \Slim\Helper\Set
+ * @var $user array
  */
 ?><!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">-->
     <title><?=isset($_identify) ? $_identify : '' ?> Config Server</title>
     <link rel="stylesheet" href="/css/pure-min.css">
     <link rel="stylesheet" href="/css/side-menu.css">
     <link rel="stylesheet" href="/css/girds-min.css">
+    <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/css/custom-buttons.css">
     <script src="/js/jquery-2.1.1.min.js"></script>
-    <style type="text/css">
-        .blink_me {
-            -webkit-animation-name: blinker;
-            -webkit-animation-duration: 1s;
-            -webkit-animation-timing-function: linear;
-            -webkit-animation-iteration-count: infinite;
-        
-            -moz-animation-name: blinker;
-            -moz-animation-duration: 1s;
-            -moz-animation-timing-function: linear;
-            -moz-animation-iteration-count: infinite;
-        
-            animation-name: blinker;
-            animation-duration: 1s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-    
-        @-moz-keyframes blinker {
-            0% { opacity: 1.0; }
-            50% { opacity: 0.0; }
-            100% { opacity: 1.0; }
-        }
-    
-        @-webkit-keyframes blinker {
-            0% { opacity: 1.0; }
-            50% { opacity: 0.0; }
-            100% { opacity: 1.0; }
-        }
-    
-        @keyframes blinker {
-            0% { opacity: 1.0; }
-            50% { opacity: 0.0; }
-            100% { opacity: 1.0; }
-        }
-    </style>
 </head>
+
 <body>
 <div id="layout">
     <!-- Menu toggle -->
@@ -63,10 +29,8 @@
     <div id="menu">
         <span id="loader"></span>
         <div class="pure-menu pure-menu-open">
-<!--            <a class="pure-menu-heading" href="#" id="mainTitle">DeploYo</a>-->
             <a class="pure-menu-heading" href="<?= $user['url'] ?>"><?= $user['id'] ?></a>
             <ul>
-<!--                <li class="pure-menu-heading"></li>-->
                 <?php foreach ( $data['mainMenu'] as $url => $title): ?>
                 <li <?= $url === $currentPath ? 'class="pure-menu-selected"' : '' ?>>
                     <a href="<?=$url ?>"><?=$title ?></a>
@@ -96,11 +60,11 @@
         <div class="content" style="color:#111111;">
             <?= $data['content']; ?>
             
-            <? if(isset($_logs)): ?>
-                <div onclick="$('.logs-cont').toggle()" style="cursor: pointer; color: #555; padding-top: 2em">
+            <? if (isset($_logs)): ?>
+                <button id="logs-toggle-button">
                     Show Debug Logs
-                </div>
-                <div class="pure-g logs-cont" style="display: none">
+                </button>
+                <div class="pure-g logs-cont" id="logs-container">
                     <? foreach ($_logs as $info): ?>
                         <div class="pure-u-1-3">
                              <div style="word-break: break-all; padding: 0.3em">
@@ -139,6 +103,7 @@
         </div>
     </div>
 </div>
+
 <script src="/js/ui.js"></script>
 </body>
 </html>

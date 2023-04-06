@@ -6,9 +6,7 @@ use \Slim\View;
 
 class DoView extends View
 {
-    /**
-     * @var App
-     */
+    /** @var App */
     private $app;
     
     /**
@@ -80,7 +78,7 @@ class DoView extends View
     
     public function subRender($template, $data)
     {
-        return parent::render($template . '.php', $data);
+        return parent::render("{$template}.php", $data);
     }
     
     public static function parse($data)
