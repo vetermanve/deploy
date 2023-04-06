@@ -2,6 +2,8 @@
 
     var layout   = document.getElementById('layout'),
         menu     = document.getElementById('menu'),
+        logsToggleButton= document.getElementById('logs-toggle-button'),
+        logsContainer= document.getElementById('logs-container'),
         menuLink = document.getElementById('menuLink');
 
     function toggleClass(element, className) {
@@ -31,5 +33,16 @@
         toggleClass(menu, active);
         toggleClass(menuLink, active);
     };
+
+    logsToggleButton.onclick = function (e) {
+        const $container = $(logsContainer);
+        $container.toggle()
+
+        if ($container.css('display') !== 'none') {
+            this.innerHTML = 'Hide Debug Logs';
+        } else {
+            this.innerHTML = 'Show Debug Logs'
+        }
+    }
 
 }(this, this.document));

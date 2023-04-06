@@ -45,7 +45,7 @@
                         <?php foreach ($checkPoint->getCommands() as $command): ?>
                             <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
                                class="pure-button <?= $command->isPrimary() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
-                               <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Точно хочешь '.$command->getHumanName().'?\')"' : '' ?>>
+                               <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Are you sure to '.$command->getHumanName().'?\')"' : '' ?>>
                                 <?= $command->getHumanName() ?>
                             </a><br>
                         <?php endforeach; ?>

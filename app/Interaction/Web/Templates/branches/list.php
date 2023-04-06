@@ -163,7 +163,7 @@ use Interaction\Web\Controller\Branches;
         checkForm: function (form) {
             var formObj = $(form);
             if (formObj.find('#pack-name').length && !formObj.find('#pack-name').val()) {
-                alert("Введи имя пакета пожалуйста");
+                alert("Enter pack name, please");
                 return false;
             }
             
