@@ -17,15 +17,13 @@ class Node
     
     private $dirs = [];
     
-    /**
-     * @var GitRepository[]
-     */
+    /** @var GitRepository[] */
     private $repos              = [];
     private $branchesByRepoDirs = [];
     
-    private $root = '/';
+    private $root;
     
-    private $clearRoot = '/';
+    private $clearRoot;
     
     private $repoDirsByBranches = [];
     
@@ -36,18 +34,16 @@ class Node
      */
     public function __construct($workDir = null)
     {
-        $workDir = $workDir ?: (new Data('navigator'))->readCachedIdAndWriteDefault('root', dirname(getcwd()));
+        $workDir = $workDir ?? REPOS_DIR;
         $this->setRoot($workDir);
     }
-    
     
     public function init()
     {
         $this->loadDirs($this->root);
         $this->loadRepos();
     }
-    
-    
+
     /**
      * @param int $depth
      *
@@ -73,9 +69,8 @@ class Node
         if (!$rootDir) {
             $rootDir = $this->root;
         }
-        $skipDirsIdx = array("." => 1, ".." => 1);
         $maxDepth    = $this->depth;
-        $doScan      = function ($parentDir, $scan, $d = 0) use ($skipDirsIdx, $maxDepth) {
+        $doScan      = function ($parentDir, $scan, $d = 0) use ($maxDepth) {
             if (!$parentDir) {
                 return [];
             }
@@ -98,7 +93,7 @@ class Node
             
             return $result;
         };
-        
+
         $this->dirs += $doScan($rootDir, $doScan);
         $clearRoot = $this->clearRoot;
         
@@ -276,9 +271,7 @@ class Node
 
         return array_combine($branches, $branchesResult);
     }
-    
-    
-    
+
     /**
      * @return string
      */

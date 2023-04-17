@@ -8,6 +8,8 @@ if ($_SERVER['REQUEST_URI'] === '/ping') {
 
 define('PRODUCTION', true);
 define('ROOT_DIR', __DIR__);
+define('STORAGE_DIR', __DIR__ . '/storage');
+define('REPOS_DIR', __DIR__ . '/storage/repos');
 
 require_once('app/helpers.php');
 require_once('debug.php');

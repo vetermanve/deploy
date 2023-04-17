@@ -1,19 +1,16 @@
 <?php
 
-
 namespace Interaction\Web\Controller;
-
 
 use Admin\App;
 use Service\Node;
-use Interaction\Base\Controller\ControllerProto;
 use Service\Data;
 
 class Navigator extends AuthControllerProto
 {
     public function indexAction()
     {
-        $this->setTitle('Навигатор по репоизаториям');
+        $this->setTitle(__('repositories_navigation'));
         $pack = $this->p('pack');
         
         $node = new Node();

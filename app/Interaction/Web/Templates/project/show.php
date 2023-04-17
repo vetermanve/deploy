@@ -1,4 +1,4 @@
-<? 
+<?php
 /* @var $slots \Service\Slot\SlotProto[]
  * @var $fetchCommand \Commands\Command\Project\FetchProjectRepos
  * @var $packs \Service\Pack[]
@@ -33,7 +33,7 @@
     <div class="pure-u-1 dset">
         <div class="pure-g">
             <div class="pure-u-md-1-2 pure-u-xl-2-3">
-                <h3><?= __('packages') ?></h3>
+                <h3><?= __('packs') ?></h3>
                 <?php foreach ($packs as $pack): ?>
                     <div class="pure-u-1 ">
                         <div class="dset">
