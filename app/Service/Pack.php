@@ -202,8 +202,10 @@ class Pack
     
         $this->name = isset($this->data['name']) && $this->data['name'] ? $this->data['name']
             : $this->id;
-        
-        $this->allowPush = 0 === strpos($this->name, 'release_');
+
+        if (env('ALLOW_PUSH_ONLY_FOR_RELEASES')) {
+            $this->allowPush = 0 === strpos($this->name, 'release_');
+        }
     
         $node = $this->project->getNode();
         $node->subLoad();

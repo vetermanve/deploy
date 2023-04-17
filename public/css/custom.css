@@ -49,3 +49,7 @@
     border: #666 dashed 1px;
     padding: 5px 10px;
 }
+
+.header h2 {
+    color: #999;
+}

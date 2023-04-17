@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Interaction\Web\Controller;
-
 
 use Admin\App;
 use Commands\Command\Pack\CheckpointCreateCommand;
@@ -54,7 +52,7 @@ class PackController extends AuthControllerProto
     
     public function indexAction()
     {
-        $this->setTitle(__('package') . ' ' . $this->pack->getName());
+        $this->setTitle(__('pack') . " '{$this->pack->getName()}'");
         $node = $this->pack->getNode();
         $packReposByBranches = $node->getToMasterStatus($this->pack->getBranches());
 
