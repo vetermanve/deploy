@@ -26,8 +26,8 @@ $app->view()->setApp($app);
 
 try {
     // BASIC AUTH
-    if (env('HTTP_BACIS_AUTH')) {
-        $hosts = env('HTTP_BACIS_AUTH_HOSTS', "localhost, 127.0.0.1");
+    if (env('HTTP_BASIC_AUTH')) {
+        $hosts = env('HTTP_BASIC_AUTH_HOSTS', "localhost, 127.0.0.1");
         $hosts = array_map('trim', explode(',', $hosts));
 
         if (!env('HTTP_BASIC_AUTH_USER') || !env('HTTP_BASIC_AUTH_PASS')) {
