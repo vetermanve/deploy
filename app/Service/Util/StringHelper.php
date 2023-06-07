@@ -1,24 +1,23 @@
 <?php
+
 namespace Service\Util;
 
-    
 class StringHelper
 {
-
     /**
      * How much time ago formatter
      *
-     * @param $time
+     * @param string|integer $time
      *
      * @return mixed|string
      */
-    public static function lvdateBack($time)
+    public static function howMuchAgo($time): string
     {
         if (!is_numeric($time)) {
             $time = strtotime($time);
         }
 
-        $sec = time()-$time;
+        $sec = time() - $time;
 
         $days = floor($sec / 86400);
         $hours = floor($sec / 3600);
@@ -33,12 +32,11 @@ class StringHelper
         if ($minutes) {
             return self::plural($minutes, ' minute ago',' minutes ago', null, $minutes);
         }
-        if ($sec > 0 && !$hours && !$minutes) {
+        if ($sec > 0) {
             return $sec . ' sec ago';
         }
-        if ($sec == 0) {
-            return 'right now';
-        }
+
+        return $sec === 0 ? 'right now' : '';
     }
 
     public static function plural($count, $form1, $form2 = null, $form3 = null, $nullForm = null, $printNumber = true)
@@ -61,4 +59,3 @@ class StringHelper
         return ($printNumber ? $number . ' ' : '') . $form;
     }
 }
- 

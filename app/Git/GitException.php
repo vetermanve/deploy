@@ -1,33 +1,19 @@
 <?php
 
-
 namespace Git;
-
 
 class GitException extends \Exception
 {
-    const INIT = 1;
-    
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $output = [];
-    
-    /**
-     * @return array
-     */
-    public function getOutput()
+
+    public function getOutput(): array
     {
         return $this->output;
     }
-    
-    /**
-     * @param array $output
-     */
-    public function setOutput($output)
+
+    public function setOutput(array $output)
     {
-        $this->output = (array)$output;
+        $this->output = $output;
     }
-    
-    
 }

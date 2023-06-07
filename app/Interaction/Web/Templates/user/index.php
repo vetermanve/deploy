@@ -1,4 +1,13 @@
-<style type="text/css">
+<?php
+/**
+ * @var array $userData
+ * @var array $projectsData
+ * @var array $packsData
+ * @var array $branches
+ * @var array $data
+ */
+?>
+<style>
     .menu-elipsis {
         white-space: nowrap; display: block; width: 100%; overflow-x: hidden; text-overflow: ellipsis;
     }
@@ -44,7 +53,9 @@
                         <? endforeach; ?>
                     </div>
                     <div class="pure-u-9-24">
-                        <? if($primaryPackId = @array_shift(array_flip($pack))): ?>
+                        <?
+                        $flipped = array_flip($pack);
+                        if ($primaryPackId = @array_shift($flipped)): ?>
                             <a class="pure-button" href="/web/pack/applyPack/<?= $primaryPackId ?>?bId=merge" title="Пакет:<?= $pack[$primaryPackId]  ?>">Запустить мерж веток</a>
                         <? endif; ?>
                     </div>
@@ -114,8 +125,16 @@
     <? endforeach; ?>
     <div class="pure-g">
         <div class="pure-u-1-1">
+            <h2>SSH Key</h2>
+            <div>
+                <?= $data['sshKeyUploaded'] ? '&#9989; Already uploaded' : '&#10060; Not uploaded' ?>
+            </div>
+        </div>
+        <div class="pure-u-1-1">
             <h2><?= __('actions') ?></h2>
-            <a class="pure-button" href="/web/user/addkey"><?= __('add_ssh_key') ?></a>
+            <a class="pure-button" href="/web/user/addkey">
+                <?= $data['sshKeyUploaded'] ? __('replace_ssh_key') : __('add_ssh_key') ?>
+            </a>
         </div>
     </div>
 </div>
