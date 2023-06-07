@@ -153,7 +153,7 @@ class Directory
         $time = filemtime($this->sitesDir . $dir);
         
         $result = [
-            'back'      => StringHelper::lvdateBack($time),
+            'back'      => StringHelper::howMuchAgo($time),
             'date'      => date('d-m h:i', $time),
             'timestamp' => $time,
         ];
@@ -212,7 +212,8 @@ class Directory
         }
         
         if (strpos($branch, '/')) {
-            $branch = end(explode('/', $branch)) . ' ' . $branch;
+            $array = explode('/', $branch);
+            $branch = end($array) . ' ' . $branch;
         }
         
         $result[] = shell_exec('cd ' . $this->sitesDir . $dir . ' && git fetch -p 2>&1');
