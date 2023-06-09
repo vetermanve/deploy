@@ -709,7 +709,7 @@ class GitRepository
         return $this->sshKeyPath;
     }
     
-    public function setSshKeyPath(string $sshKeyPath)
+    public function setSshKeyPath(?string $sshKeyPath)
     {
         $this->sshKeyPath = $sshKeyPath;
     }
