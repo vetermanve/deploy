@@ -6,7 +6,6 @@ namespace Interaction\Web\Controller;
 use Admin\App;
 use Service\Data;
 use Service\Project;
-use Service\Sandbox;
 
 class User extends AuthControllerProto
 {
@@ -85,6 +84,7 @@ class User extends AuthControllerProto
             'branches' => $branches,
             'branchesProjData' => $branchesDataByUserProjects,
             'branchesPackData' => $branchesDataByUserPacks,
+            'sshKeyUploaded' => file_exists('ssh_keys/'. $this->app->auth->getUserLogin()),
         ]);
     }
     

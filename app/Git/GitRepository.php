@@ -1,10 +1,4 @@
 <?php
-/**
- * Default implementation of IGit interface
- *
- * @author  Jan Pecha, <janpecha@email.cz>
- * @license New BSD License (BSD-3), see file license.md
- */
 
 namespace Git;
 
@@ -14,12 +8,12 @@ use User\Auth;
 
 class GitRepository
 {
-    /** @var  string */
+    /** @var string */
     private $repository;
     
     private $path;
 
-    /** @var  string|NULL  @internal */
+    /** @var string|NULL @internal */
     private $cwd;
     
     
@@ -27,9 +21,7 @@ class GitRepository
     
     private $lastOutput = '';
     
-    /**
-     * @var Fs
-     */
+    /**  @var Fs */
     private $fs;
     
     private $sshKeyPath = '';
@@ -43,8 +35,6 @@ class GitRepository
      */
     public function __construct($repository)
     {
-        GitException::INIT;
-        
         if (basename($repository) === '.git') {
             $repository = dirname($repository);
         }

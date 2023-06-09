@@ -57,6 +57,7 @@ return [
     'release_servers_list' => 'Release servers list',
     'set_ssh_key' => 'Set SSH key',
     'add_ssh_key' => 'Add SSH key',
+    'replace_ssh_key' => 'Replace SSH key',
     'ssh_key_saved_successfully' => 'SSH key saved successfully',
     'set_ssh_save_failed' => 'Failed to save SSH key',
     'ssh_key_page_description' => 'Generate SSH key pair, add pub-key into your git-storage (github, gitlab, etc..), private-key put here',
