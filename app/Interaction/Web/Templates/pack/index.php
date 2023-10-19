@@ -44,7 +44,7 @@
                         <div class="separator"></div>
                         <?php foreach ($checkPoint->getCommands() as $command): ?>
                             <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
-                               class="pure-button <?= $command->isPrimary() ? 'pure-button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
+                               class="pure-button <?= $command->isPrimary() ? 'button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
                                <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Are you sure to '.$command->getHumanName().'?\')"' : '' ?>>
                                 <?= $command->getHumanName() ?>
                             </a><br>
@@ -64,7 +64,7 @@
             <?php foreach ($pack->getDeployCommands() as $command): ?>
                 <div>
                     <a href='/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>'
-                       class="pure-button <?= $command->isPrimary() ? 'pure-button-primary' : '' ?>"
+                       class="pure-button <?= $command->isPrimary() ? 'button-primary' : '' ?>"
                     ><?= $command->getHumanName() ?></a>
                 </div>
             <?php endforeach; ?>
@@ -74,7 +74,7 @@
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
         <h3><?= __('branches') ?> (<?= count($branches) ?>)</h3>
-        <a href="/web/branches/addBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button pure-button-primary">Add branches</a>
+        <a href="/web/branches/addBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button button-primary">Add branches</a>
         <a href="/web/branches/removeBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Remove branches</a>
         <a href="/web/branches/forkPack/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Fork pack</a>
         <ul>

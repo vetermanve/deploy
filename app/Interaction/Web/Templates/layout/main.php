@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?=isset($_identify) ? $_identify : '' ?> Config Server</title>
+    <title><?= $_identify ?? '' ?> Config Server</title>
     <link rel="stylesheet" href="/css/pure-min.css">
     <link rel="stylesheet" href="/css/side-menu.css">
     <link rel="stylesheet" href="/css/girds-min.css">
@@ -37,27 +37,27 @@
                     <a href="<?=$url ?>"><?=$title ?></a>
                 </li>
                 <?php endforeach; ?>
-                <? if(0): ?>
+                <?php if(0): ?>
                 <li class="menu-item-divided pure-menu-selected">
                     <a href="#">Services</a>
                 </li>
-                <? endif; ?>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
     <div id="main">
-        <? if( $data['header'] ||  $data['title']): ?>
+        <?php if( $data['header'] ||  $data['title']): ?>
         <div class="header">
-            <? if( $data['header']): ?>
+            <?php if( $data['header']): ?>
                 <h1><?= $data['header'] ?></h1>
-            <? endif; ?>
-            <? if( $data['title']): ?>
+            <?php endif; ?>
+            <?php if( $data['title']): ?>
                 <h2><?= $data['title'] ?></h2>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
-        <? else : ?>
+        <?php else : ?>
             <br/>
-        <? endif; ?>
+        <?php endif; ?>
         <div class="content" style="color:#111111;">
             <?= $data['content']; ?>
             
@@ -69,7 +69,7 @@
                     <? foreach ($_logs as $info): ?>
                         <div class="pure-u-1-3">
                              <div style="word-break: break-all; padding: 0.3em">
-                                 <?=$info[0] ? $info[0] : '_' ?>     
+                                 <?= $info[0] ?: '_' ?>
                              </div>
                         </div><div class="pure-u-2-3"><?= \Admin\DoView::parse($info[1]) ?></div>
                     <? endforeach; ?>

@@ -1,4 +1,89 @@
-.button-danger {
-    background: rgba(195, 60, 60, 1);
+.pure-button {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.button-primary,
+.button-success,
+.button-error,
+.button-danger,
+.button-warning,
+.button-secondary {
     color: white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.button-primary {
+    background: rgb(0, 120, 231);
+    border: 1px solid rgb(0, 120, 231);
+}
+.button-success {
+    background: rgb(28, 184, 65);
+    border: 1px solid rgb(28, 184, 65);
+}
+.button-error,
+.button-danger {
+    background: rgb(202, 60, 60);
+    border: 1px solid rgb(202, 60, 60);
+}
+.button-warning {
+    background: rgb(223, 117, 20);
+    border: 1px solid rgb(223, 117, 20);
+}
+.button-secondary {
+    background: rgb(66, 184, 221);
+    border: 1px solid rgb(66, 184, 221);
+}
+
+
+.button-primary-outline {
+    color: rgb(0, 120, 231);
+    background: white;
+    border: 1px solid rgb(0, 120, 231);
+}
+.button-primary-outline:hover {
+    color: white;
+    background: rgb(0, 120, 231);
+    border: 1px solid rgb(0, 120, 231);
+}
+.button-success-outline {
+    color: rgb(28, 184, 65);
+    background: white;
+    border: 1px solid rgb(28, 184, 65);
+}
+.button-success-outline:hover {
+    color: white;
+    background: rgb(28, 184, 65);
+    border: 1px solid rgb(28, 184, 65);
+}
+.button-error-outline,
+.button-danger-outline {
+    color: rgb(202, 60, 60);
+    background: white;
+    border: 1px solid rgb(202, 60, 60);
+}
+.button-error-outline:hover,
+.button-danger-outline:hover {
+    color: white;
+    background: rgb(202, 60, 60);
+    border: 1px solid rgb(202, 60, 60);
+}
+.button-warning-outline {
+    color: rgb(223, 117, 20);
+    background: white;
+    border: 1px solid rgb(223, 117, 20);
+}
+.button-warning-outline:hover {
+    color: white;
+    background: rgb(223, 117, 20);
+    border: 1px solid rgb(223, 117, 20);
+}
+.button-secondary-outline {
+    color: rgb(66, 184, 221);
+    background: white;
+    border: 1px solid rgb(66, 184, 221);
+}
+.button-secondary-outline:hover {
+    color: white;
+    background: rgb(66, 184, 221);
+    border: 1px solid rgb(66, 184, 221);
 }
