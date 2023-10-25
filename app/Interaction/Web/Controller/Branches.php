@@ -55,12 +55,12 @@ class Branches extends AuthControllerProto
         $node->loadRepos();
         $node->loadBranches();
 
-        $this->pack = new Pack();
-        $this->pack->setId($this->packId);
-        $this->pack->init();
-
         $this->node = $node;
         if ($this->packId) {
+            $this->pack = new Pack();
+            $this->pack->setId($this->packId);
+            $this->pack->init();
+
             $currentPacks = (new Data(App::DATA_PACKS))->setReadFrom(__METHOD__)->read();
             $this->packData     = $currentPacks[$this->packId];
             $this->packBranches = $this->packData['branches'] ?: [];
@@ -72,9 +72,8 @@ class Branches extends AuthControllerProto
     
     public function createPack()
     {
-        $this->setTitle(__('pack_creation'));
-    
         $this->renderList([
+            'title' => __('pack_creation'),
             'action' => self::ACTION_PACK_CREATE
         ]);
     }
@@ -111,12 +110,16 @@ class Branches extends AuthControllerProto
 
         $packReposByBranches = $this->node->getToMasterStatus($this->packBranches);
 
-        $this->setTitle(__('pack') . " '{$this->pack->getName()}'");
+        if ($this->pack) {
+            $this->setTitle(__('pack') . " '{$this->pack->getName()}'");
+        } else {
+            $this->setTitle($this->project->getName());
+        }
 
         $this->template = 'list';
         $this->response($data + [
             'project'  => $this->project,
-            'pack'     => $this->pack,
+            'pack'     => $this->pack ?? null,
             'selected' => [],
             'packBranches' => $this->packBranches,
             'branches' => $branches,

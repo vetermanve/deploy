@@ -26,6 +26,10 @@ class DoView extends View
         $projectsItem = new MenuItem(__('menu.projects'), '/web/project', [
             '#/web/project/*#',
             '#/web/pack/*#',
+            '#/web/branches/addBranch#',
+            '#/web/branches/removeBranch#',
+            '#/web/branches/forkPack#',
+            '#/web/branches/createPack#',
         ]);
         $projectsItem->setIconClass('fa-solid fa-folder-tree');
         $menu[] = $projectsItem;

@@ -1,3 +1,10 @@
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+
 .blink_me {
     -webkit-animation-name: blinker;
     -webkit-animation-duration: 1s;
@@ -134,4 +141,94 @@
 .pure-menu ul li i {
     width: 1.2em;
     font-size: 15px;
+}
+
+/********************/
+/*** PROJECT CARD ***/
+
+.project-card {
+    width: 50%;
+    border-top: 3px solid rgb(0, 120, 231);
+    border-radius: 0 0 10px 10px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 9px 15px rgba(0,0,0,0.2);
+}
+.project-card h1 {
+    margin-top: 0.2em;
+    padding-bottom: 0.6em;
+    margin-bottom: 0.3em;
+    border-bottom: 1px solid #ccc;
+    font-size: 1.6em;
+}
+
+/********************************/
+/*** TOOLTIPS    ****************/
+
+/*== start of code for tooltips ==*/
+.tool {
+    cursor: help;
+    position: relative;
+}
+/*== common styles for both parts of tool tip ==*/
+.tool::before,
+.tool::after {
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    z-index: -100;
+}
+
+.tool:hover::before,
+.tool:focus::before,
+.tool:hover::after,
+.tool:focus::after {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    z-index: 100;
+}
+
+.tool::after {
+    content: "";
+    margin-left: -0.5em;
+    height: 0;
+    width: 0;
+    color: #edeff0;
+    position: absolute;
+    bottom: 9px;
+    border-color: transparent transparent #edeff0 #edeff0;
+    border: 0.8em solid;
+    box-sizing: border-box;
+    box-shadow: -7px 7px 6px 0 rgba(0, 0, 0, 0.2);
+    transform-origin: 0 0;
+    transform: rotate(-45deg) !important;
+}
+/*== pointer tip ==*/
+
+.tool:hover::after,
+.tool:focus::after {
+    transition: all .15s cubic-bezier(.84,-0.18,.31,1.26);
+}
+
+
+/*== speech bubble ==*/
+.tool::before {
+    background: #edeff0;
+    border-radius: 5px;
+    bottom: 180%;
+    color: #3e474f;
+    content: attr(data-tip);
+    margin-left: -3em;
+    padding: 1em;
+    transition: all .35s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+    transform: scale(.6) translateY(50%);
+    width: fit-content;
+    white-space: pre;
+    overflow: hidden;
+    box-shadow: 7px 7px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tool:hover::before,
+.tool:focus::before  {
+    transition: all .15s cubic-bezier(.84,-0.18,.31,1.26);
 }

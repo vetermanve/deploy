@@ -11,7 +11,7 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
 
 <style type="text/css">
     .bset {
-        height: 20em;
+        height: 8em;
         overflow: hidden;
         /*background-color: #DDDDDD;*/
         border-bottom: 1px solid #CCC;
@@ -28,22 +28,18 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
         /*border-top: 1px solid silver;*/
         padding: 0.3em;
     }
-</style>
 
-<div class="pure-g">
-    <div class="pure-u-1">
-        <section class="top-page-nav">
-            &nbsp;
-        </section>
-    </div>
-</div>
+    .dset a {
+        margin-right: 5px;
+    }
+</style>
 
 <div class="pure-g">
     <div class="pure-u-1">
         <a href="/web/navigator/" class="pure-button btn-primary"><?= __('create_project') ?></a>
     </div>
     <?php foreach ($dirSets as $id => $dirs): ?>
-        <div class="pure-u-1">
+        <div class="pure-u-1 project-card">
                 <?php
                 $dirs = $dirs ?: [];
                 array_walk($dirs, function (&$val) {
@@ -54,15 +50,30 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                 
                 <div class="pure-g">
                     <?php if (isset($branchSets[$id])): ?>
-                        <?php foreach ($branchSets[$id] as $bsId => $branchData): ?>
-                            <div class="pure-u-1 pure-u-md-1-3 bset">
+                        <div class="pure-u-1">Packs:</div>
+                        <?php foreach ($branchSets[$id] as $packId => $branchData): ?>
+                            <div class="pure-u-1">
                                 <div class="dset">
-                                    <div><a href="/web/pack/<?= $bsId ?>"><?= isset($branchData['name'])
-                                            && $branchData['name'] ? $branchData['name'] : $bsId; ?></a></div>
-                                    <div><?= __('branches') ?> (<?=@count($branchData['branches']) ?>):</div>
-                                    <ul class="bset">
-                                        <li><?= @implode('</li><li>', @$branchData['branches']) ?></li>
-                                    </ul>
+                                    <div>
+                                        <a href="/web/pack/<?= $packId ?>" class="pure-button btn-secondary-outline">
+                                            <?= $branchData['name'] ?? $packId; ?>
+                                        </a>
+                                        <?php
+                                        if (array_key_exists('branches', $branchData)) {
+                                            $count = count($branchData['branches']);
+                                        }
+                                        ?>
+                                        <span class="tool" data-tip="<?= @implode("\n", @$branchData['branches']) ?>">
+                                            Branches (<?= $count ?>) <i class="fa-solid fa-info-circle"></i>
+                                        </span>
+
+                                        <?php /**
+                                        <div><?= __('branches') ?> (<?=@count($branchData['branches']) ?>):</div>
+                                        <ul class="bset">
+                                            <li><?= @implode('</li><li>', @$branchData['branches']) ?></li>
+                                        </ul>
+                                        */ ?>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>

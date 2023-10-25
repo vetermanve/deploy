@@ -5,7 +5,12 @@
  * @var array $packsData
  * @var array $branches
  * @var array $data
+ * @var $this \Admin\DoView
  */
+
+use Service\Breadcrumbs\Breadcrumb;
+
+$this->addBreadcrumb(new Breadcrumb('Profile', 'fa-solid fa-user'));
 ?>
 <style>
     .menu-elipsis {

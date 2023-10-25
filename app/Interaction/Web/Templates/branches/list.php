@@ -16,9 +16,14 @@ use Service\Breadcrumbs\BreadcrumbsFactory;
 
 $this
     ->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb())
-    ->addBreadcrumb(BreadcrumbsFactory::makeProjectPageBreadcrumb($project))
-    ->addBreadcrumb(BreadcrumbsFactory::makePackPageBreadcrumb($pack))
-    ->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectPageBreadcrumb($project));
+
+if ($pack) {
+    $this->addBreadcrumb(BreadcrumbsFactory::makePackPageBreadcrumb($pack));
+}
+
+$this->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
+
 ?>
 
 <style>
@@ -35,6 +40,7 @@ $this
     }
 </style>
 
+<?php if ($pack): ?>
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
@@ -44,6 +50,17 @@ $this
         </section>
     </div>
 </div>
+<?php else: ?>
+<div class="pure-g">
+    <div class="pure-u-1">
+        <section class="top-page-nav">
+            <a href="/web/project/show/<?= $project->getId() ?>" class="pure-button btn-secondary-outline btn-s">
+                <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_project') ?>
+            </a>
+        </section>
+    </div>
+</div>
+<?php endif; ?>
 
 <div class="pure-g">
     <div class="pure-u-1">

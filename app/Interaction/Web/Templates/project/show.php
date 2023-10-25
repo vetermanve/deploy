@@ -55,10 +55,16 @@ $this
                 <?php foreach ($packs as $pack): ?>
                     <div class="pure-u-1 ">
                         <div class="dset">
-                            <div><a href="/web/pack/<?=$pack->getId() ?>"><?=$pack->getName(); ?></a>
+                            <div>
+                                <a href="/web/pack/<?=$pack->getId() ?>" class="pure-button btn-secondary-outline">
+                                    <?=$pack->getName(); ?>
+                                </a>
                                 <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>"
-                                   style="float: right"
-                                   onclick="return confirm('Do you really want delete pack?')"><?= __('delete') ?></a></div>
+                                   class="pure-button btn-danger-outline right"
+                                   onclick="return confirm('Do you really want delete pack?')">
+                                    <?= __('delete') ?>
+                                </a>
+                            </div>
                             <ul class="bset">
                                 <li><?= @implode('</li><li>', $pack->getBranches()) ?></li>
                             </ul>
