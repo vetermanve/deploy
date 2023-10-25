@@ -84,6 +84,7 @@ class ProjectController extends AuthControllerProto
         $fetchCommand->setContext((new CommandContext())->setProject($this->project));
         
         $this->response([
+            'project' => $this->project,
             'fetchCommand' => $fetchCommand,
             'id'        => $this->projectId,
             'setData'   => $this->project->getPaths(),

@@ -20,3 +20,10 @@ if (! function_exists('__')) {
         return \Admin\App::getInstance()->getLangStringForKey($key, $lang) ?? $key;
     }
 }
+
+
+if (! function_exists('request')) {
+    function request() {
+        return \Admin\App::getInstance()->request();
+    }
+}

@@ -1,8 +1,16 @@
 <?php
-/* @var $slots \Service\Slot\SlotProto[]
+/* @var $project \Service\Project
+ * @var $slots \Service\Slot\SlotProto[]
  * @var $fetchCommand \Commands\Command\Project\FetchProjectRepos
  * @var $packs \Service\Pack[]
- */ 
+ * @var $this \Admin\DoView
+ */
+
+use Service\Breadcrumbs\BreadcrumbsFactory;
+
+$this
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb())
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectPageBreadcrumb($project));
 ?>
 
 <style>
@@ -23,12 +31,22 @@
 
 <div class="pure-g">
     <div class="pure-u-1">
-        <a href="/web/branches/createPack/<?=$id ?>" class="pure-button pure-button-primary"><?= __('create_pack') ?></a>
+        <section class="top-page-nav">
+            <a href="/web/project" class="pure-button btn-secondary-outline btn-s">
+                <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_project_list') ?>
+            </a>
+        </section>
+    </div>
+</div>
+
+<div class="pure-g">
+    <div class="pure-u-1">
+        <a href="/web/branches/createPack/<?=$id ?>" class="pure-button btn-primary"><?= __('create_pack') ?></a>
         <a href="/web/command/?command=<?=$fetchCommand->getId() ?>&context=<?=$fetchCommand->getContext()->serialize() ?>"
-           class="pure-button <?= $fetchCommand->isPrimary() ? 'pure-button-primary'
+           class="pure-button <?= $fetchCommand->isPrimary() ? 'btn-primary'
                : '' ?>"><?= $fetchCommand->getHumanName() ?>
         </a>
-        <a href="/web/project"><?= __('back_to_projects') ?> </a>
+
     </div>
     <div class="pure-u-1 dset">
         <div class="pure-g">

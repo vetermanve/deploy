@@ -2,8 +2,11 @@
 /**
  * @var $dirSets
  * @var $branchSets
- *
  */
+
+use Service\Breadcrumbs\BreadcrumbsFactory;
+
+$this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
 ?>
 
 <style type="text/css">
@@ -28,7 +31,7 @@
 </style>
 <div class="pure-g">
     <div class="pure-u-1">
-        <a href="/web/navigator/" class="pure-button button-primary"><?= __('create_project') ?></a>
+        <a href="/web/navigator/" class="pure-button btn-primary"><?= __('create_project') ?></a>
     </div>
     <?php foreach ($dirSets as $id => $dirs): ?>
         <div class="pure-u-1">

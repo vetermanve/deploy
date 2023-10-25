@@ -53,3 +53,77 @@
 .header h2 {
     color: #999;
 }
+
+.top-page-nav {
+    padding-bottom: 1em;
+}
+
+/*******************/
+/*** BREADCRUMBS ***/
+
+.breadcrumbs-placeholder {
+    width: 100%;
+    height: 60px;
+}
+.breadcrumbs {
+    background: white;
+    border-bottom: 1px solid #bbb;
+    width: 100%;
+    height: 47px;
+    position:fixed;
+    box-shadow: 0 5px 3px rgba(100,100,100, 0.2)
+}
+.breadcrumbs ul,
+.breadcrumbs ul li a,
+.breadcrumbs ul li span {
+    display: flex;
+}
+.breadcrumbs ul {
+    height: 100%;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.breadcrumbs ul li {
+    margin-right: 30px;
+    position: relative;
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.breadcrumbs ul li:before {
+    content: ">";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -20px;
+    color: #666;
+}
+.breadcrumbs ul li:last-child:before {
+    display: none;
+}
+.breadcrumbs ul li a,
+.breadcrumbs ul li span {
+    align-items: baseline;
+    color: #666;
+    text-decoration: none;
+}
+.breadcrumbs ul li a .icon,
+.breadcrumbs ul li span .icon
+{
+    margin-right: 5px;
+}
+.breadcrumbs ul li a p,
+.breadcrumbs ul li span p
+{
+    font-size: 16px;
+}
+.breadcrumbs ul li a p
+{
+    color: #1a0dab;
+}
+.breadcrumbs ul li.active a,
+.breadcrumbs ul li.active span
+{
+    color: #ff5e5e;
+}

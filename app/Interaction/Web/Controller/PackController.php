@@ -40,8 +40,6 @@ class PackController extends AuthControllerProto
         }
         
         $this->pack = $pack;
-        $projectName = $this->pack->getProject()->getName();
-        $this->setSubTitle(__('project') . ' <a href="/web/project/show/' . $this->pack->getProject()->getId() . '">' . $projectName . '</a>');
     }
     
     public function showAction()

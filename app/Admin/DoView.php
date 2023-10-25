@@ -2,6 +2,8 @@
 
 namespace Admin;
 
+use Service\Breadcrumbs\Breadcrumb;
+use Service\Menu\MenuItem;
 use \Slim\View;
 
 class DoView extends View
@@ -20,22 +22,28 @@ class DoView extends View
     protected function loadMenu()
     {
         $menu = [];
-        $menu['/web/project'] = __('menu.projects');
+        $menu[] = new MenuItem(__('menu.projects'), '/web/project', [
+            '#/web/project/*#',
+            '#/web/pack/*#',
+        ]);
 
         if (env('ENABLE_DEPLOY')) {
-            $menu['/web/slot'] = __('menu.servers');
+            $menu[] = new MenuItem(__('menu.servers'), '/web/slot');
         }
         if (env('ENABLE_EDIT_CONFIGURATIONS')) {
-            $menu['/web/scopes'] = __('menu.configurations');
+            $menu[] = new MenuItem(__('menu.configurations'), '/web/scopes');
         }
 
-        $menu['/web/deploy'] = __('menu.git');
-        
+        $menu[] = new MenuItem(__('menu.git'), '/web/deploy');
+
         if ($this->app->auth->isAuth()) {
-            $menu = ['/web/user' => 'Profile &#128057;'] + $menu;
-            $menu['/web/auth/logout'] = __('logout');
+            $itemProfile = new MenuItem('Profile &#128057;', '/web/user', ['#web/user/*#']);
+            $itemLogout = new MenuItem(__('logout'), '/web/auth/logout');
+
+            array_unshift($menu, $itemProfile);
+            array_push($menu, $itemLogout);
         } else {
-            $menu['/web/auth/login'] = __('login');
+            $menu[] = new MenuItem(__('login'), '/web/auth/login');
         }
         
         $this->set('mainMenu', $menu);
@@ -112,6 +120,15 @@ class DoView extends View
         }
         
         return 'Closure';
+    }
+
+    public function addBreadcrumb(Breadcrumb $breadcrumb): DoView
+    {
+        $items = $this->get('breadcrumbs');
+        $items[] = $breadcrumb;
+        $this->set('breadcrumbs', $items);
+
+        return $this;
     }
 }
  

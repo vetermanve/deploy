@@ -28,7 +28,13 @@ class Env
         self::$env = [];
 
         $fileLines = file($dotEnvFilePath);
+
         foreach ($fileLines as $line) {
+            $line = trim($line);
+            if (empty($line) || strpos($line, '#') === 0) {
+                continue;
+            }
+
             list($name, $value) = explode('=', $line, 2);
             self::$env[ trim($name) ] = self::parseEnvValue( trim($value) );
         }

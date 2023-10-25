@@ -1,6 +1,6 @@
 <?php
     $data = $this->data;
-    $currentPath = \Admin\App::getInstance()->request()->getPathInfo();
+    $currentPath = request()->getPathInfo();
 /**
  * @var $data \Slim\Helper\Set
  * @var $user array
@@ -11,6 +11,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $_identify ?? '' ?> Config Server</title>
+
+    <link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/fontawesome/css/solid.css" rel="stylesheet">
+
     <link rel="stylesheet" href="/css/pure-min.css">
     <link rel="stylesheet" href="/css/side-menu.css">
     <link rel="stylesheet" href="/css/girds-min.css">
@@ -32,9 +36,10 @@
         <div class="pure-menu pure-menu-open">
             <a class="pure-menu-heading" href="<?= $user['url'] ?>"><?= $user['id'] ?></a>
             <ul>
-                <?php foreach ( $data['mainMenu'] as $url => $title): ?>
-                <li <?= $url === $currentPath ? 'class="pure-menu-selected"' : '' ?>>
-                    <a href="<?=$url ?>"><?=$title ?></a>
+                <?php foreach ( $data['mainMenu'] as $menuItem): ?>
+                <?php /** @var $menuItem \Service\Menu\MenuItem */ ?>
+                <li <?= $menuItem->isSelected() ? 'class="pure-menu-selected"' : '' ?>>
+                    <a href="<?=$menuItem->route ?>"><?=$menuItem->title ?></a>
                 </li>
                 <?php endforeach; ?>
                 <?php if(0): ?>
@@ -46,6 +51,25 @@
         </div>
     </div>
     <div id="main">
+        <?php if ( $data['breadcrumbs'] ): ?>
+        <div class="breadcrumbs">
+            <ul>
+            <?php foreach ($data['breadcrumbs'] as $item): ?>
+            <?php /** @var $item \Service\Breadcrumbs\Breadcrumb */ ?>
+            <li>
+                <?= $item->url !== null && $item->url !== request()->getPathInfo() ? "<a href=\"{$item->url}\">" : '<span>' ?>
+                    <?php if ($item->iconClass): ?>
+                    <i class="<?= $item->iconClass ?> icon"></i>
+                    <?php endif; ?>
+                    <p><?= $item->title ?></p>
+                <?= $item->url !== null ? '</a>' : '<span>' ?>
+            </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="breadcrumbs-placeholder"></div>
+        <?php endif; ?>
+
         <?php if( $data['header'] ||  $data['title']): ?>
         <div class="header">
             <?php if( $data['header']): ?>

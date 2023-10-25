@@ -3,86 +3,99 @@
     border: 1px solid #ccc;
 }
 
-.button-primary,
-.button-success,
-.button-error,
-.button-danger,
-.button-warning,
-.button-secondary {
+.btn-xs {
+    font-size: 70%;
+}
+.btn-s {
+    font-size: 85%;
+}
+.btn-lg {
+    font-size: 110%;
+}
+.btn-xl {
+    font-size: 125%;
+}
+
+.btn-primary,
+.btn-success,
+.btn-error,
+.btn-danger,
+.btn-warning,
+.btn-secondary {
     color: white;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
-.button-primary {
+.btn-primary {
     background: rgb(0, 120, 231);
     border: 1px solid rgb(0, 120, 231);
 }
-.button-success {
+.btn-success {
     background: rgb(28, 184, 65);
     border: 1px solid rgb(28, 184, 65);
 }
-.button-error,
-.button-danger {
+.btn-error,
+.btn-danger {
     background: rgb(202, 60, 60);
     border: 1px solid rgb(202, 60, 60);
 }
-.button-warning {
+.btn-warning {
     background: rgb(223, 117, 20);
     border: 1px solid rgb(223, 117, 20);
 }
-.button-secondary {
+.btn-secondary {
     background: rgb(66, 184, 221);
     border: 1px solid rgb(66, 184, 221);
 }
 
 
-.button-primary-outline {
+.btn-primary-outline {
     color: rgb(0, 120, 231);
     background: white;
     border: 1px solid rgb(0, 120, 231);
 }
-.button-primary-outline:hover {
+.btn-primary-outline:hover {
     color: white;
     background: rgb(0, 120, 231);
     border: 1px solid rgb(0, 120, 231);
 }
-.button-success-outline {
+.btn-success-outline {
     color: rgb(28, 184, 65);
     background: white;
     border: 1px solid rgb(28, 184, 65);
 }
-.button-success-outline:hover {
+.btn-success-outline:hover {
     color: white;
     background: rgb(28, 184, 65);
     border: 1px solid rgb(28, 184, 65);
 }
-.button-error-outline,
-.button-danger-outline {
+.btn-error-outline,
+.btn-danger-outline {
     color: rgb(202, 60, 60);
     background: white;
     border: 1px solid rgb(202, 60, 60);
 }
-.button-error-outline:hover,
-.button-danger-outline:hover {
+.btn-error-outline:hover,
+.btn-danger-outline:hover {
     color: white;
     background: rgb(202, 60, 60);
     border: 1px solid rgb(202, 60, 60);
 }
-.button-warning-outline {
+.btn-warning-outline {
     color: rgb(223, 117, 20);
     background: white;
     border: 1px solid rgb(223, 117, 20);
 }
-.button-warning-outline:hover {
+.btn-warning-outline:hover {
     color: white;
     background: rgb(223, 117, 20);
     border: 1px solid rgb(223, 117, 20);
 }
-.button-secondary-outline {
+.btn-secondary-outline {
     color: rgb(66, 184, 221);
     background: white;
     border: 1px solid rgb(66, 184, 221);
 }
-.button-secondary-outline:hover {
+.btn-secondary-outline:hover {
     color: white;
     background: rgb(66, 184, 221);
     border: 1px solid rgb(66, 184, 221);

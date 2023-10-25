@@ -5,7 +5,15 @@
  * @var $branches
  * @var $pId
  * @var $pack \Service\Pack
+ * @var $this \Admin\DoView
  */
+
+use Service\Breadcrumbs\BreadcrumbsFactory;
+
+$this
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb())
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectPageBreadcrumb($pack->getProject()))
+    ->addBreadcrumb(BreadcrumbsFactory::makePackPageBreadcrumb($pack));
 ?>
 
 <style>
@@ -13,7 +21,7 @@
         margin-top: 0.3em;
     }
 
-    .button-danger {
+    .btn-danger {
         margin-top: 0.8em;
     }
     
@@ -33,6 +41,16 @@
 </style>
 
 <div class="pure-g">
+    <div class="pure-u-1">
+        <section class="top-page-nav">
+            <a href="/web/project/show/<?= $pack->getProject()->getId() ?>" class="pure-button btn-secondary-outline btn-s">
+                <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_pack_list') ?>
+            </a>
+        </section>
+    </div>
+</div>
+
+<div class="pure-g">
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
         <h3><?= __('builds') ?></h3>
@@ -44,7 +62,7 @@
                         <div class="separator"></div>
                         <?php foreach ($checkPoint->getCommands() as $command): ?>
                             <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
-                               class="pure-button <?= $command->isPrimary() ? 'button-primary': '' ?> <?= $command->isDanger() ? 'button-danger': '' ?> "
+                               class="pure-button <?= $command->isPrimary() ? 'btn-primary': '' ?> <?= $command->isDanger() ? 'btn-danger': '' ?> "
                                <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Are you sure to '.$command->getHumanName().'?\')"' : '' ?>>
                                 <?= $command->getHumanName() ?>
                             </a><br>
@@ -64,7 +82,7 @@
             <?php foreach ($pack->getDeployCommands() as $command): ?>
                 <div>
                     <a href='/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>'
-                       class="pure-button <?= $command->isPrimary() ? 'button-primary' : '' ?>"
+                       class="pure-button <?= $command->isPrimary() ? 'btn-primary' : '' ?>"
                     ><?= $command->getHumanName() ?></a>
                 </div>
             <?php endforeach; ?>
@@ -74,7 +92,7 @@
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
         <h3><?= __('branches') ?> (<?= count($branches) ?>)</h3>
-        <a href="/web/branches/addBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button button-primary">Add branches</a>
+        <a href="/web/branches/addBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button btn-primary">Add branches</a>
         <a href="/web/branches/removeBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Remove branches</a>
         <a href="/web/branches/forkPack/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Fork pack</a>
         <ul>
@@ -106,7 +124,7 @@
                         <input type="hidden" class="js-question-<?=$question['field']?>" name="userData[<?=$question['field']?>]" value="<?=($question['placeholder'] ?? '')?>">
                     <?php endif; ?>
                     <button <?=$command->isConfirmRequired() ? 'onclick="return confirm(\'Are you sure to run '.strtolower($command->getHumanName()).'?\')"' : '' ?>
-                       class="pure-button <?= $command->isDanger() ? 'button-danger' : '' ?>"
+                       class="pure-button <?= $command->isDanger() ? 'btn-danger' : '' ?>"
                         <?php if(!empty($question['field']) && !empty($question['question'])): ?>
                             onclick="answer=prompt('<?= ($question['question'] ?? '')?>', '<?=($question['placeholder'] ?? '')?>');if(!answer)return false;document.getElementsByClassName('js-question-<?=$question['field']?>')[0].value=answer"
                         <?php endif; ?>
