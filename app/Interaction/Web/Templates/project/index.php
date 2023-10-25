@@ -29,6 +29,15 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
         padding: 0.3em;
     }
 </style>
+
+<div class="pure-g">
+    <div class="pure-u-1">
+        <section class="top-page-nav">
+            &nbsp;
+        </section>
+    </div>
+</div>
+
 <div class="pure-g">
     <div class="pure-u-1">
         <a href="/web/navigator/" class="pure-button btn-primary"><?= __('create_project') ?></a>

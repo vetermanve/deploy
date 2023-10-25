@@ -39,7 +39,14 @@
                 <?php foreach ( $data['mainMenu'] as $menuItem): ?>
                 <?php /** @var $menuItem \Service\Menu\MenuItem */ ?>
                 <li <?= $menuItem->isSelected() ? 'class="pure-menu-selected"' : '' ?>>
-                    <a href="<?=$menuItem->route ?>"><?=$menuItem->title ?></a>
+                    <a href="<?=$menuItem->route ?>">
+                        <?php if ($menuItem->iconClass): ?>
+                            <i class="<?= $menuItem->iconClass ?> icon"></i>
+                        <?php else: ?>
+                            <i class="fa-solid icon"></i>
+                        <?php endif; ?>
+                        <span><?=$menuItem->title ?></span>
+                    </a>
                 </li>
                 <?php endforeach; ?>
                 <?php if(0): ?>

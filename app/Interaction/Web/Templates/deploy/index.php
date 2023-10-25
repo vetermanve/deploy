@@ -1,3 +1,9 @@
+<?php
+$this->addBreadcrumb(
+    new \Service\Breadcrumbs\Breadcrumb('Git', 'fa-solid fa-code-branch')
+);
+?>
+
 <style type="text/css">
     .deploy td span {
         display: block;

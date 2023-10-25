@@ -7,12 +7,18 @@ class MenuItem
     public $route;
     public $title;
     public $patterns;
+    public $iconClass;
 
     public function __construct(string $title, string $route, array $patterns = [])
     {
         $this->title = $title;
         $this->route = $route;
         $this->patterns = $patterns;
+    }
+
+    public function setIconClass(string $iconClass)
+    {
+        $this->iconClass = $iconClass;
     }
 
     public function isSelected(): bool

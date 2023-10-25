@@ -127,3 +127,11 @@
 {
     color: #ff5e5e;
 }
+
+/********************/
+/*** MAIN MENU ******/
+
+.pure-menu ul li i {
+    width: 1.2em;
+    font-size: 15px;
+}

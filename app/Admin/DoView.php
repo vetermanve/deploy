@@ -22,10 +22,13 @@ class DoView extends View
     protected function loadMenu()
     {
         $menu = [];
-        $menu[] = new MenuItem(__('menu.projects'), '/web/project', [
+
+        $projectsItem = new MenuItem(__('menu.projects'), '/web/project', [
             '#/web/project/*#',
             '#/web/pack/*#',
         ]);
+        $projectsItem->setIconClass('fa-solid fa-folder-tree');
+        $menu[] = $projectsItem;
 
         if (env('ENABLE_DEPLOY')) {
             $menu[] = new MenuItem(__('menu.servers'), '/web/slot');
@@ -34,11 +37,16 @@ class DoView extends View
             $menu[] = new MenuItem(__('menu.configurations'), '/web/scopes');
         }
 
-        $menu[] = new MenuItem(__('menu.git'), '/web/deploy');
+        $gitItem = new MenuItem(__('menu.git'), '/web/deploy');
+        $gitItem->setIconClass('fa-solid fa-code-branch');
+        $menu[] = $gitItem;
 
         if ($this->app->auth->isAuth()) {
             $itemProfile = new MenuItem('Profile &#128057;', '/web/user', ['#web/user/*#']);
+            $itemProfile->setIconClass('fa-solid fa-user');
+
             $itemLogout = new MenuItem(__('logout'), '/web/auth/logout');
+            $itemLogout->setIconClass('fa-solid fa-right-from-bracket');
 
             array_unshift($menu, $itemProfile);
             array_push($menu, $itemLogout);
