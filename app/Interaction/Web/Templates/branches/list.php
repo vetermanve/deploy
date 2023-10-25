@@ -3,15 +3,22 @@
  * @var $project \Service\Project
  * @var $selected
  * @var $action
- * @var $packId
  * @var $packBranches
+ * @var $branches
+ * @var $branchesData
+ * @var $pack \Service\Pack
+ * @var $this \Admin\DoView
+ * @var $title string
  */
 
 use Interaction\Web\Controller\Branches;
+use Service\Breadcrumbs\BreadcrumbsFactory;
 
-/* @var $branches */
-/* @var $branchesData */
-
+$this
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb())
+    ->addBreadcrumb(BreadcrumbsFactory::makeProjectPageBreadcrumb($project))
+    ->addBreadcrumb(BreadcrumbsFactory::makePackPageBreadcrumb($pack))
+    ->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
 ?>
 
 <style>
@@ -28,25 +35,35 @@ use Interaction\Web\Controller\Branches;
     }
 </style>
 
+<div class="pure-g">
+    <div class="pure-u-1">
+        <section class="top-page-nav">
+            <a href="/web/pack/show/<?= $pack->getId() ?>" class="pure-button btn-secondary-outline btn-s">
+                <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_pack') ?>
+            </a>
+        </section>
+    </div>
+</div>
 
 <div class="pure-g">
     <div class="pure-u-1">
         <div>
             <h2 style="display: inline-block"><?= __('branches') ?> (<?= count($branches) ?>)</h2>
-            <a href="/web/pack/show/<?= $packId ?>"><?= __('back_to_pack') ?></a>
-            <a href="/web/project/fetch/<?= $project->getId() ?>?return=1"><?= __('refetch_repositories') ?></a>
+            <a href="/web/project/fetch/<?= $project->getId() ?>?return=1" class="pure-button">
+                <?= __('refetch_repositories') ?>
+            </a>
         </div>
         <form class="pure-form" action="/web/branches/save/<?= $project->getId() ?>" method="post"
               onsubmit="return aFilter.checkForm(this);" >
             <input type="hidden" name="action" value="<?= $action ?>"/>
             <? if ($action == Branches::ACTION_PACK_CREATE || $action == Branches::ACTION_PACK_FORK): ?>
                 <input type="text" value="" name="name" placeholder="<?= __('set_pack_name') ?>" id="pack-name"/>
-                <input type="submit" value="<?= __('save_pack') ?>" class="pure-button pure-button-primary"/>
+                <input type="submit" value="<?= __('save_pack') ?>" class="pure-button btn-primary"/>
             <? elseif ($action == Branches::ACTION_PACK_ADD_BRANCH
                 || $action == Branches::ACTION_PACK_CHANGE_BRANCHES
             ) : ?>
-                <input type="submit" value="<?= __('accept_branches') ?>" class="pure-button pure-button-primary"/>
-                <input type="hidden" name="packId" value="<?= $packId ?>"/>
+                <input type="submit" value="<?= __('accept_branches') ?>" class="pure-button btn-primary"/>
+                <input type="hidden" name="packId" value="<?= $pack->getId() ?>"/>
             <? endif; ?>
             
             <? if ($action == Branches::ACTION_PACK_CHANGE_BRANCHES): ?>

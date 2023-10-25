@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Interaction\Web\Controller;
-
 
 use Admin\App;
 use Service\Data;
 use Service\Node;
+use Service\Pack;
 use Service\Project;
 
 class Branches extends AuthControllerProto
@@ -16,28 +15,23 @@ class Branches extends AuthControllerProto
     const ACTION_PACK_CHANGE_BRANCHES = 'change';
     const ACTION_PACK_FORK            = 'fork';
 
-    /**
-     * @var Node
-     */
+    /**  @var Node */
     private $node;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $projectId;
     
-    /**
-     * @var Project
-     */
+    /** @var Project */
     private $project;
     
-    /**
-     * @var \Admin\DoView
-     */
+    /** @var \Admin\DoView */
     private $view;
     
     private $packId;
-    
+
+    /** @var Pack */
+    private $pack;
+
     private $branches = [];
     
     private $packBranches = [];
@@ -61,6 +55,10 @@ class Branches extends AuthControllerProto
         $node->loadRepos();
         $node->loadBranches();
 
+        $this->pack = new Pack();
+        $this->pack->setId($this->packId);
+        $this->pack->init();
+
         $this->node = $node;
         if ($this->packId) {
             $currentPacks = (new Data(App::DATA_PACKS))->setReadFrom(__METHOD__)->read();
@@ -68,7 +66,7 @@ class Branches extends AuthControllerProto
             $this->packBranches = $this->packData['branches'] ?: [];
             natsort($this->packBranches);
         }
-        
+
         parent::before();
     }
     
@@ -83,18 +81,16 @@ class Branches extends AuthControllerProto
     
     public function addBranch()
     {
-        $this->setTitle(__('add_branches'));
-    
         $this->renderList([
+            'title' => __('add_branches'),
             'action' => self::ACTION_PACK_ADD_BRANCH
         ]);
     }
     
     public function forkPack()
     {
-        $this->setTitle(__('fork_pack'));
-    
         $this->renderList([
+            'title' => __('fork_pack'),
             'selected' => array_flip($this->packBranches) ?: [],
             'action'   => self::ACTION_PACK_FORK
         ]);
@@ -102,25 +98,25 @@ class Branches extends AuthControllerProto
     
     public function removeBranch()
     {
-        $this->setTitle(__('remove_branches_from_pack'));
-        
         $this->renderList([
+            'title' => __('remove_branches_from_pack'),
             'selected' => array_flip($this->packBranches) ?: [],
             'action'   => self::ACTION_PACK_CHANGE_BRANCHES
         ]);
     }
     
-    private function renderList($data) {
-        $this->setSubTitle(__('project') . " {$this->project->getName()} #{$this->projectId}");
-    
+    private function renderList($data)
+    {
         $branches = $this->project->getNode()->getRepoDirsByBranches();
 
         $packReposByBranches = $this->node->getToMasterStatus($this->packBranches);
-        
+
+        $this->setTitle(__('pack') . " '{$this->pack->getName()}'");
+
         $this->template = 'list';
         $this->response($data + [
             'project'  => $this->project,
-            'packId'   => $this->packId,
+            'pack'     => $this->pack,
             'selected' => [],
             'packBranches' => $this->packBranches,
             'branches' => $branches,
