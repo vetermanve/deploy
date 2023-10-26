@@ -53,7 +53,7 @@ $this
             <div class="pure-u-md-1-2 pure-u-xl-2-3">
                 <h3><?= __('packs') ?></h3>
                 <?php foreach ($packs as $pack): ?>
-                    <div class="pure-u-1 ">
+                    <div class="pure-u-1 pack-card">
                         <div class="dset">
                             <div>
                                 <a href="/web/pack/<?=$pack->getId() ?>" class="pure-button btn-secondary-outline">
