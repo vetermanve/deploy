@@ -38,6 +38,8 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
     <div class="pure-u-1">
         <a href="/web/navigator/" class="pure-button btn-primary"><?= __('create_project') ?></a>
     </div>
+
+    <div class="pure-u-md-1-2 pure-u-xl-2-3">
     <?php foreach ($dirSets as $id => $dirs): ?>
         <div class="pure-u-1 project-card">
                 <?php
@@ -81,4 +83,5 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                 </div>
         </div>
     <?php endforeach; ?>
+    </div>
 </div>
