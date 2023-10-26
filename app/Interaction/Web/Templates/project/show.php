@@ -19,11 +19,7 @@ $this
         border: 1px solid #111111;
         padding: 0.5em 0.5em;
     }
-    
-    .dset {
-        padding: 0.5em 0.5em;
-    }
-    
+
     .vmenu .pure-button {
         margin-bottom: 0.2em;
     }
@@ -48,27 +44,25 @@ $this
         </a>
 
     </div>
-    <div class="pure-u-1 dset">
+    <div class="pure-u-1">
         <div class="pure-g">
             <div class="pure-u-md-1-2 pure-u-xl-2-3">
                 <h3><?= __('packs') ?></h3>
                 <?php foreach ($packs as $pack): ?>
                     <div class="pure-u-1 pack-card">
-                        <div class="dset">
-                            <div>
-                                <a href="/web/pack/<?=$pack->getId() ?>" class="pure-button btn-secondary-outline">
-                                    <?=$pack->getName(); ?>
-                                </a>
-                                <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>"
-                                   class="pure-button btn-danger-outline right"
-                                   onclick="return confirm('Do you really want delete pack?')">
-                                    <?= __('delete') ?>
-                                </a>
-                            </div>
-                            <ul class="bset">
-                                <li><?= @implode('</li><li>', $pack->getBranches()) ?></li>
-                            </ul>
+                        <div>
+                            <a href="/web/pack/<?=$pack->getId() ?>" class="pure-button btn-secondary-outline">
+                                <?=$pack->getName(); ?>
+                            </a>
+                            <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>"
+                               class="pure-button btn-danger-outline right"
+                               onclick="return confirm('Do you really want delete pack?')">
+                                <?= __('delete') ?>
+                            </a>
                         </div>
+                        <ul class="bset">
+                            <li><?= @implode('</li><li>', $pack->getBranches()) ?></li>
+                        </ul>
                     </div>
                 <?php endforeach; ?>
             </div>
