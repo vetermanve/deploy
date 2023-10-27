@@ -601,7 +601,7 @@ class GitRepository
         $args = func_get_args();
         $cmd  = $this->processCommand($args);
         $this->fs->exec($cmd, $output, $ret, __METHOD__);
-        $this->lastOutput = $output;
+        $this->lastOutput = is_string($output) ? $output : implode("\n", $output);
         
         if ($ret !== 0) {
             $this->exception("Command '$cmd' failed on " . $this->repository , $output);
@@ -700,7 +700,16 @@ class GitRepository
         
         return true;
     }
-    
+
+    public function update($branch)
+    {
+        $output = [];
+        $output[] = $this->begin()->run('git fetch -p 2>&1')->getLastOutput();
+        $output[] = $this->begin()->run("git merge --ff-only -X theirs origin/{$branch} 2>&1")->getLastOutput();
+        $output[] = $this->begin()->run("touch ./")->getLastOutput();
+
+        return implode("\n", $output);
+    }
     
     /**
      * @param  string /path/to/repo.git | host.xz:foo/.git | ...

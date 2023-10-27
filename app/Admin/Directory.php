@@ -2,6 +2,7 @@
 
 namespace Admin;
 
+use Git\GitRepository;
 use Service\Data;
 use Service\Util\StringHelper;
 
@@ -17,7 +18,7 @@ class Directory
     {
         $this->deployUser = 'deploy';
         $this->wwwUser    = 'www-data';
-        $this->sitesDir   = dirname(getcwd()).'/';
+        $this->sitesDir   = REPOS_DIR . '/';
     }
     
     /**
@@ -174,12 +175,10 @@ class Directory
 //                exec('sudo /bin/chown -R ' . $this->deployUser . ':' . $this->wwwUser . ' ' . $this->sitesDir . $dir . ' 2>&1',
 //                    $result);
 //            }
-        
-        exec('cd ' . $this->sitesDir . $dir . ' && git fetch -p 2>&1', $result);
-        exec('cd ' . $this->sitesDir . $dir . ' && git merge --ff-only -X theirs origin/' . $branch . ' 2>&1', $result);
-        exec('cd ' . $this->sitesDir . $dir . ' && touch ./', $result);
-        
-        return implode("\n", $result);
+
+        $repo = new GitRepository($this->sitesDir . $dir);
+
+        return $repo->update($branch);
     }
     
     public function fix($dir, $realClear = null)

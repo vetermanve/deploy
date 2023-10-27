@@ -42,13 +42,13 @@ class PackController extends AuthControllerProto
         $this->pack = $pack;
     }
     
-    public function showAction()
+    public function show()
     {
         $this->template = 'index';
-        $this->indexAction();
+        $this->index();
     }
     
-    public function indexAction()
+    public function index()
     {
         $this->setTitle(__('pack') . " '{$this->pack->getName()}'");
         $node = $this->pack->getNode();
