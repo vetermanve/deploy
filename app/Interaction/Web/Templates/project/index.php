@@ -41,7 +41,7 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                                 Branches (<?= $count ?>) <i class="fa-solid fa-info-circle"></i>
                             </span>
                             <?php else: ?>
-                            <span>Branches (0)</span>
+                            <span class="empty"><i>No branches added</i></span>
                             <?php endif; ?>
 
                         </div>

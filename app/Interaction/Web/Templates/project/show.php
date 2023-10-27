@@ -13,18 +13,6 @@ $this
     ->addBreadcrumb(BreadcrumbsFactory::makeProjectPageBreadcrumb($project));
 ?>
 
-<style>
-    .bset {
-        overflow: scroll;
-        border: 1px solid #111111;
-        padding: 0.5em 0.5em;
-    }
-
-    .vmenu .pure-button {
-        margin-bottom: 0.2em;
-    }
-</style>
-
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
@@ -51,17 +39,24 @@ $this
                 <?php foreach ($packs as $pack): ?>
                     <div class="pure-u-1 pack-card">
                         <div>
+                            <?php $branches = $pack->getBranches() ?>
+
                             <a href="/web/pack/<?=$pack->getId() ?>" class="pure-button btn-secondary-outline">
-                                <?=$pack->getName(); ?>
+                                <?=$pack->getName() ?>
                             </a>
+
                             <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>"
                                class="pure-button btn-danger-outline right"
                                onclick="return confirm('Do you really want delete pack?')">
                                 <?= __('delete') ?>
                             </a>
                         </div>
-                        <ul class="bset">
-                            <li><?= @implode('</li><li>', $pack->getBranches()) ?></li>
+                        <ul class="branch-list">
+                            <?php if (!empty($branches)): ?>
+                            <li><?= @implode('</li><li>', $branches) ?></li>
+                            <?php else: ?>
+                            <li class="empty"><i>No branches added</i></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 <?php endforeach; ?>

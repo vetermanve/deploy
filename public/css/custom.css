@@ -149,10 +149,10 @@
 .project-card,
 .pack-card {
     width: 90%;
-    border-top: 3px solid rgb(0, 120, 231);
+    border-top: 5px solid rgb(0, 120, 231);
     border-radius: 0 0 10px 10px;
     padding: 15px;
-    margin: 10px auto;
+    margin: 10px auto 25px;
     box-shadow: 0 9px 15px rgba(0,0,0,0.2);
 }
 .project-card h1,
@@ -162,6 +162,17 @@
     margin-bottom: 0.3em;
     border-bottom: 1px solid #ccc;
     font-size: 1.6em;
+}
+.project-card .empty,
+.pack-card .empty {
+    color: #999;
+    font-style: italic;
+}
+
+.pack-card .branch-list {
+    overflow: scroll;
+    border: 1px solid #111111;
+    padding: 0.5em 0.5em;
 }
 
 .dataset-item {
