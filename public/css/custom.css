@@ -41,31 +41,30 @@
 }
 
 /******** SPINNER *********/
-@-webkit-keyframes spin {
-    from {-webkit-transform:rotate(0deg);}
-    to {-webkit-transform:rotate(360deg);}
-}
-@keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
+@keyframes spinner {
+    to {transform: rotate(360deg);}
 }
 .spinner {
-    margin-left: 8px;
-    color: #999;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 7px;
+    margin-left: 3px;
 }
-.spinner::after {
-    content:'';
-    display:inline-block;
+.spinner:before {
+    display: block;
+    content: '';
+    box-sizing: border-box;
     position: relative;
     align-content: center;
-    width:10px;height:10px;
-    border-style:solid;
-    border-color:black;
-    border-top-color:transparent;
-    border-width: 2px;
-    border-radius:50%;
-    -webkit-animation: spin .8s linear infinite;
-    animation: spin .8s linear infinite;
+    top: -50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-top: 2px solid #07d;
+    border-right: 2px solid transparent;
+    animation: spinner .6s linear infinite;
 }
 /******** END OF SPINNER ************/
 
@@ -99,15 +98,15 @@
 /*** BREADCRUMBS ***/
 
 .breadcrumbs-placeholder {
-    width: 100%;
     height: 60px;
 }
 .breadcrumbs {
     background: white;
     border-bottom: 1px solid #bbb;
-    width: 100%;
     height: 47px;
     position:fixed;
+    left: 150px; /** menu block width */
+    right: 0;
     box-shadow: 0 5px 3px rgba(100,100,100, 0.2)
 }
 .breadcrumbs ul,

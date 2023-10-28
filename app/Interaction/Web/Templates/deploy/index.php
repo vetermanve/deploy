@@ -4,7 +4,7 @@ $this->addBreadcrumb(
 );
 ?>
 
-<style type="text/css">
+<style>
     .deploy td span {
         display: block;
     }
@@ -18,7 +18,7 @@ $this->addBreadcrumb(
     }
 
 </style>
-<center>
+
 <table class="pure-table pure-table-bordered deploy">
     <thead>
     <tr>
@@ -65,7 +65,7 @@ $this->addBreadcrumb(
     </tr>
     <?php endforeach; ?>
 </table>
-</center>
+
 <p id="doneLog" style="white-space: pre-wrap;">
     
 </p>
@@ -130,7 +130,7 @@ $this->addBreadcrumb(
             if (eventTarget) {
                 this.spinnerOn(eventTarget);
             }
-//            $('#loader').show();
+            $('#loader').show();
         },
         stop: function (eventTarget) {
             $('#mainTitle').removeClass('blink_me');
@@ -138,7 +138,7 @@ $this->addBreadcrumb(
             if (eventTarget) {
                 this.spinnerOff(eventTarget);
             }
-//            $('#loader').hide();
+            $('#loader').hide();
         },
         spinnerOn: function(el) {
             let $el = $(el);

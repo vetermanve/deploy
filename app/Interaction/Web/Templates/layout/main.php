@@ -58,24 +58,32 @@
         </div>
     </div>
     <div id="main">
-        <?php if ( $data['breadcrumbs'] ): ?>
-        <div class="breadcrumbs">
-            <ul>
-            <?php foreach ($data['breadcrumbs'] as $item): ?>
-            <?php /** @var $item \Service\Breadcrumbs\Breadcrumb */ ?>
-            <li>
-                <?= $item->url !== null && $item->url !== request()->getPathInfo() ? "<a href=\"{$item->url}\">" : '<span>' ?>
-                    <?php if ($item->iconClass): ?>
-                    <i class="<?= $item->iconClass ?> icon"></i>
-                    <?php endif; ?>
-                    <p><?= $item->title ?></p>
-                <?= $item->url !== null ? '</a>' : '<span>' ?>
-            </li>
-            <?php endforeach; ?>
-            </ul>
+
+        <div class="breadcrumbs pure-g">
+            <?php if ( $data['breadcrumbs'] ): ?>
+            <div class="pure-u-4-5">
+                <ul>
+                    <?php foreach ($data['breadcrumbs'] as $item): ?>
+                    <?php /** @var $item \Service\Breadcrumbs\Breadcrumb */ ?>
+                    <li>
+                        <?= $item->url !== null && $item->url !== request()->getPathInfo() ? "<a href=\"{$item->url}\">" : '<span>' ?>
+                            <?php if ($item->iconClass): ?>
+                            <i class="<?= $item->iconClass ?> icon"></i>
+                            <?php endif; ?>
+                            <p><?= $item->title ?></p>
+                        <?= $item->url !== null ? '</a>' : '<span>' ?>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+
+            <div class="pure-u">
+                <div id="loader"></div>
+            </div>
         </div>
-        <div class="breadcrumbs-placeholder"></div>
-        <?php endif; ?>
+        <div class="breadcrumbs-placeholder pure-u-1"></div>
+
 
         <?php if( $data['header'] ||  $data['title']): ?>
         <div class="header">
@@ -92,21 +100,21 @@
         <div class="content" style="color:#111111;">
             <?= $data['content']; ?>
             
-            <? if (isset($_logs)): ?>
+            <?php if (isset($_logs)): ?>
                 <button id="logs-toggle-button">
                     Show Debug Logs
                 </button>
                 <div class="pure-g logs-cont" id="logs-container">
-                    <? foreach ($_logs as $info): ?>
+                    <?php foreach ($_logs as $info): ?>
                         <div class="pure-u-1-3">
                              <div style="word-break: break-all; padding: 0.3em">
                                  <?= $info[0] ?: '_' ?>
                              </div>
                         </div><div class="pure-u-2-3"><?= \Admin\DoView::parse($info[1]) ?></div>
-                    <? endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
-            <? endif; ?>
-            <? if(0): ?>
+            <?php endif; ?>
+            <?php if(0): ?>
             <h2 class="content-subhead">How to use this layout</h2>
             
             <h2 class="content-subhead">Now Let's Speak Some Latin</h2>
@@ -131,7 +139,7 @@
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
