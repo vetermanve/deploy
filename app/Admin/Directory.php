@@ -162,7 +162,7 @@ class Directory
         return $result;
     }
     
-    public function update($dir)
+    public function update($dir): string
     {
         if (!$this->checkDir($dir)) {
             return 'not a dir';
@@ -200,7 +200,7 @@ class Directory
         return implode("\n", $result);
     }
     
-    public function checkout($dir, $branch)
+    public function checkout($dir, $branch): string
     {
         if (!$this->checkDir($dir)) {
             return 'not a dir';
@@ -214,15 +214,18 @@ class Directory
             $array = explode('/', $branch);
             $branch = end($array) . ' ' . $branch;
         }
-        
-        $result[] = shell_exec('cd ' . $this->sitesDir . $dir . ' && git fetch -p 2>&1');
-        exec('cd ' . $this->sitesDir . $dir . ' && git checkout -B ' . $branch . ' 2>&1', $result);
-        
+
+        $repo = new GitRepository($this->sitesDir . $dir);
+
+        $result[] = $repo->fetch()->getLastOutput();
+        $result[] = $repo->checkoutBranchOrResetAndCheckout($branch)->getLastOutput();
+
         return implode("\n", $result);
     }
     
     public function createRepo($name)
     {
+        var_dump($name);exit;
         $repoDir  = 'repo/';
         $commands = array(
             ['cd ' . $this->sitesDir . $repoDir, 'mkdir ' . $this->sitesDir . $repoDir],

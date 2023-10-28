@@ -40,6 +40,36 @@
     100% { opacity: 1.0; }
 }
 
+/******** SPINNER *********/
+@-webkit-keyframes spin {
+    from {-webkit-transform:rotate(0deg);}
+    to {-webkit-transform:rotate(360deg);}
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+.spinner {
+    margin-left: 8px;
+    color: #999;
+}
+.spinner::after {
+    content:'';
+    display:inline-block;
+    position: relative;
+    align-content: center;
+    width:10px;height:10px;
+    border-style:solid;
+    border-color:black;
+    border-top-color:transparent;
+    border-width: 2px;
+    border-radius:50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+}
+/******** END OF SPINNER ************/
+
+
 #logs-toggle-button {
     cursor: pointer;
     color: #000;

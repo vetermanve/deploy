@@ -309,6 +309,11 @@ class GitRepository
         return $this->begin()->run('git checkout -b ', $name)->end();
     }
 
+    public function checkoutBranchOrResetAndCheckout($name)
+    {
+        return $this->begin()->run('git checkout -B ', $name)->end();
+    }
+
     /**
      * @param string $prefix
      * @return string|null

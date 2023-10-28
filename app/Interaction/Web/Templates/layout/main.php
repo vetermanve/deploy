@@ -32,7 +32,7 @@
         <span></span>
     </a>
     <div id="menu">
-        <span id="loader"></span>
+<!--        <span id="loader"></span>-->
         <div class="pure-menu pure-menu-open">
             <a class="pure-menu-heading" href="<?= $user['url'] ?>"><?= $user['id'] ?></a>
             <ul>
