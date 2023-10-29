@@ -2,12 +2,10 @@
 
 namespace Interaction\Web\Controller;
 
-use Interaction\Base\Controller\ControllerProto;
-
 class Deploy extends AuthControllerProto
 {
 
-    public function indexAction()
+    public function index()
     {
         $this->app->view()->setHeader(__('deploy'));
         
@@ -16,14 +14,14 @@ class Deploy extends AuthControllerProto
         ));
     }
     
-    public function getgitAction()
+    public function getgit()
     {
         $dir = $this->app->request->get('dir');
         
         $this->app->json(array('data' => $this->app->directory()->getBranch($dir),));
     }
     
-    public function fixgitAction()
+    public function fixgit()
     {
         $dir = $this->app->request->get('dir');
         
@@ -33,7 +31,7 @@ class Deploy extends AuthControllerProto
         ));
     }
     
-    public function checkoutAction()
+    public function checkout()
     {
         $dir = $this->app->request->get('dir');
         $branch = $this->app->request()->get('branch', '');
@@ -41,14 +39,14 @@ class Deploy extends AuthControllerProto
         $this->app->json(array('data' => $this->app->directory()->checkout($dir, $branch)));
     }
     
-    public function updateAction()
+    public function update()
     {
         $dir = $this->app->request->get('dir');
         
         $this->app->json(array('data' => $this->app->directory()->update($dir),));
     }
 
-    public function showAddRepositoryFormAction()
+    public function showAddRepositoryForm()
     {
         $this->setTitle(__('deploy'));
         $this->setSubTitle(__('add_repository'));
@@ -56,7 +54,7 @@ class Deploy extends AuthControllerProto
         $this->app->render('deploy/addRepositoryForm');
     }
 
-    public function addRepositoryAction()
+    public function addRepository()
     {
         // SSH link: git@github.com:janson-git/deploy.git
         // HTTPS url: https://github.com/janson-git/deploy.git
@@ -67,11 +65,13 @@ class Deploy extends AuthControllerProto
         $repoNameFull = mb_substr($repoPath, strrpos($repoPath, '/') + 1);
         $dirName = str_replace('.git', '', $repoNameFull);
 
-        $output = $this->app->directory()->cloneRepository($repoPath, $dirName);
+        try {
+            $output = $this->app->directory()->cloneRepository($repoPath, $dirName);
+        } catch (\Exception $e) {
+            $output = $e->getMessage();
+            return $this->app->json(['data' => $output], 500);
+        }
 
-        $this->app->json(['data' => $output]);
-
-        // TODO: RETURN JSON HERE AND WRITE ON FORM SOME JS TO GET IT AND REDIRECT TO INDEX
-        $this->app->redirect('/web/deploy');
+        return $this->app->json(['data' => $output]);
     }
 }

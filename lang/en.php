@@ -10,6 +10,7 @@ return [
     'back_to_pack' => 'Back to pack',
     'filter_branches' => 'Filter branches',
     'fork_pack' => 'Fork pack',
+    'back_to_git' => 'Back to Git',
     'back_to_projects' => 'Back to projects',
     'back_to_project_list' => 'Back to project list',
     'back_to_project' => 'Back to project',

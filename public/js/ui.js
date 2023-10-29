@@ -43,6 +43,24 @@
         } else {
             this.innerHTML = 'Show Debug Logs'
         }
-    }
+    };
+
+    window.spinnerOn = function(btn) {
+        $('#mainTitle').addClass('blink_me');
+        $('#menuLink').addClass('blink_me');
+        $('#loader').show();
+        if (btn) {
+            $(btn).addClass('btn-in-action')
+        }
+    };
+
+    window.spinnerOff = function(btn) {
+        $('#mainTitle').removeClass('blink_me');
+        $('#menuLink').removeClass('blink_me');
+        $('#loader').hide();
+        if (btn) {
+            $(btn).removeClass('btn-in-action')
+        }
+    };
 
 }(this, this.document));

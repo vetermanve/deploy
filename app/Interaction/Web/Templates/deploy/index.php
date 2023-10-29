@@ -78,59 +78,57 @@ $this->addBreadcrumb(
     </div>
 
     <div class="pure-u-1">
-        <p id="doneLog" style="white-space: pre-wrap;">
+        <p id="doneLog" style="white-space: pre-wrap;"></p>
     </div>
 </div>
 
-    
-</p>
 <script type="text/javascript">
     
     const admin = {
         rootPath : '/web/deploy',
         getGit : function (dir, el) {
-            let target = el;
+            let btn = el;
             el = $(el).parent();
             let _this = this;
-            _this.start(target);
+            spinnerOn(btn)
             $.getJSON(_this.rootPath + '/getgit/', {dir:dir}, function (res) {
                 _this.log(res.data, el);
-                _this.stop(target);
+                spinnerOff(btn)
             });
         },
         fixGit : function (dir, el, realClean) {
-            let target = el;
+            let btn = el;
             realClean = realClean || 0;
             el = $(el).parent();
             let _this = this;
-            _this.start(target);
+            spinnerOn(btn)
             $.getJSON(_this.rootPath + '/fixgit/', {dir:dir, doClean : realClean}, function (res) {
                 _this.log(res.data, el);
-                _this.stop(target);
+                spinnerOff(btn)
             });
         },
     
         checkout : function (dir, el, branch) {
-            let target = el;
+            let btn = el;
             el = $(el).parent();
             let _this = this;
-            _this.start(target);
+            spinnerOn(btn)
             $.getJSON(_this.rootPath + '/checkout/', {dir:dir, branch : branch}, function (res) {
                 _this.log(res.data, el);
-                _this.stop(target);
+                spinnerOff(btn)
             }).error(function (r, data, errorThrown) {
                 $('#doneLog').html(r.responseText);
             });
         },
         
         update : function (dir, el) {
-            let target = el;
+            let btn = el;
             el = $(el).parent();
             let _this = this;
-            _this.start(target);
+            spinnerOn(btn)
             $.getJSON(_this.rootPath + '/update/', {dir:dir}, function (res) {
                 _this.log(res.data, el);
-                _this.stop(target);
+                spinnerOff(btn);
             });   
         },
         log : function (data, el) {
@@ -138,35 +136,6 @@ $this->addBreadcrumb(
             el.find('.upLog').remove();
             data = typeof data == 'string' ? data : JSON.stringify(data) ;
             el.append( '<div class="upLog"><hr/>' + (data && data.substr(0, 150)) +' <hr/><a href="#doneLog">full log</a></div>');
-        },
-        start : function (eventTarget) {
-            $('#mainTitle').addClass('blink_me');
-            $('#menuLink').addClass('blink_me');
-            if (eventTarget) {
-                this.spinnerOn(eventTarget);
-            }
-            $('#loader').show();
-        },
-        stop: function (eventTarget) {
-            $('#mainTitle').removeClass('blink_me');
-            $('#menuLink').removeClass('blink_me');
-            if (eventTarget) {
-                this.spinnerOff(eventTarget);
-            }
-            $('#loader').hide();
-        },
-        spinnerOn: function(el) {
-            let $el = $(el);
-            let spinnerHtml = '<i class="spinner"></i>';
-
-            $el.html( $el.html() + spinnerHtml );
-        },
-        spinnerOff: function(el) {
-            let $el = $(el);
-            let spinnerHtml = '<i class="spinner"></i>';
-
-            let currentHtml = $el.html().replace(spinnerHtml, '');
-            $el.html( currentHtml );
         }
     }
 </script>

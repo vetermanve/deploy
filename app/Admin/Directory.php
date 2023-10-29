@@ -282,7 +282,7 @@ class Directory
         return $result;
     }
 
-    public function cloneRepository(string $repositoryPath, string $dirName)
+    public function cloneRepository(string $repositoryPath, string $dirName): string
     {
         if (file_exists($this->sitesDir . $dirName)) {
             $dirName .= date('Ymd_His');
@@ -335,8 +335,12 @@ class Directory
         $repo = new GitRepository($this->sitesDir);
         $repo->cloneRemoteRepository($repositoryPath, $dirName);
 
-        $result[] = $repo->getLastOutput();
+        $log('clone remote repository', $repo->getLastOutput());
 
-        return $result;
+        $output = [];
+        foreach ($result as $item) {
+            $output[] = $item['com'] . "\n" . $item['res'];
+        }
+        return implode("\n", $output);
     }
 }

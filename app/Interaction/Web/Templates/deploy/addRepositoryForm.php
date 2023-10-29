@@ -1,10 +1,26 @@
+<?php
+/** @var $this \Admin\DoView */
+use Service\Breadcrumbs\Breadcrumb;
+
+$this
+    ->addBreadcrumb(new Breadcrumb('Git', 'fa-solid fa-code-branch', '/web/deploy'))
+    ->addBreadcrumb(new Breadcrumb('Add repository'));
+?>
+
+<div class="pure-g">
+    <div class="pure-u-1">
+        <section class="top-page-nav">
+            <a href="/web/deploy" class="pure-button btn-secondary-outline btn-s">
+                <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_git') ?>
+            </a>
+        </section>
+    </div>
+</div>
+
 <div class="pure-g">
     <div class="pure-u" style="margin-left: auto; margin-right: auto; width: 300px;">
 
-        <form class="pure-form pure-form-stacked"
-              method="post"
-              action="/web/deploy/addRepository"
-        >
+        <div class="pure-form pure-form-stacked">
             <fieldset>
                 <div class="pure-control-group">
                     <label for="repository_path">Repository Path</label>
@@ -13,11 +29,15 @@
                 </div>
 
                 <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary"><?= __('save') ?></button>
+                    <button onclick="admin.addRepository(this)" class="pure-button pure-button-primary"><?= __('save') ?></button>
                 </div>
             </fieldset>
-        </form>
+        </div>
 
+    </div>
+
+    <div class="pure-u-1">
+        <p id="doneLog" style="white-space: pre-wrap;"></p>
     </div>
 </div>
 
@@ -32,4 +52,42 @@
         <? endforeach; ?>
     </table>
 <? endif; ?>
- 
+
+
+<script type="text/javascript">
+
+    const admin = {
+        rootPath : '/web/deploy',
+        addRepository : function (btn) {
+            let $repositoryPath = $('#repository_path');
+            let repoPath = $repositoryPath.val();
+
+            if (repoPath.length === 0) {
+                return false;
+            }
+
+            let _this = this;
+            spinnerOn(btn)
+            $.getJSON(_this.rootPath + '/addRepository/',
+                {
+                    repository_path: repoPath
+                },
+                function (res) {
+                    window.location.href = '/web/deploy';
+                }
+            )
+                .fail(function (jqxhr, textStatus, error) {
+                    console.log(jqxhr, textStatus, error)
+                    _this.log(
+                        jqxhr && jqxhr.responseJSON
+                            ? jqxhr.responseJSON.data
+                            : (textStatus + ' ' + error)
+                    );
+                    spinnerOff(btn)
+                });
+        },
+        log : function (data, el) {
+            $('#doneLog').html(data);
+        }
+    }
+</script>
