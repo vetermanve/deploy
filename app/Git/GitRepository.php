@@ -547,7 +547,21 @@ class GitRepository
         
         return $this->begin()->run("git push $remote", $params)->end();
     }
-    
+
+    /**
+     * Clone remote repository to local dir.
+     * `git clone <repo_path> <dir>`
+     *
+     * @param  string $remoteRepo
+     * @param  string $dir
+     *
+     * @throws GitException
+     * @return self
+     */
+    public function cloneRemoteRepository($remoteRepo, $dir): self
+    {
+        return $this->begin()->run("git clone {$remoteRepo} \"$dir\"")->end();
+    }
     
     /**
      * @param  $cmd
@@ -793,7 +807,7 @@ class GitRepository
     public function getBehindStatus($branch)
     {
         $this->begin()->run('git rev-list --left-right --count origin/master...'.$branch)->end();
-        return preg_split('/\s+/', implode('', $this->lastOutput)); 
+        return preg_split('/\s+/', $this->lastOutput);
     }
     
     /**

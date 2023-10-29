@@ -21,9 +21,7 @@ $this
             </a>
         </section>
     </div>
-</div>
 
-<div class="pure-g">
     <div class="pure-u-1">
         <a href="/web/branches/createPack/<?=$id ?>" class="pure-button btn-primary"><?= __('create_pack') ?></a>
         <a href="/web/command/?command=<?=$fetchCommand->getId() ?>&context=<?=$fetchCommand->getContext()->serialize() ?>"
@@ -32,6 +30,10 @@ $this
         </a>
 
     </div>
+</div>
+
+<div class="pure-g">
+
     <div class="pure-u-1">
         <div class="pure-g">
             <div class="pure-u-md-1-2 pure-u-xl-2-3">

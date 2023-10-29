@@ -47,5 +47,29 @@ class Deploy extends AuthControllerProto
         
         $this->app->json(array('data' => $this->app->directory()->update($dir),));
     }
-    
+
+    public function showAddRepositoryFormAction()
+    {
+        $this->setTitle(__('deploy'));
+        $this->setSubTitle(__('add_repository'));
+
+        $this->app->render('deploy/addRepositoryForm');
+    }
+
+    public function addRepositoryAction()
+    {
+        // SSH link: git@github.com:janson-git/deploy.git
+        // HTTPS url: https://github.com/janson-git/deploy.git
+
+        $repoPath = $this->p('repository_path');
+        $repoPath = preg_replace('#[^a-zA-Z0-9:@./]#', '', $repoPath);
+
+        $repoNameFull = mb_substr($repoPath, strrpos($repoPath, '/') + 1);
+        $dirName = str_replace('.git', '', $repoNameFull);
+
+        $output = $this->app->directory()->cloneRepository($repoPath, $dirName);
+
+        $this->app->json(['data' => $output]);
+        var_dump($repoPath);exit;
+    }
 }

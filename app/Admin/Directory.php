@@ -281,4 +281,73 @@ class Directory
         
         return $result;
     }
+
+    public function cloneRepository(string $repositoryPath, string $dirName)
+    {
+        if (file_exists($this->sitesDir . $dirName)) {
+            $dirName .= date('Ymd_His');
+        }
+
+        $newRepoDir = $this->sitesDir . $dirName;
+        $commands = array(
+            ['mkdir ' . $newRepoDir, ''],
+//            ['cd ' . $newRepoDir, ''],
+//            ['pwd ', ''],
+//            ['git init --bare', ''],
+//            ['cd ..', ''],
+            ['pwd ', ''],
+//            ['chmod -R g+rw ./', ''],
+//            ["git clone '{$repositoryPath}' '{$dirName}'", '' ],
+//            ['cd ' . $this->sitesDir, ''],
+//            ['pwd ', ''],
+//            ['git clone ' . $this->sitesDir . $repoDir . $name, ''],
+        );
+
+        $result = [];
+        $state  = 0;
+
+//            $try = exec(implode(' && '))
+        $dir = 'cd ' . $this->sitesDir;
+
+        $log = function ($c, $data) use (&$result) {
+            $result[] = array(
+                'com' => $c,
+                'res' => $data,
+            );
+        };
+
+        foreach ($commands as $cData) {
+            list ($command, $pill) = $cData;
+            if ($state) {
+                break;
+            }
+            if (substr($command, 0, 3) == 'cd ') {
+                $dir = $command;
+            }
+
+            $eCommand = $dir . ' && ' . $command . ' 2>&1';
+            unset ($res);
+            exec($eCommand, $res, $state);
+            $log($command, !$state ? ($res ? implode('<br>', $res) : 'ok') : 'fail: ' . implode('<br>', $res));
+
+            if ($state && $pill) {
+                unset ($res);
+                exec($dir . ' && ' . $pill, $res, $state);
+                $log($command . ' pill => ' . $pill,
+                    !$state ? ($res ? implode('<br>', $res) : 'ok') : 'fail: ' . implode('<br>', $res));
+                unset ($res);
+                exec($eCommand, $res, $state);
+                $log($command . ' recall',
+                    !$state ? ($res ? implode('<br>', $res) : 'ok') : 'fail: ' . implode('<br>', $res));
+            }
+        }
+
+        $repo = new GitRepository($this->sitesDir);
+        $repo->cloneRemoteRepository($repositoryPath, $dirName);
+
+        $result[] = $repo->getLastOutput();
+
+var_dump($result);
+        return $result;
+    }
 }

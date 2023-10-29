@@ -65,6 +65,7 @@ class App extends Slim
     {
         if (!$this->directory) {
             $this->directory = new Directory();
+            $this->directory->setSitesDir(REPOS_DIR . '/');
         }
         
         return $this->directory;

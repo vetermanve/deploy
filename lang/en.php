@@ -3,6 +3,7 @@
 return [
     'accept_branches' => 'Accept branches to pack',
     'actions' => 'Actions',
+    'add_repository' => 'Add repository',
     'available_repositories' => 'Available repositories',
     'pack_controls' => 'Pack controls',
     'back_to_pack_list' => 'Back to pack list',
