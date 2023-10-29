@@ -70,6 +70,8 @@ class Deploy extends AuthControllerProto
         $output = $this->app->directory()->cloneRepository($repoPath, $dirName);
 
         $this->app->json(['data' => $output]);
-        var_dump($repoPath);exit;
+
+        // TODO: RETURN JSON HERE AND WRITE ON FORM SOME JS TO GET IT AND REDIRECT TO INDEX
+        $this->app->redirect('/web/deploy');
     }
 }

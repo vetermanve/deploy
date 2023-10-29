@@ -291,22 +291,12 @@ class Directory
         $newRepoDir = $this->sitesDir . $dirName;
         $commands = array(
             ['mkdir ' . $newRepoDir, ''],
-//            ['cd ' . $newRepoDir, ''],
-//            ['pwd ', ''],
-//            ['git init --bare', ''],
-//            ['cd ..', ''],
             ['pwd ', ''],
-//            ['chmod -R g+rw ./', ''],
-//            ["git clone '{$repositoryPath}' '{$dirName}'", '' ],
-//            ['cd ' . $this->sitesDir, ''],
-//            ['pwd ', ''],
-//            ['git clone ' . $this->sitesDir . $repoDir . $name, ''],
         );
 
         $result = [];
         $state  = 0;
 
-//            $try = exec(implode(' && '))
         $dir = 'cd ' . $this->sitesDir;
 
         $log = function ($c, $data) use (&$result) {
@@ -347,7 +337,6 @@ class Directory
 
         $result[] = $repo->getLastOutput();
 
-var_dump($result);
         return $result;
     }
 }
