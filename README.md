@@ -32,18 +32,20 @@ make up
 #### CREATE NEW PROJECT
 
 Ok, app prepared, and we need add our first project to work with it
-1. Go to `storage/repos` directory of your `deploy` app. This directory will contain local repositories of our projects.
-2. Clone repository that you want to use with `deploy`. Something like this:
+1. **variant 1 (UI):** Add new repository which needed to create your project: 
+   - open UI on `Git` page (http://localhost:9088/web/deploy)
+   - click `Add repository` button
+   - Now just write URL or SSH link (HTTPS `https://github.com/janson-git/deploy.git` or SSH `git@github.com:janson-git/deploy.git`) of your repository to input field and press the `Save` button 
+2. **OR variant 2 (terminal):** Go to `storage/repos` directory of your `deploy` app. This directory will contain local repositories of our projects. Clone repository that you want to use with `deploy`. Something like this:
    ```shell
    cd storage/repos
    git clone git@github.com:janson-git/deploy.git
    ```
-3. Ok. Now we can create new project for this repo form UI.
+3. If previous step finished successfully, we can create new project for this repo form UI.
 4. Open in browser http://localhost:9088/web/project and click `Create new project`
-5. Find your cloned project directory in `www/storage/repos`. Navigate by click on folder names.
-6. When you found it (you will see branches list on that page), mark `/www/storage/repos/deploy` with checkbox and click on `Build Project`
+5. Find your cloned project directory in directory navigator. Navigate by click on folder names.
+6. When you found it (you will see branches list on that page), mark folder with checkbox and click on `Build Project`
 7. Right after that click 'Save Project`
-8. And now you on your first Project page!
 
 
 #### CREATE PACK IN PROJECT
@@ -64,11 +66,11 @@ email = "deploy@local"
 ```
 
 1. Ok, click on `Create new pack` button on your Project page
-2. Now you need to set release branch name (`release` prefix is needed to allow push release branches to repository on github)
+2. Now you need to set release branch name
 3. For example, lets put `release-01` to pack name field
 4. Now check all branches that you want to add to your pack, and click `Save pack` button
-   Now app will fetch repository and create new release branch with name like `build-release_01-20230331-214701`
-   But it is empty branch (equal to `master`) without pack branches right now
+   Now app will fetch repository and create new local release branch with name like `build-release_01-20230331-214701`
+   But it is still empty branch (equal to `master`) without pack branches right now
 5. Click `Merge branches` button to start merging process. If CONFLICT happens - read `RESOLVING MERGE CONFLICTS` doc below
 6. When all is ok, you can push release branch to repository. Just click on `Push build to repository` button
 7. Check remote repository, and you will see new release branch!
@@ -97,9 +99,9 @@ What you can see here?
 - recommended name of merge-branch `merge-0331-task-yyy-to-master`
 - DIFF is showed for details
 
-Now you need to use git-kung-fu:
-1. create new merge-branch based on `master` (use name from conflict descriptions)
-2. merge `task-yyy` branch to that new merge-branch
+Now you need to use portion of git-kung-fu:
+1. create new merge-branch based on `master` (I recommend to use name from conflict descriptions: in this case you will see what branches is conflicted and merged for each merge-branch)
+2. merge `task-yyy` branch to that new merge-branch, you need to resolve conflicts on this step
 3. commit and push merge-branch to repository
 4. return to Pack page, click `Add branches` button, find your merge-branch in list and accept it to pack
 5. then on pack page click `Remove build` and after that - click `Merge branches` again
