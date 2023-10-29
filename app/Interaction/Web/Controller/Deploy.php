@@ -62,7 +62,7 @@ class Deploy extends AuthControllerProto
         // HTTPS url: https://github.com/janson-git/deploy.git
 
         $repoPath = $this->p('repository_path');
-        $repoPath = preg_replace('#[^a-zA-Z0-9:@./]#', '', $repoPath);
+        $repoPath = preg_replace('#[^a-zA-Z0-9:@./\-]#', '', $repoPath);
 
         $repoNameFull = mb_substr($repoPath, strrpos($repoPath, '/') + 1);
         $dirName = str_replace('.git', '', $repoNameFull);
