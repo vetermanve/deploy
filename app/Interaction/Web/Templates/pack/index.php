@@ -63,7 +63,10 @@ $this
                         <?php foreach ($checkPoint->getCommands() as $command): ?>
                             <a href="/web/command/?command=<?=$command->getId() ?>&context=<?=$command->getContext()->serialize() ?>"
                                class="pure-button <?= $command->isPrimary() ? 'btn-primary': '' ?> <?= $command->isDanger() ? 'btn-danger': '' ?> "
-                               <?= $command->isConfirmRequired() ? 'onclick="return confirm(\'Are you sure to '.$command->getHumanName().'?\')"' : '' ?>>
+                               <?= $command->isConfirmRequired()
+                                   ? 'onclick="return confirm(\'Are you sure to '.$command->getHumanName().'?\')"'
+                                   : 'onclick="$(this).addClass(\'btn-in-action\')"'
+                               ?>>
                                 <?= $command->getHumanName() ?>
                             </a><br>
                         <?php endforeach; ?>
@@ -127,6 +130,8 @@ $this
                        class="pure-button <?= $command->isDanger() ? 'btn-danger' : '' ?>"
                         <?php if(!empty($question['field']) && !empty($question['question'])): ?>
                             onclick="answer=prompt('<?= ($question['question'] ?? '')?>', '<?=($question['placeholder'] ?? '')?>');if(!answer)return false;document.getElementsByClassName('js-question-<?=$question['field']?>')[0].value=answer"
+                        <?php else: ?>
+                            onclick="$(this).addClass('btn-in-action')"
                         <?php endif; ?>
                     >
                         <?= $command->getHumanName() ?>
