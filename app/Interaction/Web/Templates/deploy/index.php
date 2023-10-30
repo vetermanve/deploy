@@ -4,21 +4,6 @@ $this->addBreadcrumb(
 );
 ?>
 
-<style>
-    .deploy td span {
-        display: block;
-    }
-
-    .deploy td {
-        vertical-align: top;
-    }
-    
-    hr {
-        border: 0;border-bottom: 1px solid #EEE
-    }
-
-</style>
-
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
@@ -29,7 +14,7 @@ $this->addBreadcrumb(
 
 <div class="pure-g">
     <div class="pure-u-1">
-        <table class="pure-table pure-table-bordered deploy">
+        <table class="pure-table pure-table-bordered shadowed">
             <thead>
             <tr>
                 <th>Name</th>

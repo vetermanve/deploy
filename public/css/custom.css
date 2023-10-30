@@ -1,9 +1,68 @@
+/***************************/
+/***** LAYOUT **************/
+#main {
+    background-color: #f1f5f9;
+    min-height: 100vh;
+}
+
 .right {
     float: right;
 }
 .left {
     float: left;
 }
+
+.pure-table {
+    background-color: #fff;
+}
+.pure-table td span {
+    display: block;
+}
+.pure-table td {
+    vertical-align: top;
+}
+.pure-table hr {
+    border: 0;border-bottom: 1px solid #eee;
+}
+
+/*** MAIN MENU ******/
+.pure-menu ul li i {
+    width: 1.2em;
+    font-size: 15px;
+}
+
+
+#logs-toggle-button {
+    cursor: pointer;
+    color: #000;
+    background-color: #ddd;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    border: #666 dashed 1px;
+}
+
+#logs-container {
+    display: none;
+    background-color: #ddd;
+    border: #666 dashed 1px;
+    padding: 5px 10px;
+}
+
+.header h2 {
+    color: #999;
+}
+
+.top-page-nav {
+    padding-bottom: 1em;
+}
+
+.shadowed {
+    box-shadow: 0 9px 15px rgba(0,0,0,0.2);
+}
+
+/***************************/
+/***** ANIMATIONS **********/
 
 .blink_me {
     -webkit-animation-name: blinker;
@@ -67,32 +126,6 @@
     animation: spinner .6s linear infinite;
 }
 /******** END OF SPINNER ************/
-
-
-#logs-toggle-button {
-    cursor: pointer;
-    color: #000;
-    background-color: #ddd;
-    margin-top: 20px;
-    margin-bottom: 5px;
-    padding: 5px 10px;
-    border: #666 dashed 1px;
-}
-
-#logs-container {
-    display: none;
-    background-color: #ddd;
-    border: #666 dashed 1px;
-    padding: 5px 10px;
-}
-
-.header h2 {
-    color: #999;
-}
-
-.top-page-nav {
-    padding-bottom: 1em;
-}
 
 /*******************/
 /*** BREADCRUMBS ***/
@@ -165,19 +198,12 @@
 }
 
 /********************/
-/*** MAIN MENU ******/
-
-.pure-menu ul li i {
-    width: 1.2em;
-    font-size: 15px;
-}
-
-/********************/
 /*** PROJECT CARD ***/
 
 .project-card,
 .pack-card {
     width: 90%;
+    background-color: #fff;
     border-top: 5px solid rgb(0, 120, 231);
     border-radius: 0 0 10px 10px;
     padding: 15px;

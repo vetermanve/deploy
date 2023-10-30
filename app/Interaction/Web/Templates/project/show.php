@@ -35,9 +35,10 @@ $this
 <div class="pure-g">
 
     <div class="pure-u-1">
+        <h3><?= __('packs') ?></h3>
+        
         <div class="pure-g">
-            <div class="pure-u-md-1-2 pure-u-xl-2-3">
-                <h3><?= __('packs') ?></h3>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-xl-2-3">
                 <?php foreach ($packs as $pack): ?>
                     <div class="pure-u-1 pack-card">
                         <div>

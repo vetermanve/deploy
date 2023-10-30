@@ -75,9 +75,9 @@ $this
             <?php endforeach; ?>
         </div>
     </div>
-    
+
+    <?php if (env('ENABLE_DEPLOY')): ?>
     <div class="pure-u-1 pure-u-md-1-3 bset">
-        <?php if (env('ENABLE_DEPLOY')): ?>
         <h3><?= __('deploy') ?></h3>
         <?php if ($lastCheckpoint = $pack->getLastCheckPoint()): ?>
             <div><?= $lastCheckpoint->getName() ?></div>
@@ -90,8 +90,8 @@ $this
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
-        <?php endif; ?>
     </div>
+    <?php endif; ?>
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
         <h3><?= __('branches') ?> (<?= count($branches) ?>)</h3>

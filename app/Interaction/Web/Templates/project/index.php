@@ -32,7 +32,7 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                     <?php foreach ($branchSets[$id] as $packId => $branchData): ?>
                     <div class="pure-u-1 dataset-item">
                         <div>
-                            <a href="/web/pack/<?= $packId ?>" class="pure-button btn-secondary-outline">
+                            <a href="/web/pack/<?= $packId ?>" class="pure-button btn-secondary-outline btn-s">
                                 <?= $branchData['name'] ?? $packId; ?>
                             </a>
                             <?php $count = isset($branchData['branches']) ? count($branchData['branches']) : 0; ?>
