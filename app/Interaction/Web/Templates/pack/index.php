@@ -56,7 +56,7 @@ $this
         <h3><?= __('builds') ?></h3>
         <div class="pure-g">
             <?php foreach ($pack->getCheckPoints() as $cpId => $checkPoint): ?>
-                <div class="pure-u-1 pure-u-lg-1-2 pure-u-xl-1-3">
+                <div class="pure-u-1 pure-u-lg-1-2 pure-u-xl-1-3 build-card">
                     <div>
                         <div><?= $cpId ?></div>
                         <div class="separator"></div>
@@ -94,7 +94,7 @@ $this
     <?php endif; ?>
     
     <div class="pure-u-1 pure-u-md-2-3 bset">
-        <h3><?= __('branches') ?> (<?= count($branches) ?>)</h3>
+        <h3><?= __('branches_in_pack') ?> (<?= count($branches) ?>)</h3>
         <a href="/web/branches/addBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button btn-primary">Add branches</a>
         <a href="/web/branches/removeBranch/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Remove branches</a>
         <a href="/web/branches/forkPack/<?= $pId ?>?packId=<?= $id ?>" class="pure-button ">Fork pack</a>

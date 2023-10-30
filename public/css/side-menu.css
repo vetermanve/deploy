@@ -1,7 +1,3 @@
-body {
-    color: #777;
-}
-
 .pure-img-responsive {
     max-width: 100%;
     height: auto;
@@ -85,7 +81,7 @@ The content `<div>` is where all your content goes.
  }
     .header h1 {
         margin: 0.2em 0;
-        font-size: 3em;
+        font-size: 2.5em;
         font-weight: 300;
     }
      .header h2 {

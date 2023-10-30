@@ -1,5 +1,9 @@
 /***************************/
 /***** LAYOUT **************/
+body {
+    color: #777;
+}
+
 #main {
     background-color: #f1f5f9;
     min-height: 100vh;
@@ -49,6 +53,12 @@
     padding: 5px 10px;
 }
 
+.header h1 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    text-align: start;
+}
+
 .header h2 {
     color: #999;
 }
@@ -59,6 +69,16 @@
 
 .shadowed {
     box-shadow: 0 9px 15px rgba(0,0,0,0.2);
+}
+
+/*** AWESOME FONT ICONS MARGINS ***/
+.header h1 i {
+    margin-right: 0.4em;
+}
+h1 i,
+.pure-button i,
+.pack-link i {
+    margin-right: 0.2em;
 }
 
 /***************************/
@@ -201,14 +221,26 @@
 /*** PROJECT CARD ***/
 
 .project-card,
-.pack-card {
-    width: 90%;
+.pack-card,
+.build-card {
     background-color: #fff;
-    border-top: 5px solid rgb(0, 120, 231);
+    border-top: 5px solid #07e;
     border-radius: 0 0 10px 10px;
     padding: 15px;
     margin: 10px auto 25px;
     box-shadow: 0 9px 15px rgba(0,0,0,0.2);
+}
+.project-card {
+    width: 90%;
+    border-top: 5px solid #0a0;
+}
+.pack-card {
+    width: 90%;
+    border-top: 5px solid #07e;
+}
+.build-card {
+    border-top: 5px solid #99a;
+    margin: 5px 10px;
 }
 .project-card h1,
 .pack-card h1 {
@@ -234,7 +266,17 @@
     padding: 0.3em;
 }
 .dataset-item a {
-    margin-right: 5px;
+    margin-right: 0.5em;
+}
+
+.pack-link {
+    color: #679;
+    margin-right: 0.5em;
+    text-decoration: none;
+}
+.pack-link:hover {
+    color: #346;
+    text-decoration: underline;
 }
 
 /********************************/
@@ -244,6 +286,7 @@
 .tool {
     cursor: help;
     position: relative;
+    color: #666;
 }
 /*== common styles for both parts of tool tip ==*/
 .tool::before,

@@ -13,6 +13,7 @@
     <title><?= $_identify ?? '' ?> Config Server</title>
 
     <link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/fontawesome/css/regular.css" rel="stylesheet">
     <link href="/fontawesome/css/solid.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/pure-min.css">

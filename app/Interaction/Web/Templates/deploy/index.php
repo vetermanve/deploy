@@ -7,7 +7,7 @@ $this->addBreadcrumb(
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
-            <a href="/web/deploy/showAddRepositoryForm" class="pure-button btn-primary"><?= __('add_repository') ?></a>
+            <a href="/web/deploy/showAddRepositoryForm" class="pure-button btn-primary-outline"><?= __('add_repository') ?></a>
         </section>
     </div>
 </div>

@@ -11,7 +11,7 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
 
 <div class="pure-g">
     <div class="pure-u-1">
-        <a href="/web/navigator/" class="pure-button btn-primary"><?= __('create_project') ?></a>
+        <a href="/web/navigator/" class="pure-button btn-primary-outline"><?= __('create_project') ?></a>
     </div>
 
     <div class="pure-u-md-1-2 pure-u-xl-2-3">
@@ -23,7 +23,7 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                     $val = trim($val, '/');
                 });
                 ?>
-                <h1><?= __('project') ?>: <a href="/web/project/show/<?= $id ?>"><?= implode(', ', $dirs); ?></a></h1>
+                <h1><i class="fa-solid fa-folder"></i> <a href="/web/project/show/<?= $id ?>"><?= implode(', ', $dirs); ?></a></h1>
                 
                 <div class="pure-g">
                 <?php if (isset($branchSets[$id])): ?>
@@ -32,8 +32,8 @@ $this->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                     <?php foreach ($branchSets[$id] as $packId => $branchData): ?>
                     <div class="pure-u-1 dataset-item">
                         <div>
-                            <a href="/web/pack/<?= $packId ?>" class="pure-button btn-secondary-outline btn-s">
-                                <?= $branchData['name'] ?? $packId; ?>
+                            <a href="/web/pack/<?= $packId ?>" class="pack-link">
+                                <span class="icon-border"><i class="fa-regular fa-file-lines"></i></span> <?= $branchData['name'] ?? $packId; ?>
                             </a>
                             <?php $count = isset($branchData['branches']) ? count($branchData['branches']) : 0; ?>
                             <?php if ($count > 0): ?>

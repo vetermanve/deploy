@@ -44,12 +44,12 @@ $this
                         <div>
                             <?php $branches = $pack->getBranches() ?>
 
-                            <a href="/web/pack/<?=$pack->getId() ?>" class="pure-button btn-secondary-outline">
-                                <?=$pack->getName() ?>
+                            <a href="/web/pack/<?=$pack->getId() ?>" class="pack-link">
+                                <i class="fa-regular fa-file-lines"></i> <?=$pack->getName() ?>
                             </a>
 
                             <a href="<?=$pack->prepareCommand(new \Commands\Command\Pack\RemovePackWithData)->getLink() ?>"
-                               class="pure-button btn-danger-outline right"
+                               class="pure-button btn-danger-outline btn-s right"
                                onclick="return confirm('Do you really want delete pack?')">
                                 <?= __('delete') ?>
                             </a>

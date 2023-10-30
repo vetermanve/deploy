@@ -50,7 +50,7 @@ class PackController extends AuthControllerProto
     
     public function index()
     {
-        $this->setTitle(__('pack') . " '{$this->pack->getName()}'");
+        $this->setTitle('<i class="fa-solid fa-file-lines"></i>' . __('pack') . " '{$this->pack->getName()}'");
         $node = $this->pack->getNode();
         $packReposByBranches = $node->getToMasterStatus($this->pack->getBranches());
 
