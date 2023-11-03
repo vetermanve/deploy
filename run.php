@@ -67,15 +67,13 @@ try {
         return new \User\Auth();
     };
 
-//    $app->add(new \App\Http\Middleware\HandleRequestToRoute());
-
     // NEW ROUTES HERE!
     // TODO: можно отрефакторить и назначать через хелпер в стиле ларавеля
     $app->get(
         '/projects[/]',
 //        new \App\Http\Middleware\HandleRequestToRoute(),
         [new \App\Http\Controller\ProjectsController(), 'index']
-    );//->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+    );
 
 //    $app->map(
 //        '/projects((/):id)',
@@ -101,7 +99,12 @@ try {
     $app->run();
 
 } catch (\Exception $e) {
-    echo 'GFGF';
+    echo '<pre>';
+    echo "ERROR!\n";
+    echo 'Exception: ' . $e->getMessage() . " in {$e->getFile()} on {$e->getLine()}" . PHP_EOL;
+    echo "\n";
+    echo $e->getTraceAsString();
+    echo '</pre>';
     echo $app->getContainer()->get('response')->getBody();
     exit;
 }
