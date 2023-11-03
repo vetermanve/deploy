@@ -13,21 +13,26 @@ class AuthControllerProto extends ControllerProto
     {
         $data = (new Data('user'))->readCached();
 
+        /** @var \User\Auth $auth */
+        $auth = $this->app->getContainer()->get('auth');
+        /** @var \Slim\Http\Response $response */
+        $response = $this->app->getContainer()->get('response');
+
         if(!$data && empty($data)){
-            $this->app->auth->setToken(\User\Auth::USER_ANONIM_TOKEN);
+            $auth->setToken(\User\Auth::USER_ANONIM_TOKEN);
         } else {
-            $this->app->auth->setToken($this->app->getCookie('tkn'));
+            $auth->setToken($this->app->getRequest()->getCookieParam('tkn'));
         }
 
-        $this->app->auth->loadUser();
-        $this->app->auth->setUser($this->app->auth->getUser());
+        $auth->loadUser();
+        $auth->setUser($auth->getUser());
 
-        if (!$this->app->auth->getUserId()) {
-            $this->app->redirect('/web/auth/login');
+        if (!$auth->getUserId()) {
+            $response->redirect('/web/auth/login');
         }
 
         if (!$this->isEnabled()) {
-            $this->app->redirect('/web/errors/403');
+            $response->redirect('/web/errors/403');
             return;
         }
 

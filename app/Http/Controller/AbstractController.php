@@ -1,25 +1,27 @@
 <?php
 
-namespace Interaction\Base\Controller;
+namespace App\Http\Controller;
 
-abstract class ControllerProto
+abstract class AbstractController
 {
     protected $controller;
     protected $action;
     protected $template;
     protected $isJson = false;
     
-    /**
-     * @var \Admin\App
-     */
+    /** @var \Admin\App */
     protected $app;
+
+    /** @var \Admin\DoView */
+    protected $view;
     
     /**
      * ControllerProto constructor.
      */
-    public function __construct()
+    public function __construct($param = null)
     {
         $this->app = \Admin\App::getInstance();
+        $this->view = $this->app->getContainer()->get('view');
     }
     
     private function _beforeAll()
@@ -74,8 +76,7 @@ abstract class ControllerProto
         
         $tpl = $tpl ?: $this->template;
 
-//        $this->app->view()->setTemplatesDirectory();
-        $this->app->view()->oldRender($this->controller . '/' . $tpl, $data);
+        $this->view->render($this->controller . '/' . $tpl, $data);
         return;
     }
     
@@ -107,11 +108,13 @@ abstract class ControllerProto
     
     public function p($name, $default = null)
     {
-        if ($name == 'id' && $this->app->itemId) {
-            return $this->app->itemId;
+//        var_dump($this->app->request());exit;
+        $res = $this->app->request->get($name, null);
+        if ($res !== null) {
+            return $res;
         }
-
-        return $this->app->getRequest()->getParam($name, $default);
+        
+        return $this->app->request->post($name, $default);
     }
     
     /**
@@ -132,11 +135,11 @@ abstract class ControllerProto
     
     public function setTitle($title)
     {
-        $this->app->view()->setHeader('<span style="color: red; margin: 0 10px;" title="THIS PAGE HANLDED IN OBSOLETE CONTROLLER!">!</span>' . $title);
+        $this->view->setHeader($title);
     }
     
     public function setSubTitle($subTitle)
     {
-        $this->app->view()->setTitle('OLD!' . $subTitle);
+        $this->view->setTitle($subTitle);
     }
 }

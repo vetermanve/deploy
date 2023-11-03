@@ -22,7 +22,7 @@ class CommandController extends AuthControllerProto
     {
         $command       = $this->p('command');
         $contextString = $this->p('context');
-        $userData      = $this->app->request->get('userData');
+        $userData      = $this->p('userData');
 
         $this->context = new CommandContext();
         $this->context->deserialize($contextString);

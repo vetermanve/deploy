@@ -24,7 +24,7 @@ class MenuItem
     public function isSelected(): bool
     {
         $isSelected = false;
-        $currentPath = request()->getPathInfo();
+        $currentPath = \Admin\App::getInstance()->getRequest()->getUri()->getPath();
         if ($currentPath === $this->route) {
             return true;
         }
@@ -36,6 +36,10 @@ class MenuItem
             }
 
             // check pattern as regex
+            if (substr($pattern, 0, 1) !== substr($pattern, -1)) {
+                // this is not regex string. Skip it!
+                continue;
+            }
             if (preg_match($pattern, $currentPath)) {
                 $isSelected = true;
                 break;

@@ -3,7 +3,7 @@
 /*
  * This file is part of Slim HTTP Basic Authentication middleware
  *
- * Copyright (c) 2013-2015 Mika Tuupola
+ * Copyright (c) 2013-2016 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -15,7 +15,9 @@
 
 namespace Slim\Middleware\HttpBasicAuthentication;
 
+use Psr\Http\Message\RequestInterface;
+
 interface RuleInterface
 {
-    public function __invoke(\Slim\Slim $app);
+    public function __invoke(RequestInterface $request);
 }

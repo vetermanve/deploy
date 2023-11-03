@@ -6,7 +6,8 @@
 #
 #
 
-FROM php:7.2-fpm
+#FROM php:7.2-fpm
+FROM php:8.1-fpm
 
 #
 #--------------------------------------------------------------------------
@@ -41,7 +42,7 @@ RUN echo "docker-php-ext-install"     && \
 #    docker-php-ext-install pdo_pgsql  && \
 #    docker-php-ext-install pgsql      && \
 #    docker-php-ext-install sockets    && \
-	docker-php-ext-install zip        && \
+#	docker-php-ext-install zip        && \
     pecl install -o -f amqp      && docker-php-ext-enable amqp && \
     pecl install -o -f redis     && docker-php-ext-enable redis     && \
 #    pecl install -o -f xdebug    && \

@@ -19,7 +19,7 @@ class User extends AuthControllerProto
     {
         parent::before();
 
-        $this->userId = $this->app->auth->getUserLogin();
+        $this->userId = $this->app->getAuth()->getUserLogin();
         if (!$this->userId || $this->app->auth->isAnonim()) {
             $this->app->response->redirect('/web/project/');
         }
@@ -33,7 +33,7 @@ class User extends AuthControllerProto
     public function indexAction () 
     {
         $this->setTitle($this->app->auth->getUserName());
-        $this->setSubTitle('@' . $this->app->auth->getUserLogin());
+        $this->setSubTitle('@' . $this->app->getAuth()->getUserLogin());
 
         $projects = [];
         $userData = [];
@@ -47,7 +47,7 @@ class User extends AuthControllerProto
                 $this->packsData[$projectId][$packId] = (isset($scope['name']))?$scope['name']:'NoName';
                 
                 foreach ($scope['branches'] as $branch) {
-                    if (stristr($branch, $this->app->auth->getUserLogin())) {
+                    if (stristr($branch, $this->app->getAuth()->getUserLogin())) {
                         $userData[$projectId][$branch][$packId] = $scope['name'];
                     }
                 }
@@ -69,7 +69,7 @@ class User extends AuthControllerProto
             $branches[$projectId] = $project->getNode()->subLoad()->loadRepos()->loadBranches()->getRepoDirsByBranches();
             $projectsData[$project->getId()] = $project->getName();
             foreach ($branches[$projectId] as $branch => $repo) {
-                if (!stristr($branch, $this->app->auth->getUserLogin())) {
+                if (!stristr($branch, $this->app->getAuth()->getUserLogin())) {
                     unset($branches[$projectId][$branch]);
                 }
             }
@@ -84,7 +84,7 @@ class User extends AuthControllerProto
             'branches' => $branches,
             'branchesProjData' => $branchesDataByUserProjects,
             'branchesPackData' => $branchesDataByUserPacks,
-            'sshKeyUploaded' => file_exists('ssh_keys/'. $this->app->auth->getUserLogin()),
+            'sshKeyUploaded' => file_exists('ssh_keys/'. $this->app->getAuth()->getUserLogin()),
         ]);
     }
     
@@ -97,7 +97,7 @@ class User extends AuthControllerProto
         if ($this->app->request->isPost()) {
             $key = $this->p('key');
             $key = str_replace("\r\n", "\n", trim($key))."\n";
-            $filename = 'ssh_keys/'. $this->app->auth->getUserLogin();
+            $filename = 'ssh_keys/'. $this->app->getAuth()->getUserLogin();
 
             if ($key && file_put_contents($filename, $key) !== false) {
                 chmod($filename, 0600);

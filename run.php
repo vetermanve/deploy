@@ -6,23 +6,42 @@ if ($_SERVER['REQUEST_URI'] === '/ping') {
     exit(0);
 }
 
-define('PRODUCTION', true);
-define('ROOT_DIR', __DIR__);
-define('STORAGE_DIR', __DIR__ . '/storage');
-define('REPOS_DIR', __DIR__ . '/storage/repos');
+const PRODUCTION = true;
+const ROOT_DIR = __DIR__;
+const SSH_KEYS_DIR = __DIR__ . '/ssh_keys';
+const STORAGE_DIR = __DIR__ . '/storage';
+const REPOS_DIR = __DIR__ . '/storage/repos';
+const SANDBOX_DIR = __DIR__ . '/storage/sandbox';
 
 require_once('app/helpers.php');
 require_once('debug.php');
 ini_set('date.timezone', 'UTC');
 
+/** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require 'vendor/autoload.php';
 $loader->add('', 'app/');
+$loader->addPsr4('App\\', 'app/');
 
-$app = new \Admin\App(array(
-    'view' => (new \Admin\DoView()),
-));
+//$container['view'] = new \Slim\Views\PhpRenderer('../templates/');
+$app = new \Admin\App([
+        'settings' => [
+            'displayErrorDetails' => true,
+        ],
+]);
 
-$app->view()->setApp($app);
+$renderer = new \Slim\Views\PhpRenderer('./app/Http/View', [], 'layout.php');
+$bladeRenderer = new \eftec\bladeone\BladeOne(
+    './app/Http/View',
+    STORAGE_DIR . '/cache/compiles');
+
+
+$container = $app->getContainer();
+$container['renderer'] = $renderer;
+$container['blade'] = $bladeRenderer;
+
+$view = new \Admin\DoView();
+$view->setApp($app);
+$container['view'] = $view;
 
 try {
     // BASIC AUTH
@@ -43,20 +62,46 @@ try {
     }
 
     // Define auth resource
-    $app->container->singleton('auth', function () {
+    $container = $app->getContainer();
+    $container['auth'] = function () {
         return new \User\Auth();
-    });
+    };
 
-    $app->map('/(:module(/)(:controller(/)(:action(/))(:id)))', [$app, 'doRoute'])
-        ->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+//    $app->add(new \App\Http\Middleware\HandleRequestToRoute());
 
-    $app->notFound(function () use ($app) {
-        echo $app->request->getResourceUri() . ' not found';
+    // NEW ROUTES HERE!
+    // TODO: можно отрефакторить и назначать через хелпер в стиле ларавеля
+    $app->get(
+        '/projects[/]',
+//        new \App\Http\Middleware\HandleRequestToRoute(),
+        [new \App\Http\Controller\ProjectsController(), 'index']
+    );//->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+
+//    $app->map(
+//        '/projects((/):id)',
+////        new \App\Http\Middleware\HandleRequestToRoute(),
+//        [new \App\Http\Controller\ProjectsController(), 'show']
+//    )->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+
+
+    // OLD COMMON ROUTE FOR ALL
+//    $app->map('/(:module(/)(:controller(/)(:action(/))(:id)))', [$app, 'doRoute'])
+//        ->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+    $app->any('/[{module}[/[{controller}[/[{action}[/[{id}]]]]]]]', function ($request, $response, $args) use ($app) {
+        $callable = [$app, 'doRoute'];
+
+        call_user_func($callable, ...$args);
     });
+//    $app->any('/(:module(/)(:controller(/)(:action(/))(:id)))', [$app, 'doRoute']);
+
+//    $app->notFound(function () use ($app) {
+//        echo $app->request->getResourceUri() . ' not found';
+//    });
 
     $app->run();
 
 } catch (\Exception $e) {
-    echo $app->response()->getBody();
+    echo 'GFGF';
+    echo $app->getContainer()->get('response')->getBody();
     exit;
 }

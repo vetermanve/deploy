@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Slim\Http\Request;
+
+class HandleRequestToRoute extends \Slim\Middleware {
+    public function call()
+    {
+//        $this->next->call();
+//        $route = $this->app->router->getCurrentRoute();
+//
+//        list($controller, $action) = $route->getCallable();
+//var_dump($action);exit;
+//        if ($controller instanceof \App\Http\Controller\AbstractController) {
+//            $controllerClass = get_class($controller);
+//            $controllerViewsDir = substr( $controllerClass, strrpos($controllerClass, '\\') + 1 );
+//            $controllerViewsDir = str_replace('Controller', '', $controllerViewsDir);
+//
+//            $app = $controller->getApp();
+//            $app->view()->setTemplatesDirectory('app/Http/View');
+//
+//            $params = $route->getParams();
+//            if ($params) {
+//                $env = $app->environment();
+//                $env['slim.input_original'] = $env['slim.input'];
+//var_dump($env);
+//                $input = $env['slim.input'];
+//                var_dump($input);exit;
+//                foreach ($params as $k => $v) {
+//                   $input[$k] = $v;
+//                }
+//                $env['slim.input'] = $input;
+//            }
+//
+//            $controller->setApp($app);
+//            $controller->setAction($action);
+//            $controller->setController(strtolower($controllerViewsDir));
+//
+//            // TODO: проверить как параметры обрабатываются и пробрасываются
+//            // TODO: возможно просто в контроллер вбрасывать Request
+//
+//            $route->setCallable([$controller, 'run']);
+//        }
+    }
+}
+

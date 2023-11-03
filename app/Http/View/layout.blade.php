@@ -1,12 +1,10 @@
 <?php
+    /** @var \Admin\DoView $view */
+    /** @var \Slim\Http\Request $request */
+    $currentPath = $request->getUri()->getPath();
 /**
- * @var $data \Slim\Helper\Set
  * @var $user array
- * @var $this \Admin\DoView
  */
-
-$currentPath = $this->app->getRequest()->getUri()->getPath();
-
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -37,9 +35,9 @@ $currentPath = $this->app->getRequest()->getUri()->getPath();
     <div id="menu">
 <!--        <span id="loader"></span>-->
         <div class="pure-menu pure-menu-open">
-            <a class="pure-menu-heading" href="<?= $user['url'] ?>"><?= $user['id'] ?></a>
+            <a class="pure-menu-heading" href="<?= isset($user) ? $user['url'] : '' ?>"><?= isset($user) ? $user['id'] : '' ?></a>
             <ul>
-                <?php foreach ( $data['mainMenu'] as $menuItem): ?>
+                <?php foreach ( $mainMenu as $menuItem): ?>
                 <?php /** @var $menuItem \Service\Menu\MenuItem */ ?>
                 <li <?= $menuItem->isSelected() ? 'class="pure-menu-selected"' : '' ?>>
                     <a href="<?=$menuItem->route ?>">
@@ -63,13 +61,13 @@ $currentPath = $this->app->getRequest()->getUri()->getPath();
     <div id="main">
 
         <div class="breadcrumbs pure-g">
-            <?php if ( $data['breadcrumbs'] ): ?>
+            <?php if ( $view->hasBreadcrumbs() ): ?>
             <div class="pure-u-4-5">
                 <ul>
-                    <?php foreach ($data['breadcrumbs'] as $item): ?>
+                    <?php foreach ($view->getBreadcrumbs() as $item): ?>
                     <?php /** @var $item \Service\Breadcrumbs\Breadcrumb */ ?>
                     <li>
-                        <?= $item->url !== null && $item->url !== $currentPath ? "<a href=\"{$item->url}\">" : '<span>' ?>
+                        <?= $item->url !== null && $item->url !== $request->getUri()->getPath() ? "<a href=\"{$item->url}\">" : '<span>' ?>
                             <?php if ($item->iconClass): ?>
                             <i class="<?= $item->iconClass ?> icon"></i>
                             <?php endif; ?>
@@ -88,20 +86,21 @@ $currentPath = $this->app->getRequest()->getUri()->getPath();
         <div class="breadcrumbs-placeholder pure-u-1"></div>
 
 
-        <?php if( $data['header'] ||  $data['title']): ?>
+        <?php if ( $header ||  $title): ?>
         <div class="header">
-            <?php if( $data['header']): ?>
-                <h1><?= $data['header'] ?></h1>
+            <?php if ( $header): ?>
+                <h1><?= $header ?></h1>
             <?php endif; ?>
-            <?php if( $data['title']): ?>
-                <h2><?= $data['title'] ?></h2>
+            <?php if ( $title ): ?>
+                <h2><?= $title ?></h2>
             <?php endif; ?>
         </div>
         <?php else : ?>
             <br/>
         <?php endif; ?>
         <div class="content" style="color:#111111;">
-            <?= $data['content']; ?>
+
+            @yield('content')
 
             <?php if (isset($_logs)): ?>
                 <button id="logs-toggle-button">

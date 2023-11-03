@@ -74,7 +74,8 @@ class Pack
         if ($workingDirectory) {
             $this->cwd = $workingDirectory;
         } else {
-            $this->cwd = (new Data('navigator'))->readCachedIdAndWriteDefault('sandbox', dirname(getcwd()));
+            $this->cwd = (new Data('navigator'))
+                ->readCachedIdAndWriteDefault('sandbox', SANDBOX_DIR);
         }
     }
     
@@ -87,8 +88,15 @@ class Pack
         }
         
         $projectDir = $this->getProject()->getNameQuoted();
-        
-        return $this->cwd . DIRECTORY_SEPARATOR . self::DIR . DIRECTORY_SEPARATOR . $projectDir . DIRECTORY_SEPARATOR . $name;
+        $projectRelativePath = DIRECTORY_SEPARATOR . $projectDir . DIRECTORY_SEPARATOR . $name;
+
+        if (strrpos($this->cwd, 'sandbox') === 0) {
+            // new format of sandbox path
+            return $this->cwd . $projectRelativePath;
+        }
+
+        // old format of sandbox path
+        return $this->cwd . DIRECTORY_SEPARATOR . self::DIR . $projectRelativePath;
     }
     
     public function prepareCommand (CommandProto $command) 
@@ -193,7 +201,7 @@ class Pack
     {
         $this->data  = (new Data(App::DATA_PACKS))->setReadFrom(__METHOD__)->readCached()[$this->id];
         $this->projectId = $this->data['pack'];
-    
+
         $this->project = new Project($this->projectId);
         $this->project->init();
     
@@ -220,7 +228,7 @@ class Pack
     public function initRepos()
     {
         $path = $this->getPath();
-        
+
         try {
             if (!file_exists($path)) {
                 mkdir($path, 0774, true);
@@ -255,7 +263,7 @@ class Pack
         foreach ($this->repos as $repo) {
             $branchesByProject[] = $repo->getBranches();
         }
-    
+
         if (count($branchesByProject) > 1) {
             $commonLocalBranches = call_user_func_array('array_intersect', $branchesByProject);    
         } else if($branchesByProject) {

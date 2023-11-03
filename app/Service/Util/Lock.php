@@ -43,7 +43,7 @@ class Lock
     {
         Fs::i()->ensureDir('locks');
         $this->name   = preg_replace('/\W+/', '_', $name);
-        $this->owner  = App::i()->auth->getUserLogin();
+        $this->owner  = App::i()->getAuth()->getUserLogin();
         $this->ttl    = $ttl;
         $this->reason = $reason;
     }

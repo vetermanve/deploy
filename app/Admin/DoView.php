@@ -2,28 +2,58 @@
 
 namespace Admin;
 
+use eftec\bladeone\BladeOne;
+use Psr\Http\Message\ResponseInterface;
 use Service\Breadcrumbs\Breadcrumb;
 use Service\Menu\MenuItem;
-use \Slim\View;
+use Slim\Container;
+use Slim\Http\Response;
+use Slim\Views\PhpRenderer;
 
-class DoView extends View
+
+class DoView
 {
-    /** @var App */
-    private $app;
-    
+    /** @var \Admin\App */
+    protected $app;
+
+    /** @var PhpRenderer */
+    protected $renderer;
+
+    /** @var BladeOne */
+    protected $blade;
+
+    /** @var array|Breadcrumb[] */
+    protected $breadcrumbs = [];
+
+    /** @var string */
+    protected $templatesDir;
+
+    protected $data = [];
+
     /**
      * @param mixed $app
      */
-    public function setApp($app)
+    public function setApp(\Admin\App $app)
     {
         $this->app = $app;
+        $this->renderer = $app->getContainer()->get('renderer');
+
+        $this->data['header'] = null;
+        $this->data['title'] = null;
+//        $this->renderer->addAttribute('header', null);
+//        $this->renderer->addAttribute('title', null);
+
+        $this->blade = $app->getContainer()->get('blade');
     }
     
     protected function loadMenu()
     {
+        $container = $this->app->getContainer();
+
         $menu = [];
 
-        $projectsItem = new MenuItem(__('menu.projects'), '/web/project', [
+        $projectsItem = new MenuItem(__('menu.projects'), '/projects', [
+            '/projects',
             '#/web/project/*#',
             '#/web/pack/*#',
             '#/web/branches/addBranch#',
@@ -45,7 +75,7 @@ class DoView extends View
         $gitItem->setIconClass('fa-solid fa-code-branch');
         $menu[] = $gitItem;
 
-        if ($this->app->auth->isAuth()) {
+        if ($container->get('auth')->isAuth()) {
             $itemProfile = new MenuItem('Profile &#128057;', '/web/user', ['#web/user/*#']);
             $itemProfile->setIconClass('fa-solid fa-user');
 
@@ -58,47 +88,145 @@ class DoView extends View
             $menu[] = new MenuItem(__('login'), '/web/auth/login');
         }
         
-        $this->set('mainMenu', $menu);
+        $this->data['mainMenu'] = $menu;
+//        $this->renderer->addAttribute('mainMenu', $menu);
     }
     
-    public function setHeader($text)
+    public function setHeader($text): self
     {
-        $this->set('header', $text);
+        $this->data['header'] = $text;
+        $this->renderer->addAttribute('header', $text);
         
         return $this;
     }
     
-    public function setTitle($text)
+    public function setTitle($text): self
     {
-        $this->set('title', $text);
+        $this->data['title'] = $text;
+        $this->renderer->addAttribute('title', $text);
         
         return $this;
     }
-    
-    protected function render($template, $data = null)
+
+    public function render($template, $data = null): ResponseInterface
     {
-        $content = $this->subRender($template, $data);
-        
-        $layout = clone $this;
-        $layout->set('_identify', $this->app->getIdentify());
-        $layout->set('content', $content);
-        $layout->set('user', [
-            'id' => $this->app->auth->getUserLogin(),
+        // TODO: попрообовать заюзать BLADE ($this->blade) для рендера шаблонов
+        $container = $this->app->getContainer();
+
+        $this->renderer->addAttribute('view', $this);
+        $this->renderer->addAttribute('_identify', $this->app->getIdentify());
+        $this->renderer->addAttribute('user', [
+            'id' => $container->get('auth')->getUserLogin(),
             'url' => '/web/user',
         ]);
-        
+
         $this->loadMenu();
-        
+
+//        $layout->set('_identify', $this->app->getIdentify());
+//        $layout->set('content', $content);
+//        $layout->set('user', [
+//            'id' => $this->app->auth->getUserLogin(),
+//            'url' => '/web/user',
+//        ]);
+//
+//        $this->loadMenu();
+//
+//        if ($this->app->debug) {
+//            $data['_logs'] = $this->app->getLogs();
+//        }
+
+
+        $data = array_merge($this->renderer->getAttributes(), $data, $this->data);
+
+        $output = $this->blade->run($template, $data);
+
+        /** @var \Slim\Http\Response Response $response */
+        $response = $container->get('response');
+//        var_dump($response);exit;
+        $response->write($output);
+
+        return $response;
+
+        return $this->renderer->render(
+            $container->get('response'),
+            $template,
+            $data
+        );
+
+//        $content = $this->subRender($template, $data);
+//
+//        $layout = clone $this;
+//        $layout->set('_identify', $this->app->getIdentify());
+//        $layout->set('content', $content);
+//        $layout->set('user', [
+//            'id' => $this->app->auth->getUserLogin(),
+//            'url' => '/web/user',
+//        ]);
+//
+//        $this->loadMenu();
+//
+//        if ($this->app->debug) {
+//            $data['_logs'] = $this->app->getLogs();
+//        }
+//
+//        return $layout->subRender('layout/main', $data);
+    }
+
+    public function oldRender($template, $data = null)
+    {
+        $content = $this->subRender($template, $data);
+
+        $layout = clone $this;
+        $data['_identify'] = $this->app->getIdentify();
+        $data['content'] = $content;
+        $data['user'] = [
+            'id' => $this->app->getAuth()->getUserLogin(),
+            'url' => '/web/user',
+        ];
+//        $layout->set('_identify', $this->app->getIdentify());
+//        $layout->set('content', $content);
+//        $layout->set('user', [
+//            'id' => $this->app->auth->getUserLogin(),
+//            'url' => '/web/user',
+//        ]);
+
+        $this->loadMenu();
+        $data['mainMenu'] = $this->data['mainMenu'];
+        $data['breadcrumbs'] = $this->breadcrumbs;
+
         if ($this->app->debug) {
             $data['_logs'] = $this->app->getLogs();
         }
-        
-        return $layout->subRender('layout/main', $data);
+
+        echo $layout->subRender('layout/main', $data);
     }
-    
+
     public function subRender($template, $data)
     {
-        return parent::render("{$template}.php", $data);
+        if (strrpos($template, '.php') !== 0) {
+            $template .= '.php';
+        }
+
+        $templatePathname = $this->templatesDir . DIRECTORY_SEPARATOR . ltrim($template, DIRECTORY_SEPARATOR);
+        if (!is_file($templatePathname)) {
+            throw new \RuntimeException("View cannot render `$template` because the template does not exist");
+        }
+
+        $data = array_merge($this->data, (array) $data);
+        $data['data'] = $data;
+
+        extract($data);
+
+        $output = '';
+        try {
+            ob_start();
+            require $templatePathname;
+        } finally {
+            $output = ob_get_clean();
+        }
+
+        return $output;
+//        return parent::render("{$template}.php", $data);
     }
     
     public static function parse($data)
@@ -136,11 +264,25 @@ class DoView extends View
 
     public function addBreadcrumb(Breadcrumb $breadcrumb): DoView
     {
-        $items = $this->get('breadcrumbs');
-        $items[] = $breadcrumb;
-        $this->set('breadcrumbs', $items);
+        $this->breadcrumbs[] = $breadcrumb;
 
         return $this;
+    }
+
+    public function hasBreadcrumbs(): bool
+    {
+        return count($this->breadcrumbs) > 0;
+    }
+
+    public function getBreadcrumbs(): array
+    {
+        return $this->breadcrumbs;
+    }
+
+    // FOR OLD CONTROLLERS COMPATIBLE
+    public function setTemplatesDirectory($dir)
+    {
+        $this->templatesDir = $dir;
     }
 }
  

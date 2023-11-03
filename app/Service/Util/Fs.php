@@ -17,7 +17,7 @@ class Fs
      */
     public function __construct($workDir = null)
     {
-        $this->workDir = $workDir ?: getcwd();
+        $this->workDir = $workDir ?: ROOT_DIR;
     }
     
     /**

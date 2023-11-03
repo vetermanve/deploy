@@ -18,7 +18,7 @@ class Events
     {
         $app = App::i();
         
-        $user = $app->auth->getUserLogin();
+        $user = $app->getAuth()->getUserLogin();
         $location = $app->getIdentify();
             
         $data[EventConfig::DATA_USER] = $user;

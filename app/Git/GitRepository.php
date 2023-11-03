@@ -49,9 +49,9 @@ class GitRepository
             $this->exception("Repository '$repository' not found.");
         }
 
-        $userLogin = App::i()->auth->getUserLogin();
+        $userLogin = App::i()->getAuth()->getUserLogin();
         if ($userLogin !== Auth::USER_ANONIM) {
-            $this->setSshKeyPath(getcwd() . "/ssh_keys/{$userLogin}");
+            $this->setSshKeyPath(SSH_KEYS_DIR . "/{$userLogin}");
         }
     }
     

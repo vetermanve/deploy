@@ -42,23 +42,10 @@ class ProjectController extends AuthControllerProto
         
         parent::before();
     }
-    
+
     public function index()
     {
-        $this->setTitle( '<i class="fa-solid fa-folder-tree"></i>' . __('projects'));
-        
-        $projects = (new Data(App::DATA_PROJECTS))->setReadFrom(__METHOD__)->readCached();
-        $packsData    = (new Data(App::DATA_PACKS))->setReadFrom(__METHOD__)->readCached();
-        
-        $sets = [];
-        foreach ($packsData as $id => $data) {
-            $sets[$data['pack']][$id] = $data;
-        }
-        
-        $this->response([
-            'dirSets'    => $projects,
-            'branchSets' => $sets,
-        ]);
+        throw new \Exception('Moved to Http namespace! You need to fix this link!');
     }
     
     public function slots () 
@@ -92,7 +79,10 @@ class ProjectController extends AuthControllerProto
             'slots' => $this->project->getSlotsPool()->getSlots(),
         ]);
     }
-    
+
+    /**
+     * @TODO: LOOKS LIKE COULD BE REMOVED! BUT CHECK CAREFULLY!!!!
+     */
     public function fetch()
     {
         $id = $this->p('id', $this->app->itemId);
@@ -129,7 +119,7 @@ class ProjectController extends AuthControllerProto
     }
 
     /**
-     *
+     * @TODO: LOOKS LIKE COULD BE REMOVED! BUT CHECK CAREFULLY!!!!
      */
     public function removeBranch()
     {
@@ -146,7 +136,7 @@ class ProjectController extends AuthControllerProto
         $node->subLoad();
         $node->loadRepos();
         $node->loadBranches();
-        $sshPrivateKey = getcwd().'/ssh_keys/'.App::i()->auth->getUserLogin();
+        $sshPrivateKey = SSH_KEYS_DIR . '/' . App::i()->getAuth()->getUserLogin();
         $result = [];
         try {
             foreach ($node->getRepos() as $repo) {
@@ -163,9 +153,9 @@ class ProjectController extends AuthControllerProto
 
             $ref = $this->app->request->getReferrer();
             if ($ref) {
-                $this->app->redirect($ref);    
+                $this->app->redirect($ref);
             }
-            
+
             $this->response([
                 'pId'    => $this->project->getId(),
                 'result' => $result,

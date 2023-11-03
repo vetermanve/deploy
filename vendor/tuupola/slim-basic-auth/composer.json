@@ -1,8 +1,8 @@
 {
     "name": "tuupola/slim-basic-auth",
     "type": "library",
-    "description": "HTTP Basic Authentication Middleware for Slim Framework",
-    "keywords": ["slim", "middleware", "auth"],
+    "description": "PSR-7 HTTP Basic Authentication Middleware",
+    "keywords": ["middleware", "auth", "psr-7"],
     "homepage": "http://www.appelsiini.net/projects/slim-basic-auth",
     "license": "MIT",
     "authors": [
@@ -13,8 +13,7 @@
         }
     ],
     "require": {
-        "slim/slim": "~2.3",
-        "ircmaxell/password-compat": "~1.0"
+        "ircmaxell/password-compat": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -22,12 +21,13 @@
         }
     },
     "autoload-dev": {
-            "psr-4": {
-                "Test\\": "test/lib"
-            }
+        "psr-4": {
+            "Test\\": "test/lib"
+        }
     },
     "require-dev": {
         "phpunit/phpunit": "~4.3",
-        "squizlabs/php_codesniffer": "^2.3"
+        "squizlabs/php_codesniffer": "^2.3",
+        "zendframework/zend-diactoros": "^1.3"
     }
 }

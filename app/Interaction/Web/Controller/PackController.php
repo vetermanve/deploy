@@ -38,7 +38,7 @@ class PackController extends AuthControllerProto
         } catch (\Exception $e) {
             $this->app->redirect('/web/project/');
         }
-        
+
         $this->pack = $pack;
     }
     

@@ -21,7 +21,7 @@ class GitPushCheckpoint extends CommandProto
     {
         $checkpoint = $this->context->getCheckpoint()->getName();
         
-        $sshPrivateKey = getcwd().'/ssh_keys/'.App::i()->auth->getUserLogin();
+        $sshPrivateKey = SSH_KEYS_DIR . '/' . App::i()->getAuth()->getUserLogin();
     
         if (!file_exists($sshPrivateKey)) {
             $this->runtime->log('specific ssh private key "'.$sshPrivateKey.'" not found. Used default.', 'git config');

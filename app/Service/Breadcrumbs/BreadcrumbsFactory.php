@@ -12,7 +12,7 @@ class BreadcrumbsFactory
         return new Breadcrumb(
             __('projects'),
             'fa-solid fa-folder-tree',
-            '/web/project'
+            '/projects'
         );
     }
 
