@@ -24,6 +24,6 @@ if (! function_exists('__')) {
 
 if (! function_exists('request')) {
     function request() {
-        return \Admin\App::getInstance()->request();
+        return \Admin\App::getInstance()->getRequest();
     }
 }

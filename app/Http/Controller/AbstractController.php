@@ -2,70 +2,56 @@
 
 namespace App\Http\Controller;
 
+use Slim\Container;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 abstract class AbstractController
 {
     protected $controller;
     protected $action;
     protected $template;
     protected $isJson = false;
-    
+
     /** @var \Admin\App */
     protected $app;
 
     /** @var \Admin\DoView */
     protected $view;
-    
+
+    /** @var \Slim\Http\Request */
+    protected $request;
+
+    /** @var \Slim\Http\Response */
+    protected $response;
+
+    private $container;
+
     /**
      * ControllerProto constructor.
      */
-    public function __construct($param = null)
-    {
+    public function __construct(
+        Container $container,
+        Request $request,
+        Response $response
+    ) {
+        $this->container = $container;
+
         $this->app = \Admin\App::getInstance();
         $this->view = $this->app->getContainer()->get('view');
+
+        $this->request = $request;
+        $this->response = $response;
     }
-    
-    private function _beforeAll()
+
+    public function getContainer(): Container
     {
-        $this->template = $this->action;
-        
-        if ($this->p('json') == 1) {
-            $this->isJson = true;
-        }
+        return $this->container;
     }
+
+    public function before() {}
     
-    public function before()
-    {
-        
-    }
-    
-    public function run()
-    {
-        if (method_exists($this, $this->action) && !method_exists(__CLASS__, $this->action)) {
-            $this->_doRun($this->action);
-            return;
-        }
-        
-        $methodWithPostfix = $this->action . 'Action';
-        if (method_exists($this, $methodWithPostfix)) {
-            $this->_doRun($methodWithPostfix);
-            return;
-        }
-        
-        $this->notFound($this->action);
-    }
-    
-    private function _doRun($method)
-    {
-        $this->_beforeAll();
-        $this->before();
-        $this->$method();
-        $this->after();
-    }
-    
-    
-    public function after()
-    {
-    }
+    public function after() {}
     
     public function response($data = [], $tpl = null)
     {
@@ -108,13 +94,7 @@ abstract class AbstractController
     
     public function p($name, $default = null)
     {
-//        var_dump($this->app->request());exit;
-        $res = $this->app->request->get($name, null);
-        if ($res !== null) {
-            return $res;
-        }
-        
-        return $this->app->request->post($name, $default);
+        return $this->app->getRequest()->getParam($name, null);
     }
     
     /**

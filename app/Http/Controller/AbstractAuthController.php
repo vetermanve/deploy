@@ -11,15 +11,15 @@ abstract class AbstractAuthController extends AbstractController
         $data = (new Data('user'))->readCached();
 
         if(!$data && empty($data)){
-            $this->app->auth->setToken(\User\Auth::USER_ANONIM_TOKEN);
+            $this->app->getAuth()->setToken(\User\Auth::USER_ANONIM_TOKEN);
         } else {
-            $this->app->auth->setToken($this->app->getCookie('tkn'));
+            $this->app->getAuth()->setToken($this->app->getRequest()->getCookieParam('tkn'));
         }
 
-        $this->app->auth->loadUser();
-        $this->app->auth->setUser($this->app->auth->getUser());
+        $this->app->getAuth()->loadUser();
+        $this->app->getAuth()->setUser($this->app->getAuth()->getUser());
 
-        if (!$this->app->auth->getUserId()) {
+        if (!$this->app->getAuth()->getUserId()) {
             $this->app->redirect('/web/auth/login');
         }
 

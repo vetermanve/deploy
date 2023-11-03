@@ -23,16 +23,22 @@ $loader->add('', 'app/');
 $loader->addPsr4('App\\', 'app/');
 
 //$container['view'] = new \Slim\Views\PhpRenderer('../templates/');
+
 $app = new \Admin\App([
-        'settings' => [
-            'displayErrorDetails' => true,
-        ],
+    'settings' => [
+        'displayErrorDetails' => true,
+        'determineRouteBeforeAppMiddleware' => true,
+    ],
+    'foundHandler' => function () {
+        return new \Admin\ArgumentsToActionStrategy();
+    },
 ]);
 
 $renderer = new \Slim\Views\PhpRenderer('./app/Http/View', [], 'layout.php');
 $bladeRenderer = new \eftec\bladeone\BladeOne(
     './app/Http/View',
-    STORAGE_DIR . '/cache/compiles');
+    STORAGE_DIR . '/cache/compiles'
+);
 
 
 $container = $app->getContainer();
@@ -67,20 +73,56 @@ try {
         return new \User\Auth();
     };
 
+
+
+    $app->add(function(\Slim\Http\Request $request, $response, $next) {
+
+        /** @var $this \Slim\Container */
+        /** @var $route \Slim\Route */
+        $route = $request->getAttribute('route');
+
+        $callable = $route->getCallable();
+
+        if (is_string($callable)) {
+            list($class, $action) = explode(':', $callable);
+        } elseif (is_array($callable)) {
+            list($class, $action) = $callable;
+        }
+
+        if (isset($class)) {
+            $controller = new $class($this, $request, $response);
+
+            // TODO: looks like it can be implemented via middlewares
+            if (method_exists($controller, 'before')) {
+                $controller->before();
+            }
+            // set charged callable for route!
+            $route->setCallable([$controller, $action]);
+            $request->withAttribute('route', $route);
+        }
+
+        $response = $next($request, $response);
+
+        if (isset($class)) {
+            // TODO: looks like it can be implemented via middlewares
+            if (isset($controller) && method_exists($controller, 'after')) {
+                $controller->after();
+            }
+        }
+
+        return $response;
+    });
+
     // NEW ROUTES HERE!
-    // TODO: можно отрефакторить и назначать через хелпер в стиле ларавеля
     $app->get(
         '/projects[/]',
-//        new \App\Http\Middleware\HandleRequestToRoute(),
-        [new \App\Http\Controller\ProjectsController(), 'index']
+        [\App\Http\Controller\ProjectsController::class, 'index']
     );
 
     $app->get(
         '/projects/{id}',
-//        new \App\Http\Middleware\HandleRequestToRoute(),
-        [new \App\Http\Controller\ProjectsController(), 'show']
+        [\App\Http\Controller\ProjectsController::class, 'show']
     );
-
 
     // OLD COMMON ROUTE FOR ALL
 //    $app->map('/(:module(/)(:controller(/)(:action(/))(:id)))', [$app, 'doRoute'])

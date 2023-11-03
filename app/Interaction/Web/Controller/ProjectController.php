@@ -63,21 +63,7 @@ class ProjectController extends AuthControllerProto
     
     public function show()
     {
-        $this->setTitle('<i class="fa-solid fa-folder-open"></i>' . $this->project->getName());
-        $this->project->getSlotsPool()->loadProjectSlots();
-        $this->project->initPacks();
-        
-        $fetchCommand = new FetchProjectRepos();
-        $fetchCommand->setContext((new CommandContext())->setProject($this->project));
-        
-        $this->response([
-            'project' => $this->project,
-            'fetchCommand' => $fetchCommand,
-            'id'        => $this->projectId,
-            'setData'   => $this->project->getPaths(),
-            'packs' => $this->project->getPacks(),
-            'slots' => $this->project->getSlotsPool()->getSlots(),
-        ]);
+        throw new \Exception('Moved to Http namespace! You need to fix this link!');
     }
 
     /**

@@ -27,7 +27,7 @@ $view->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                     $val = trim($val, '/');
                 });
                 ?>
-                <h1><i class="fa-solid fa-folder"></i> <a href="/web/project/show/{{ $id }}">{{ implode(', ', $dirs) }}</a></h1>
+                <h1><i class="fa-solid fa-folder"></i> <a href="/projects/{{ $id }}">{{ implode(', ', $dirs) }}</a></h1>
                 
                 <div class="pure-g">
                 <?php if (isset($branchSets[$id])): ?>

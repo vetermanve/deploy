@@ -24,30 +24,8 @@ class ProjectsController extends AbstractAuthController
      */
     private $project;
     
-    private $projectId; 
-    
-    public function before()
+    public function index(): void
     {
-        var_dump('BEFORE in ' . __METHOD__);
-
-        // TODO: ПОКА НЕ РАБОТАЕТ ПОЛУЧЕНИЕ ПАРАМЕТРОВ ИЗ ЗАПРОСА!
-        $this->projectId = $this->p('id', $this->app->itemId);
-//        var_dump($this->projectId);exit;
-        if ($this->projectId) {
-            try {
-                $this->project = new Project($this->projectId);
-                $this->project->init();       
-            } catch (\Exception $e) {
-                $this->notFound($e->getMessage());
-            }
-        }
-        
-        parent::before();
-    }
-    
-    public function index($request, $response, $args)
-    {
-//        var_dump($this->project->getName());exit;
         $this->setTitle( '<i class="fa-solid fa-folder-tree"></i>' . __('projects'));
         
         $projects = (new Data(App::DATA_PROJECTS))->setReadFrom(__METHOD__)->readCached();
@@ -59,25 +37,27 @@ class ProjectsController extends AbstractAuthController
         }
 
         $this->view->render('projects/index.blade.php', [
-            'request' => $request,
             'dirSets'    => $projects,
             'branchSets' => $sets,
         ]);
     }
 
-    public function show()
+    public function show($id): void
     {
+        $this->project = new Project($id);
+        $this->project->init();
+
         $this->setTitle('<i class="fa-solid fa-folder-open"></i>' . $this->project->getName());
         $this->project->getSlotsPool()->loadProjectSlots();
         $this->project->initPacks();
         
         $fetchCommand = new FetchProjectRepos();
         $fetchCommand->setContext((new CommandContext())->setProject($this->project));
-        
-        $this->response([
+
+        $this->view->render('projects/show.blade.php', [
             'project' => $this->project,
             'fetchCommand' => $fetchCommand,
-            'id'        => $this->projectId,
+            'id'        => $this->project->getId(),
             'setData'   => $this->project->getPaths(),
             'packs' => $this->project->getPacks(),
             'slots' => $this->project->getSlotsPool()->getSlots(),

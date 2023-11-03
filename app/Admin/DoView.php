@@ -6,6 +6,7 @@ use eftec\bladeone\BladeOne;
 use Psr\Http\Message\ResponseInterface;
 use Service\Breadcrumbs\Breadcrumb;
 use Service\Menu\MenuItem;
+use Service\Project;
 use Slim\Container;
 use Slim\Http\Response;
 use Slim\Views\PhpRenderer;
@@ -53,7 +54,7 @@ class DoView
         $menu = [];
 
         $projectsItem = new MenuItem(__('menu.projects'), '/projects', [
-            '/projects',
+            '#/projects#',
             '#/web/project/*#',
             '#/web/pack/*#',
             '#/web/branches/addBranch#',
@@ -142,34 +143,9 @@ class DoView
 
         /** @var \Slim\Http\Response Response $response */
         $response = $container->get('response');
-//        var_dump($response);exit;
         $response->write($output);
 
         return $response;
-
-        return $this->renderer->render(
-            $container->get('response'),
-            $template,
-            $data
-        );
-
-//        $content = $this->subRender($template, $data);
-//
-//        $layout = clone $this;
-//        $layout->set('_identify', $this->app->getIdentify());
-//        $layout->set('content', $content);
-//        $layout->set('user', [
-//            'id' => $this->app->auth->getUserLogin(),
-//            'url' => '/web/user',
-//        ]);
-//
-//        $this->loadMenu();
-//
-//        if ($this->app->debug) {
-//            $data['_logs'] = $this->app->getLogs();
-//        }
-//
-//        return $layout->subRender('layout/main', $data);
     }
 
     public function oldRender($template, $data = null)

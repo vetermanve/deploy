@@ -1,7 +1,7 @@
 <?php
     /** @var \Admin\DoView $view */
     /** @var \Slim\Http\Request $request */
-    $currentPath = $request->getUri()->getPath();
+    $currentPath = \request()->getUri()->getPath();
 /**
  * @var $user array
  */
@@ -67,7 +67,7 @@
                     <?php foreach ($view->getBreadcrumbs() as $item): ?>
                     <?php /** @var $item \Service\Breadcrumbs\Breadcrumb */ ?>
                     <li>
-                        <?= $item->url !== null && $item->url !== $request->getUri()->getPath() ? "<a href=\"{$item->url}\">" : '<span>' ?>
+                        <?= $item->url !== null && $item->url !== \request()->getUri()->getPath() ? "<a href=\"{$item->url}\">" : '<span>' ?>
                             <?php if ($item->iconClass): ?>
                             <i class="<?= $item->iconClass ?> icon"></i>
                             <?php endif; ?>
