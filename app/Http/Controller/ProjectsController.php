@@ -28,6 +28,8 @@ class ProjectsController extends AbstractAuthController
     
     public function before()
     {
+        var_dump('BEFORE in ' . __METHOD__);
+
         // TODO: ПОКА НЕ РАБОТАЕТ ПОЛУЧЕНИЕ ПАРАМЕТРОВ ИЗ ЗАПРОСА!
         $this->projectId = $this->p('id', $this->app->itemId);
 //        var_dump($this->projectId);exit;

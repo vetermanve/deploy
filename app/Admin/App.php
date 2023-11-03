@@ -7,7 +7,6 @@ use \Slim\App as SlimApp;
 /**
  * Class App
  * @property array $logs
- * @property \User\Auth $auth
  *
  * @package Admin
  */

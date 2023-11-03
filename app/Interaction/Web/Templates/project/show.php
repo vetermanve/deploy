@@ -16,7 +16,7 @@ $this
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
-            <a href="/web/project" class="pure-button btn-secondary-outline btn-s">
+            <a href="/projects" class="pure-button btn-secondary-outline btn-s">
                 <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_project_list') ?>
             </a>
         </section>

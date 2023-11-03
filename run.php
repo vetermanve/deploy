@@ -75,11 +75,11 @@ try {
         [new \App\Http\Controller\ProjectsController(), 'index']
     );
 
-//    $app->map(
-//        '/projects((/):id)',
-////        new \App\Http\Middleware\HandleRequestToRoute(),
-//        [new \App\Http\Controller\ProjectsController(), 'show']
-//    )->via(\Slim\Http\Request::METHOD_GET, \Slim\Http\Request::METHOD_HEAD, \Slim\Http\Request::METHOD_POST);
+    $app->get(
+        '/projects/{id}',
+//        new \App\Http\Middleware\HandleRequestToRoute(),
+        [new \App\Http\Controller\ProjectsController(), 'show']
+    );
 
 
     // OLD COMMON ROUTE FOR ALL
