@@ -39,14 +39,12 @@ abstract class ControllerProto
     public function run()
     {
         if (method_exists($this, $this->action) && !method_exists(__CLASS__, $this->action)) {
-            $this->_doRun($this->action);
-            return;
+            return $this->_doRun($this->action);
         }
         
         $methodWithPostfix = $this->action . 'Action';
         if (method_exists($this, $methodWithPostfix)) {
-            $this->_doRun($methodWithPostfix);
-            return;
+            return $this->_doRun($methodWithPostfix);
         }
         
         $this->notFound($this->action);
@@ -56,8 +54,10 @@ abstract class ControllerProto
     {
         $this->_beforeAll();
         $this->before();
-        $this->$method();
+        $response = $this->$method();
         $this->after();
+
+        return $response;
     }
     
     

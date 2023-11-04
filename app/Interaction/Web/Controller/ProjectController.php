@@ -7,6 +7,7 @@ namespace Interaction\Web\Controller;
 use Admin\App;
 use Commands\Command\Project\FetchProjectRepos;
 use Commands\CommandContext;
+use Exceptions\UrlMovedException;
 use Service\Pack;
 use Service\Project;
 use Service\Node;
@@ -45,7 +46,7 @@ class ProjectController extends AuthControllerProto
 
     public function index()
     {
-        throw new \Exception('Moved to Http namespace! You need to fix this link!');
+        throw new UrlMovedException("/projects");
     }
     
     public function slots () 
@@ -63,7 +64,7 @@ class ProjectController extends AuthControllerProto
     
     public function show()
     {
-        throw new \Exception('Moved to Http namespace! You need to fix this link!');
+        throw new UrlMovedException("/projects/{$this->projectId}");
     }
 
     /**

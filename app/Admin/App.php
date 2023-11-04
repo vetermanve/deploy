@@ -33,7 +33,7 @@ class App extends SlimApp
     const DATA_SLOTS         = 'slots';
 
     /**
-     * @return null|App|Slim
+     * @return null|\Admin\App|\Slim\App
      */
     public static function i () 
     {
@@ -69,6 +69,11 @@ class App extends SlimApp
         return $this->getContainer()->get('request');
     }
 
+    public function getResponse(): \Slim\Http\Response
+    {
+        return $this->getContainer()->get('response');
+    }
+
     public function getAuth(): \User\Auth
     {
         return $this->getContainer()->get('auth');
@@ -76,10 +81,11 @@ class App extends SlimApp
     
     public function json($dataArray, $code = 200)
     {
-        $response = $this->response();
-        $response->header('Content-Type', 'application/json');
-        $response->status($code);
-        $response->write(json_encode($dataArray));
+        /** @var \Slim\Http\Response $response */
+        $response = $this->getContainer()->get('response');
+        $response->withHeader('Content-Type', 'application/json')
+            ->withStatus($code)
+            ->write(json_encode($dataArray));
     }
     
     private $directory;
@@ -139,7 +145,7 @@ class App extends SlimApp
         
         $this->log('Routing to: '.get_class($controllerModel).'->'.$action.'()', __METHOD__);
         
-        $controllerModel->run();
+        return $controllerModel->run();
     }
     
     public function getIdentify () 

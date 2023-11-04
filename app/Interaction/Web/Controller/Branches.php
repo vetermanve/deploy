@@ -133,7 +133,7 @@ class Branches extends AuthControllerProto
     public function save()
     {
         $action = $this->p('action');
-        
+
         if ($action === self::ACTION_PACK_CREATE || $action === self::ACTION_PACK_FORK) {
             $this->_createPack();
         } elseif ($action === self::ACTION_PACK_ADD_BRANCH) {
@@ -141,8 +141,8 @@ class Branches extends AuthControllerProto
         } elseif ($action === self::ACTION_PACK_CHANGE_BRANCHES) {
             $this->_changePack();
         }
-        
-        $this->app->redirect($this->app->request->getReferer());
+
+        return $this->_goPack();
     }
     
     /**
@@ -168,7 +168,7 @@ class Branches extends AuthControllerProto
         $packs->setData([$this->packId => $this->packData] + $packs->read());
         $packs->write();
         
-        $this->_goPack();
+        return $this->_goPack();
     }
     
     /**
@@ -215,9 +215,12 @@ class Branches extends AuthControllerProto
     
     private function _goPack()
     {
-        if($this->p('return')){
-            $this->app->redirect($this->app->request->getReferrer());
+        if ($this->p('return')){
+            return $this->app->getResponse()->withRedirect(
+                $this->app->getRequest()->getServerParam('HTTP_REFERER')
+            );
         }
-        $this->app->redirect('/web/pack/' . $this->packId);
+
+        return $this->app->getResponse()->withRedirect('/packs/' . $this->packId);
     }
 }

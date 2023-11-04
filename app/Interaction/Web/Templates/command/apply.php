@@ -9,12 +9,12 @@
 <div class="pure-g">
     <div class="pure-u-1">
         <? if ($context->getProject()): ?>
-            <a href="/web/project/show/<?= $context->getProject()->getId() ?>" class="pure-button btn-secondary-outline btn-s">
+            <a href="/projects/<?= $context->getProject()->getId() ?>" class="pure-button btn-secondary-outline btn-s">
                 <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_project') ?>
             </a>
         <? endif; ?>
         <? if ($context->getPack()): ?>
-            <a href="/web/pack/<?= $context->getPack()->getId() ?>" class="pure-button btn-primary-outline btn-s">
+            <a href="/packs/<?= $context->getPack()->getId() ?>" class="pure-button btn-primary-outline btn-s">
                 <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_pack') ?>
             </a>
         <? endif; ?>

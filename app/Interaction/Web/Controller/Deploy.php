@@ -9,21 +9,21 @@ class Deploy extends AuthControllerProto
     {
         $this->app->view()->setHeader(__('deploy'));
         
-        $this->app->render('deploy/index', array(
+        $this->response(array(
             'list' => $this->app->directory()->allData(),
         ));
     }
     
     public function getgit()
     {
-        $dir = $this->app->request->get('dir');
+        $dir = $this->app->getRequest()->getParam('dir');
         
         $this->app->json(array('data' => $this->app->directory()->getBranch($dir),));
     }
     
     public function fixgit()
     {
-        $dir = $this->app->request->get('dir');
+        $dir = $this->app->getRequest()->getParam('dir');
         
         $this->app->json(array(
             'data' => $this->app->directory()
@@ -33,15 +33,15 @@ class Deploy extends AuthControllerProto
     
     public function checkout()
     {
-        $dir = $this->app->request->get('dir');
-        $branch = $this->app->request()->get('branch', '');
+        $dir = $this->app->getRequest()->getParam('dir');
+        $branch = $this->app->getRequest()->getParam('branch', '');
         
         $this->app->json(array('data' => $this->app->directory()->checkout($dir, $branch)));
     }
     
     public function update()
     {
-        $dir = $this->app->request->get('dir');
+        $dir = $this->app->getRequest()->getParam('dir');
         
         $this->app->json(array('data' => $this->app->directory()->update($dir),));
     }
@@ -51,7 +51,7 @@ class Deploy extends AuthControllerProto
         $this->setTitle(__('deploy'));
         $this->setSubTitle(__('add_repository'));
 
-        $this->app->render('deploy/addRepositoryForm');
+        $this->app->view()->oldRender('deploy/addRepositoryForm');
     }
 
     public function addRepository()

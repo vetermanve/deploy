@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @var $view \Admin\DoView
  * @var $dirSets
@@ -36,7 +36,7 @@ $view->addBreadcrumb(BreadcrumbsFactory::makeProjectListBreadcrumb());
                     <?php foreach ($branchSets[$id] as $packId => $branchData): ?>
                     <div class="pure-u-1 dataset-item">
                         <div>
-                            <a href="/web/pack/{{ $packId }}" class="pack-link">
+                            <a href="/packs/{{ $packId }}" class="pack-link">
                                 <span class="icon-border"><i class="fa-regular fa-file-lines"></i></span> {{ $branchData['name'] ?? $packId }}
                             </a>
                             <?php $count = isset($branchData['branches']) ? count($branchData['branches']) : 0; ?>

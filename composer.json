@@ -5,7 +5,6 @@
         "knplabs/gaufrette": "0.2.*@dev",
         "tuupola/slim-basic-auth": "2.*",
         "phpseclib/phpseclib": "*",
-        "slim/php-view": "^3.2",
         "eftec/bladeone": "^4.9"
     },
     "autoload": {

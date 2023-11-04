@@ -23,7 +23,6 @@ class ComposerStaticInit6b2977bdb537dc43c2d959446acbb642
         ),
         'S' => 
         array (
-            'Slim\\Views\\' => 11,
             'Slim\\Middleware\\' => 16,
             'Slim\\' => 5,
         ),
@@ -46,10 +45,6 @@ class ComposerStaticInit6b2977bdb537dc43c2d959446acbb642
         'eftec\\bladeone\\' => 
         array (
             0 => __DIR__ . '/..' . '/eftec/bladeone/lib',
-        ),
-        'Slim\\Views\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/slim/php-view/src',
         ),
         'Slim\\Middleware\\' => 
         array (

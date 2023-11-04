@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'eftec\\bladeone\\' => array($vendorDir . '/eftec/bladeone/lib'),
-    'Slim\\Views\\' => array($vendorDir . '/slim/php-view/src'),
     'Slim\\Middleware\\' => array($vendorDir . '/tuupola/slim-basic-auth/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),

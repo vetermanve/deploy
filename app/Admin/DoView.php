@@ -9,7 +9,6 @@ use Service\Menu\MenuItem;
 use Service\Project;
 use Slim\Container;
 use Slim\Http\Response;
-use Slim\Views\PhpRenderer;
 
 
 class DoView
@@ -37,12 +36,9 @@ class DoView
     public function setApp(\Admin\App $app)
     {
         $this->app = $app;
-        $this->renderer = $app->getContainer()->get('renderer');
 
         $this->data['header'] = null;
         $this->data['title'] = null;
-//        $this->renderer->addAttribute('header', null);
-//        $this->renderer->addAttribute('title', null);
 
         $this->blade = $app->getContainer()->get('blade');
     }
@@ -55,6 +51,7 @@ class DoView
 
         $projectsItem = new MenuItem(__('menu.projects'), '/projects', [
             '#/projects#',
+            '#/packs#',
             '#/web/project/*#',
             '#/web/pack/*#',
             '#/web/branches/addBranch#',
@@ -90,36 +87,32 @@ class DoView
         }
         
         $this->data['mainMenu'] = $menu;
-//        $this->renderer->addAttribute('mainMenu', $menu);
     }
     
     public function setHeader($text): self
     {
         $this->data['header'] = $text;
-        $this->renderer->addAttribute('header', $text);
-        
+
         return $this;
     }
     
     public function setTitle($text): self
     {
         $this->data['title'] = $text;
-        $this->renderer->addAttribute('title', $text);
-        
+
         return $this;
     }
 
     public function render($template, $data = null): ResponseInterface
     {
-        // TODO: попрообовать заюзать BLADE ($this->blade) для рендера шаблонов
         $container = $this->app->getContainer();
 
-        $this->renderer->addAttribute('view', $this);
-        $this->renderer->addAttribute('_identify', $this->app->getIdentify());
-        $this->renderer->addAttribute('user', [
+        $this->data['view'] = $this;
+        $this->data['_identify'] = $this->app->getIdentify();
+        $this->data['user'] = [
             'id' => $container->get('auth')->getUserLogin(),
             'url' => '/web/user',
-        ]);
+        ];
 
         $this->loadMenu();
 
@@ -136,8 +129,11 @@ class DoView
 //            $data['_logs'] = $this->app->getLogs();
 //        }
 
+        if ($this->app->debug) {
+            $data['_logs'] = $this->app->getLogs();
+        }
 
-        $data = array_merge($this->renderer->getAttributes(), $data, $this->data);
+        $data = array_merge($this->data, $data);
 
         $output = $this->blade->run($template, $data);
 

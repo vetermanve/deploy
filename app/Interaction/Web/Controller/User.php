@@ -20,7 +20,7 @@ class User extends AuthControllerProto
         parent::before();
 
         $this->userId = $this->app->getAuth()->getUserLogin();
-        if (!$this->userId || $this->app->auth->isAnonim()) {
+        if (!$this->userId || $this->app->getAuth()->isAnonim()) {
             $this->app->response->redirect('/web/project/');
         }
 
@@ -32,7 +32,7 @@ class User extends AuthControllerProto
     
     public function indexAction () 
     {
-        $this->setTitle($this->app->auth->getUserName());
+        $this->setTitle($this->app->getAuth()->getUserName());
         $this->setSubTitle('@' . $this->app->getAuth()->getUserLogin());
 
         $projects = [];
@@ -94,7 +94,7 @@ class User extends AuthControllerProto
         
         $text = __('ssh_key_page_description');
         
-        if ($this->app->request->isPost()) {
+        if ($this->app->getRequest()->isPost()) {
             $key = $this->p('key');
             $key = str_replace("\r\n", "\n", trim($key))."\n";
             $filename = 'ssh_keys/'. $this->app->getAuth()->getUserLogin();

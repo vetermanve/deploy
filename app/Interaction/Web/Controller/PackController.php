@@ -5,6 +5,7 @@ namespace Interaction\Web\Controller;
 use Admin\App;
 use Commands\Command\Pack\CheckpointCreateCommand;
 use Commands\CommandRunner;
+use Exceptions\UrlMovedException;
 use Service\Project;
 use Service\Node;
 use Service\Pack;
@@ -50,38 +51,7 @@ class PackController extends AuthControllerProto
     
     public function index()
     {
-        $this->setTitle('<i class="fa-solid fa-file-lines"></i>' . __('pack') . " '{$this->pack->getName()}'");
-        $node = $this->pack->getNode();
-        $packReposByBranches = $node->getToMasterStatus($this->pack->getBranches());
-
-        try {
-            $this->pack->cloneMissedRepos();
-            $this->pack->loadCheckpoints();
-
-
-            if (!$this->pack->getCheckPoints()) {
-                $this->pack->runCommand(new CheckpointCreateCommand());
-                $this->pack->loadCheckpoints();
-            }
-
-        } catch (\Exception $e) {
-            App::i()->log($e->getMessage().' at '.$e->getFile().':'.$e->getLine());
-        }
-        
-        
-        $this->pack->loadCheckpoints();
-        
-        $dirs = array_intersect_key($node->getDirs(), $node->getRepos());
-        
-        $this->response([
-            'data'         => $this->pack->getData(),
-            'pId'          => $this->pack->getProject()->getId(),
-            'id'           => $this->packId,
-            'branches'     => $packReposByBranches,
-            'dirs'         => $dirs,
-            'pack'         => $this->pack,
-            'sandboxReady' => !$this->pack->getDirsToInit(),
-        ]);
+        throw new UrlMovedException("/packs/{$this->packId}");
     }
     
 //    public function applyAction()

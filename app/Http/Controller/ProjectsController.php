@@ -5,6 +5,7 @@ namespace App\Http\Controller;
 use Admin\App;
 use Commands\Command\Project\FetchProjectRepos;
 use Commands\CommandContext;
+use Psr\Http\Message\ResponseInterface;
 use Service\Pack;
 use Service\Project;
 use Service\Node;
@@ -13,7 +14,7 @@ use Service\Data;
 class ProjectsController extends AbstractAuthController
 {
     protected $rootDir;
-    
+
     /**
      * @var
      */
@@ -24,7 +25,7 @@ class ProjectsController extends AbstractAuthController
      */
     private $project;
     
-    public function index(): void
+    public function index(): ResponseInterface
     {
         $this->setTitle( '<i class="fa-solid fa-folder-tree"></i>' . __('projects'));
         
@@ -36,13 +37,13 @@ class ProjectsController extends AbstractAuthController
             $sets[$data['pack']][$id] = $data;
         }
 
-        $this->view->render('projects/index.blade.php', [
+        return $this->view->render('projects/index.blade.php', [
             'dirSets'    => $projects,
             'branchSets' => $sets,
         ]);
     }
 
-    public function show($id): void
+    public function show($id): ResponseInterface
     {
         $this->project = new Project($id);
         $this->project->init();
@@ -54,7 +55,7 @@ class ProjectsController extends AbstractAuthController
         $fetchCommand = new FetchProjectRepos();
         $fetchCommand->setContext((new CommandContext())->setProject($this->project));
 
-        $this->view->render('projects/show.blade.php', [
+        return $this->view->render('projects/show.blade.php', [
             'project' => $this->project,
             'fetchCommand' => $fetchCommand,
             'id'        => $this->project->getId(),

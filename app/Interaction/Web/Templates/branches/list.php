@@ -44,7 +44,7 @@ $this->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
-            <a href="/web/pack/show/<?= $pack->getId() ?>" class="pure-button btn-secondary-outline btn-s">
+            <a href="/packs/<?= $pack->getId() ?>" class="pure-button btn-secondary-outline btn-s">
                 <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_pack') ?>
             </a>
         </section>
@@ -54,7 +54,7 @@ $this->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
 <div class="pure-g">
     <div class="pure-u-1">
         <section class="top-page-nav">
-            <a href="/web/project/show/<?= $project->getId() ?>" class="pure-button btn-secondary-outline btn-s">
+            <a href="/projects/<?= $project->getId() ?>" class="pure-button btn-secondary-outline btn-s">
                 <i class="fa-solid fa-arrow-left"></i> <?= __('back_to_project') ?>
             </a>
         </section>

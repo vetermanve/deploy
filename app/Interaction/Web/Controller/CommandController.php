@@ -40,6 +40,8 @@ class CommandController extends AuthControllerProto
         $runner->setCommandIdsToRun([$command]);
         
         $this->_runCommands($runner);
+
+        return;
     }
     
     private function _buildTitle()
