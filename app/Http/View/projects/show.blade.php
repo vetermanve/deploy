@@ -28,7 +28,7 @@ $view
     <div class="pure-u-1">
         <a href="/web/branches/createPack/{{ $id }}" class="pure-button btn-primary">{{ __('create_pack') }}</a>
         <a href="/web/command/?command={{ $fetchCommand->getId() }}&context={{ $fetchCommand->getContext()->serialize() }}"
-           class="pure-button {{ $fetchCommand->isPrimary() ? 'btn-primary'
+           class="pure-button btn-actionable {{ $fetchCommand->isPrimary() ? 'btn-primary'
                : '' }}">{{ $fetchCommand->getHumanName() }}
         </a>
     </div>

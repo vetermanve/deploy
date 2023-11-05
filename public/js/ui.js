@@ -63,4 +63,8 @@
         }
     };
 
+    window.$('.btn-actionable').on('click', function(el) {
+        $(el.target).addClass('btn-in-action');
+    });
+
 }(this, this.document));

@@ -68,7 +68,7 @@ class ProjectController extends AuthControllerProto
     }
 
     /**
-     * @TODO: LOOKS LIKE COULD BE REMOVED! BUT CHECK CAREFULLY!!!!
+     * Used on 'Fetch repositories and return' button click
      */
     public function fetch()
     {
@@ -95,8 +95,7 @@ class ProjectController extends AuthControllerProto
         }
         
         if ($this->p('return')) {
-            $this->app->redirect($this->app->request->getReferrer());
-            return;
+            return $this->app->getResponse()->withRedirect($this->app->getRequest()->getServerParam('HTTP_REFERER'));
         }
         
         $this->response([
@@ -105,9 +104,6 @@ class ProjectController extends AuthControllerProto
         ]);
     }
 
-    /**
-     * @TODO: LOOKS LIKE COULD BE REMOVED! BUT CHECK CAREFULLY!!!!
-     */
     public function removeBranch()
     {
         $id = $this->p('id', $this->app->itemId);

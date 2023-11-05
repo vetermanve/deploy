@@ -66,7 +66,7 @@ $this->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
     <div class="pure-u-1">
         <div>
             <h2 style="display: inline-block"><?= __('branches') ?> (<?= count($branches) ?>)</h2>
-            <a href="/web/project/fetch/<?= $project->getId() ?>?return=1" class="pure-button">
+            <a href="/web/project/fetch/<?= $project->getId() ?>?return=1" class="pure-button btn-actionable">
                 <?= __('refetch_repositories') ?>
             </a>
         </div>
@@ -134,7 +134,7 @@ $this->addBreadcrumb(new \Service\Breadcrumbs\Breadcrumb($title));
     </div>
     <div class="pure-u-1-1">
         <?= __('if_no_branches_found') ?>
-        <a href="/web/project/fetch/<?= $project->getId() ?>?return=1" class="pure-button">
+        <a href="/web/project/fetch/<?= $project->getId() ?>?return=1" class="pure-button btn-actionable">
             <?= __('refetch_repositories_and_return') ?></a>
     </div>
 </div>

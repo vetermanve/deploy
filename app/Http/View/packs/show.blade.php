@@ -131,16 +131,24 @@ $view
                     @if(!empty($question['field']))
                         <input type="hidden" class="js-question-{{ $question['field'] }}" name="userData[{{ $question['field'] }}]" value="{{ $question['placeholder'] ?? '' }}">
                     @endif
-                    <button {{$command->isConfirmRequired() ? 'onclick="return confirm(\'Are you sure to run '.strtolower($command->getHumanName()).'?\')"' : '' }}
-                       class="pure-button {{ $command->isDanger() ? 'btn-danger' : '' }}"
-                        @if(!empty($question['field']) && !empty($question['question']))
-                            onclick="answer=prompt('{{ $question['question'] ?? '' }}', '{{ $question['placeholder'] ?? '' }}');if(!answer)return false;document.getElementsByClassName('js-question-{{ $question['field'] }}')[0].value=answer"
-                        @else
-                            onclick="$(this).addClass('btn-in-action')"
-                        @endif
-                    >
-                        {{ $command->getHumanName() }}
-                    </button>
+
+                    @if ($command->isConfirmRequired())
+                        <button onclick="confirmed=confirm('Are you sure to run {{ strtolower($command->getHumanName()) }} ?'); if (!confirmed) return false; $(this).addClass('btn-in-action');"
+                                class="pure-button {{ $command->isDanger() ? 'btn-danger' : '' }}"
+                        >
+                            {{ $command->getHumanName() }}
+                        </button>
+                    @else
+                        <button class="pure-button {{ $command->isDanger() ? 'btn-danger' : '' }}"
+                                @if (!empty($question['field']) && !empty($question['question']))
+                                    onclick="answer=prompt('{{ $question['question'] ?? '' }}', '{{ $question['placeholder'] ?? '' }}'); if (!answer) return false; $(this).addClass('btn-in-action'); document.getElementsByClassName('js-question-{{ $question['field'] }}')[0].value=answer"
+                                @else
+                                    onclick="$(this).addClass('btn-in-action')"
+                                @endif
+                        >
+                            {{ $command->getHumanName() }}
+                        </button>
+                    @endif
                 </form>
             </div>
         @endforeach

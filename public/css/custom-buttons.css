@@ -101,6 +101,11 @@
     border: 1px solid rgb(66, 184, 221);
 }
 
+.btn-actionable {
+    /** it is just class to mark buttons for public/js/ui.js. Adds spinner on button by click */
+    /** used for buttons that start request, wait and redirects on other page */
+}
+
 /*** class .btn-in-action shows spinner on buttons ***/
 @keyframes btn-spinner {
     to {transform: rotate(360deg);}
